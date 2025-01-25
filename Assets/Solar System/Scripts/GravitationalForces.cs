@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GravitationalForces : MonoBehaviour
 {
-    // source: https://en.wikipedia.org/wiki/N-body_problem
+    // source: https://joebinns.com/documents/work_sample/n-body_simulator.pdf
+    // hlepful: https://en.wikipedia.org/wiki/N-body_problem
 
     // planetary mass source: https://en.wikipedia.org/wiki/Planetary_mass
 
@@ -17,6 +18,8 @@ public class GravitationalForces : MonoBehaviour
 
     // planetary fact sheet: https://nssdc.gsfc.nasa.gov/planetary/factsheet/
 
+    float timeConv = 1/ 50f;
+
     void Start()
     {
         // get all planets (children of this empty object
@@ -26,32 +29,36 @@ public class GravitationalForces : MonoBehaviour
 
             // apply distance modifier (visual purposes)
             child.position = new Vector3(child.position.x * distMod, 0, 0);
-
-            // apply starting velocity (AU/yr)
-            child.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0.1f);
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         // apply the forces of all other planets on each planet
-        foreach (GameObject planet_i in planets)
+        foreach (GameObject i in planets)
         {
-            Rigidbody planet_i_rb = planet_i.GetComponent<Rigidbody>();
+            Planet planet_i = i.GetComponent<Planet>();
 
-            foreach (GameObject planet_j in planets)
+            // add up all forces acting on planet i
+            Vector3 force_i = Vector3.zero;
+            foreach (GameObject j in planets)
             {
-                if (planet_i == planet_j)
+                if (i == j)
                     continue;
 
-                Rigidbody planet_j_rb = planet_j.GetComponent<Rigidbody>();
+                Planet planet_j = j.GetComponent<Planet>();
 
-                float constant = G * planet_i_rb.mass * planet_j_rb.mass;
-                float dist_cubed = Mathf.Pow(Vector3.Distance(planet_j.transform.position / distMod, planet_i.transform.position / distMod), 3);
-                Vector3 force = constant * (planet_j.transform.position / distMod - planet_i.transform.position / distMod) / dist_cubed;
-
-                planet_i_rb.AddForce(force, ForceMode.Force);
+                Vector3 planet_i_pos = planet_i.transform.position / distMod;
+                Vector3 planet_j_pos = planet_j.transform.position / distMod;
+                float massConstant = G * planet_i.mass * planet_j.mass;
+                float dist_cubed = Mathf.Pow(Vector3.Distance(planet_j_pos, planet_i_pos), 3);
+                force_i += massConstant * (planet_j_pos - planet_i_pos) / dist_cubed;
             }
+
+            // update planet i's position
+            Vector3 acceleration_i = force_i / planet_i.mass;
+            planet_i.velocity += acceleration_i * Time.fixedDeltaTime * timeConv;
+            planet_i.transform.position += planet_i.velocity * Time.fixedDeltaTime * timeConv;
         }
     }
 }
