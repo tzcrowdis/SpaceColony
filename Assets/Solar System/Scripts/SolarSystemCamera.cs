@@ -28,7 +28,7 @@ public class SolarSystemCamera : MonoBehaviour
     
     void Update()
     {
-        // TODO add conditions to handle different devices
+        // TODO add conditions to handle different devices, clicks, etc.
         
         Zoom();
         Rotate();
@@ -52,6 +52,6 @@ public class SolarSystemCamera : MonoBehaviour
         // clamp up/down rotation
         // source for condition: https://discussions.unity.com/t/clamping-between-everything-but-the-min-max-values/142014
         float x = transform.eulerAngles.x;
-        transform.eulerAngles = new Vector3(Mathf.Clamp((x <= 180) ? x : -(360 - x), -15f, 15f), transform.eulerAngles.y, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(Mathf.Clamp((x <= 180) ? x : -(360 - x), -30f, 30f), transform.eulerAngles.y, transform.eulerAngles.z);
     }
 }
