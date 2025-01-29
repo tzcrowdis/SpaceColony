@@ -2,7 +2,7 @@
     "name": "Colony Controls",
     "maps": [
         {
-            "name": "Camera",
+            "name": "ColonyControls",
             "id": "8130c6b1-44ef-4d43-981a-b40e7e43b391",
             "actions": [
                 {
@@ -28,6 +28,42 @@
                     "type": "Value",
                     "id": "4bfc489c-1618-4b90-88b2-db5fc13f6169",
                     "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RotateBuilding",
+                    "type": "Button",
+                    "id": "fd661e07-0184-4823-83c0-7d73e0d01196",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PlaceBuilding",
+                    "type": "Button",
+                    "id": "5654d4fa-3660-49fa-a9a7-c8b6fee52b8a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CancelBuildingSelection",
+                    "type": "Button",
+                    "id": "8769137e-8736-486e-ba5b-5511c5ae55e4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BuildingTracking",
+                    "type": "Value",
+                    "id": "a1863da4-6066-4117-8ee0-8d51bc29df99",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -130,6 +166,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "AltitudeCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b60b32e-d9f6-4c20-9ae3-42f47f794503",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateBuilding",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04056086-64bf-4dea-a821-f9146cd19d91",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlaceBuilding",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e4fc44f-35cb-461a-9f82-4036f90b6cd8",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelBuildingSelection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3bbbeb15-8e61-49a7-87c5-daf5a880ecc5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "BuildingTracking",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
