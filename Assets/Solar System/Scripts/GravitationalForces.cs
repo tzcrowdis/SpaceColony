@@ -14,27 +14,48 @@ public class GravitationalForces : MonoBehaviour
     // gravitational constant
     // source (and M_s = 330,000 M_E) https://physics.stackexchange.com/questions/112461/astronomical-constant-in-astronomical-units
     float G = 4 * Mathf.Pow(Mathf.PI, 2) / 330000; // AU^3 / (M_E * yr^2)
-
+    float timeConv = 1 / 50f;
     public float distMod;
-    GameObject[] planets;
 
-    float timeConv = 1/ 50f;
+    Planet[] planetObjects;
+
+    int trajectorySteps = 3000;
+
+    // struct for deep copy for trajectory
+    struct PlanetAttr
+    {
+        public PlanetAttr(float m, Vector3 a, Vector3 v, Vector3 p)
+        {
+            mass = m;
+            acceleration = a;
+            velocity = v;
+            position = p;
+        }
+        
+        public float mass;
+        public Vector3 acceleration;
+        public Vector3 velocity;
+        public Vector3 position;
+    }
+    PlanetAttr[] planets;
 
     Color defaultTrajectoryColor = Color.white;
 
     void Start()
     {
-        planets = new GameObject[transform.childCount];
+        planets = new PlanetAttr[transform.childCount];
+        planetObjects = new Planet[transform.childCount];
 
         // get all planets (children of this empty object
         int i = 0;
         foreach (Transform child in transform)
         {
-            planets[i] = child.gameObject;
+            Planet planet = child.GetComponent<Planet>();
+            planetObjects[i] = planet;
+            planets[i] = new PlanetAttr(planet.mass, planet.acceleration, planet.velocity, planet.position);
 
             // apply distance modifier (visual purposes)
-            child.position = new Vector3(child.position.x * distMod, 0, 0);
-            child.gameObject.GetComponent<Planet>().position = child.position;
+            planets[i].position = new Vector3(child.position.x * distMod, 0, 0);
 
             i++;
         }
@@ -42,82 +63,68 @@ public class GravitationalForces : MonoBehaviour
 
     void FixedUpdate()
     {
-        DrawPredictedPaths(planets, 100, Time.fixedDeltaTime);
-        UpdateCelestialBodies(planets, Time.fixedDeltaTime);
+        DrawPredictedPaths(planets, trajectorySteps, Time.fixedDeltaTime);
+        UpdateCelestialBodies(planets, Time.fixedDeltaTime, false);
     }
 
-    void UpdateCelestialBodies(GameObject[] planets, float deltaTime)
+    void UpdateCelestialBodies(PlanetAttr[] planets, float deltaTime, bool drawing)
     {
         // apply the forces of all other planets on each planet
-        foreach (GameObject i in planets)
+        for (int i = 0; i < planets.Length; i++)
         {
-            Planet planet_i = i.GetComponent<Planet>();
-
             // add up all forces acting on planet i
             Vector3 force = Vector3.zero;
-            foreach (GameObject j in planets)
+            for (int j = 0; j < planets.Length; j++)
             {
                 if (i == j)
                     continue;
 
-                Planet planet_j = j.GetComponent<Planet>();
-
-                Vector3 planet_i_pos = planet_i.position / distMod;
-                Vector3 planet_j_pos = planet_j.position / distMod;
-                float massConstant = G * planet_i.mass * planet_j.mass;
+                Vector3 planet_i_pos = planets[i].position / distMod;
+                Vector3 planet_j_pos = planets[j].position / distMod;
+                float massConstant = G * planets[i].mass * planets[j].mass;
                 float dist_cubed = Mathf.Pow(Vector3.Distance(planet_j_pos, planet_i_pos), 3);
                 force += massConstant * (planet_j_pos - planet_i_pos) / dist_cubed;
-                planet_i.acceleration = force / planet_i.mass;
+                planets[i].acceleration = force / planets[i].mass;
             }
         }
 
-        foreach (GameObject i in planets)
+        for (int i = 0; i < planets.Length; i++)
         {
             // update planet i's position
-            Planet planet_i = i.GetComponent<Planet>();
-            planet_i.velocity += planet_i.acceleration * deltaTime * timeConv;
-            planet_i.position += planet_i.velocity * deltaTime * timeConv;
-            planet_i.transform.position = planet_i.position;
+            planets[i].velocity += planets[i].acceleration * deltaTime * timeConv;
+            planets[i].position += planets[i].velocity * deltaTime * timeConv;
+            
+            if (!drawing)
+                planetObjects[i].SetMotionVariables(planets[i].acceleration, planets[i].velocity, planets[i].position);
         }
     }
 
-    void DrawPredictedPaths(GameObject[] planets, int stepCount, float deltaTime, Color[] colors = null)
+    void DrawPredictedPaths(PlanetAttr[] planets, int stepCount, float deltaTime, Color[] colors = null)
     {
-        GameObject[] predictedPlanets = new GameObject[planets.Length];
+        PlanetAttr[] predictedPlanets = new PlanetAttr[planets.Length];
         planets.CopyTo(predictedPlanets, 0);
 
         // simulate steps ahead set by stepCount
         for (int step = 0; step < stepCount; step++)
         {
-            UpdateCelestialBodies(predictedPlanets, deltaTime);
+            UpdateCelestialBodies(predictedPlanets, deltaTime, true);
             
             // draw trajectory
             for (int i = 0; i < predictedPlanets.Length; i++)
             {
-                Planet p = predictedPlanets[i].GetComponent<Planet>();
-                Vector3 prevPos = p.position - p.velocity * deltaTime;
+                //Planet p = predictedPlanets[i].GetComponent<Planet>();
+                //Vector3 prevPos = predictedPlanets[i].position - predictedPlanets[i].velocity * deltaTime;
 
                 if (colors == null)
-                    DrawLine(prevPos, p.position, defaultTrajectoryColor);
+                    planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, defaultTrajectoryColor);
                 else
-                    DrawLine(prevPos, p.position, colors[i]);
+                    planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, colors[i]);
             }
         }
-    }
 
-    void DrawLine(Vector3 start, Vector3 end, Color color)// float duration = 0.2f)
-    {
-        GameObject myLine = new GameObject();
-        myLine.transform.position = start;
-        myLine.AddComponent<LineRenderer>();
-        LineRenderer lr = myLine.GetComponent<LineRenderer>();
-        //lr.material = new Material("Default Line");
-        lr.startColor = color;
-        lr.endColor = color;
-        lr.startWidth = 0.1f;
-        lr.endWidth = 0.1f;
-        lr.SetPosition(0, start);
-        lr.SetPosition(1, end);
-        //GameObject.Destroy(myLine, duration);
+        foreach (Planet planet in planetObjects)
+        {
+            planet.GetComponent<LineRenderer>().Simplify(0.01f);
+        }
     }
 }
