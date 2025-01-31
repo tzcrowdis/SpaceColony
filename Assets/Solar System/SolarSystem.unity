@@ -271,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 445039716}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.72, y: 0, z: 0}
+  m_LocalPosition: {x: 7.05, y: 0, z: 0}
   m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -360,9 +360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcad770923af934ab77983d871bf2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 0.815
+  mass: 20
   acceleration: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 20}
+  velocity: {x: 0, y: 0, z: 2.5}
   position: {x: 0, y: 0, z: 0}
 --- !u!120 &445039724
 LineRenderer:
@@ -498,7 +498,7 @@ Transform:
   m_GameObject: {fileID: 451868581}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.39, y: 0, z: 0}
+  m_LocalPosition: {x: 2.93, y: 0, z: 0}
   m_LocalScale: {x: 0.38, y: 0.38, z: 0.38}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -587,9 +587,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcad770923af934ab77983d871bf2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 0.0533
+  mass: 10
   acceleration: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 25}
+  velocity: {x: 0, y: 0, z: 4}
   position: {x: 0, y: 0, z: 0}
 --- !u!120 &451868589
 LineRenderer:
@@ -725,7 +725,7 @@ Transform:
   m_GameObject: {fileID: 503377572}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 11.33, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -814,9 +814,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcad770923af934ab77983d871bf2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 1
+  mass: 30
   acceleration: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 15}
+  velocity: {x: 0, y: 0, z: 2}
   position: {x: 0, y: 0, z: 0}
 --- !u!120 &503377580
 LineRenderer:
@@ -1041,7 +1041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcad770923af934ab77983d871bf2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 330000
+  mass: 5000
   acceleration: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   position: {x: 0, y: 0, z: 0}
@@ -1179,7 +1179,7 @@ Transform:
   m_GameObject: {fileID: 1129936763}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.52, y: 0, z: 0}
+  m_LocalPosition: {x: 16.6, y: 0, z: 0}
   m_LocalScale: {x: 0.53, y: 0.53, z: 0.53}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1268,9 +1268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fcad770923af934ab77983d871bf2f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 0.1075
+  mass: 25
   acceleration: {x: 0, y: 0, z: 0}
-  velocity: {x: 0, y: 0, z: 10}
+  velocity: {x: 0, y: 0, z: 1.5}
   position: {x: 0, y: 0, z: 0}
 --- !u!120 &1129936771
 LineRenderer:
@@ -1642,7 +1642,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e75e32f7d114a46a567f86a36259af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distMod: 5
+  G: 0.01
+  trajectorySteps: 1000
 --- !u!120 &2027082747
 LineRenderer:
   serializedVersion: 2

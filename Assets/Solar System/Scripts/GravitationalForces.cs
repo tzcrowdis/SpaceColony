@@ -7,19 +7,19 @@ using UnityEngine.Rendering;
 public class GravitationalForces : MonoBehaviour
 {
     // source: https://joebinns.com/documents/work_sample/n-body_simulator.pdf
-    // hlepful: https://en.wikipedia.org/wiki/N-body_problem
+    // helpful: https://en.wikipedia.org/wiki/N-body_problem
     // planetary fact sheet: https://nssdc.gsfc.nasa.gov/planetary/factsheet/
     // planetary mass source: https://en.wikipedia.org/wiki/Planetary_mass
 
     // gravitational constant
     // source (and M_s = 330,000 M_E) https://physics.stackexchange.com/questions/112461/astronomical-constant-in-astronomical-units
-    float G = 4 * Mathf.Pow(Mathf.PI, 2) / 330000; // AU^3 / (M_E * yr^2)
-    float timeConv = 1 / 50f;
-    public float distMod;
+    //float G = 4 * Mathf.Pow(Mathf.PI, 2) / 330000; // AU^3 / (M_E * yr^2)
+    [Tooltip("Should be small (< 0.1)")]
+    public float G;
 
     Planet[] planetObjects;
 
-    int trajectorySteps = 3000;
+    public int trajectorySteps;
 
     // struct for deep copy for trajectory
     struct PlanetAttr
@@ -41,21 +41,19 @@ public class GravitationalForces : MonoBehaviour
 
     Color defaultTrajectoryColor = Color.white;
 
+
     void Start()
     {
         planets = new PlanetAttr[transform.childCount];
         planetObjects = new Planet[transform.childCount];
 
-        // get all planets (children of this empty object
+        // get all planets (children of this empty object)
         int i = 0;
         foreach (Transform child in transform)
         {
             Planet planet = child.GetComponent<Planet>();
             planetObjects[i] = planet;
-            planets[i] = new PlanetAttr(planet.mass, planet.acceleration, planet.velocity, planet.position);
-
-            // apply distance modifier (visual purposes)
-            planets[i].position = new Vector3(child.position.x * distMod, 0, 0);
+            planets[i] = new PlanetAttr(planet.mass, planet.acceleration, planet.velocity, planet.transform.position);
 
             i++;
         }
@@ -79,21 +77,20 @@ public class GravitationalForces : MonoBehaviour
                 if (i == j)
                     continue;
 
-                Vector3 planet_i_pos = planets[i].position / distMod;
-                Vector3 planet_j_pos = planets[j].position / distMod;
                 float massConstant = G * planets[i].mass * planets[j].mass;
-                float dist_cubed = Mathf.Pow(Vector3.Distance(planet_j_pos, planet_i_pos), 3);
-                force += massConstant * (planet_j_pos - planet_i_pos) / dist_cubed;
+                float dist_cubed = Mathf.Pow(Vector3.Distance(planets[j].position, planets[i].position), 3);
+                force += massConstant * (planets[j].position - planets[i].position) / dist_cubed;
                 planets[i].acceleration = force / planets[i].mass;
             }
         }
 
+        // update each planets velocity and position
         for (int i = 0; i < planets.Length; i++)
         {
-            // update planet i's position
-            planets[i].velocity += planets[i].acceleration * deltaTime * timeConv;
-            planets[i].position += planets[i].velocity * deltaTime * timeConv;
+            planets[i].velocity += planets[i].acceleration * deltaTime;
+            planets[i].position += planets[i].velocity * deltaTime;
             
+            // dont update objects position if just drawing trajectory
             if (!drawing)
                 planetObjects[i].SetMotionVariables(planets[i].acceleration, planets[i].velocity, planets[i].position);
         }
@@ -112,19 +109,11 @@ public class GravitationalForces : MonoBehaviour
             // draw trajectory
             for (int i = 0; i < predictedPlanets.Length; i++)
             {
-                //Planet p = predictedPlanets[i].GetComponent<Planet>();
-                //Vector3 prevPos = predictedPlanets[i].position - predictedPlanets[i].velocity * deltaTime;
-
                 if (colors == null)
                     planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, defaultTrajectoryColor);
                 else
                     planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, colors[i]);
             }
-        }
-
-        foreach (Planet planet in planetObjects)
-        {
-            planet.GetComponent<LineRenderer>().Simplify(0.01f);
         }
     }
 }
