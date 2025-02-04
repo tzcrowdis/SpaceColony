@@ -1643,7 +1643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   G: 0.01
-  trajectorySteps: 1000
+  trajectorySteps: 2000
 --- !u!120 &2027082747
 LineRenderer:
   serializedVersion: 2

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.ParticleSystem;
 using UnityEngine.Rendering;
+using UnityEngine.UIElements;
+using static Unity.VisualScripting.Member;
+using System;
 
 public class GravitationalForces : MonoBehaviour
 {
@@ -38,6 +41,8 @@ public class GravitationalForces : MonoBehaviour
         public Vector3 position;
     }
     PlanetAttr[] planets;
+
+    PlanetAttr[] predictedPlanets; // memory structure to reduce compute on trajectories
 
     Color defaultTrajectoryColor = Color.white;
 
@@ -98,21 +103,43 @@ public class GravitationalForces : MonoBehaviour
 
     void DrawPredictedPaths(PlanetAttr[] planets, int stepCount, float deltaTime, Color[] colors = null)
     {
-        PlanetAttr[] predictedPlanets = new PlanetAttr[planets.Length];
-        planets.CopyTo(predictedPlanets, 0);
-
-        // simulate steps ahead set by stepCount
-        for (int step = 0; step < stepCount; step++)
+        if (predictedPlanets == null)
         {
-            UpdateCelestialBodies(predictedPlanets, deltaTime, true);
-            
-            // draw trajectory
-            for (int i = 0; i < predictedPlanets.Length; i++)
+            // create predicted planets object
+            predictedPlanets = new PlanetAttr[planets.Length];
+            planets.CopyTo(predictedPlanets, 0);
+
+            // simulate steps ahead set by stepCount
+            for (int step = 0; step < stepCount; step++)
             {
-                if (colors == null)
-                    planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, defaultTrajectoryColor);
-                else
-                    planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, colors[i]);
+                UpdateCelestialBodies(predictedPlanets, deltaTime, true);
+
+                // draw trajectory
+                for (int i = 0; i < predictedPlanets.Length; i++)
+                {
+                    if (colors == null)
+                        planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, defaultTrajectoryColor);
+                    else
+                        planetObjects[i].DrawTrajectory(step, stepCount, predictedPlanets[i].position, colors[i]);
+                }
+            }
+        }
+        else
+        {
+            // calculate one prediction step
+            UpdateCelestialBodies(predictedPlanets, deltaTime, true);
+
+            // shift trajectory positions down by one and add next prediction step
+            for (int i = 0; i< predictedPlanets.Length; i++)
+            {
+                LineRenderer trajectory = planetObjects[i].GetComponent<LineRenderer>();
+                Vector3[] oldPoints = new Vector3[trajectory.positionCount];
+                Vector3[] newPoints = new Vector3[trajectory.positionCount];
+
+                trajectory.GetPositions(oldPoints);
+                Array.Copy(oldPoints, 1, newPoints, 0, trajectory.positionCount - 1);
+                newPoints[trajectory.positionCount - 1] = predictedPlanets[i].position;
+                trajectory.SetPositions(newPoints);
             }
         }
     }

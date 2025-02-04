@@ -15,13 +15,11 @@ public class Planet : MonoBehaviour
     void Start()
     {
         lr = GetComponent<LineRenderer>();
-        //lr.Simplify(100);
     }
 
     void FixedUpdate()
     {
         transform.position = position;
-        //lr.Simplify(100);
     }
 
     public void SetMotionVariables(Vector3 a, Vector3 v, Vector3 p)
@@ -42,7 +40,5 @@ public class Planet : MonoBehaviour
         lr.endWidth = 0.1f;
 
         lr.SetPosition(index, point);
-
-        //lr.Simplify(1);
     }
 }
