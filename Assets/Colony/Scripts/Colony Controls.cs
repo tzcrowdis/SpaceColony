@@ -26,6 +26,9 @@ public class ColonyControls : MonoBehaviour
     [Header("Construction Variables")]
     [Tooltip("How far a selected building appears in the world from the camera.")]
     public float selectedBuildingDepth;
+    [HideInInspector]
+    public Transform connectionLocation;
+    Vector3 connectionOffset;
 
     public GameObject buildingPrefab; // TESTING
 
@@ -50,12 +53,18 @@ public class ColonyControls : MonoBehaviour
         rotateBuilding = playerInput.actions["RotateBuilding"];
         placeBuilding = playerInput.actions["PlaceBuilding"];
         cancelBuildingSelection = playerInput.actions["CancelBuildingSelection"];
+        connectionLocation = null;
 
         //state = State.Default;
 
         // testing building selected
         state = State.BuildingSelected;
         selectedBuilding = Instantiate(buildingPrefab);
+        selectedBuilding.GetComponent<BoxCollider>().enabled = false;
+        foreach (Transform connections in selectedBuilding.transform)
+        {
+            connections.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -70,7 +79,7 @@ public class ColonyControls : MonoBehaviour
             if (state == State.BuildingSelected)
             {
                 // TODO clicking the UI element should set the state and the selectedBuilding gameobject
-                BuildingMouseFollow();
+                BuildingLocation();
                 if (rotateBuilding.triggered) RotateBuilding();
                 if (placeBuilding.triggered) PlaceBuilding();
                 if (cancelBuildingSelection.triggered) CancelBuildingSelection();
@@ -106,10 +115,39 @@ public class ColonyControls : MonoBehaviour
     /*
      *  BUILDING CONTROLS
      */
-    void BuildingMouseFollow()
+    void BuildingLocation()
     {
+        // find connection point
         Vector2 screenPos = buildingTracking.ReadValue<Vector2>();
-        selectedBuilding.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, selectedBuildingDepth));
+
+        // mouse over connection position
+        if (connectionLocation != null)
+        {
+            // determine the offset
+            foreach (Transform connectionSelectedBuilding in selectedBuilding.transform)
+            {
+                // skip if not on building connection layer
+                if (connectionSelectedBuilding.gameObject.layer != 6)
+                    continue;
+
+                // set offset based on if connection points are facing eachother
+                Debug.Log(Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward));
+                if (Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward) == -1f)
+                {
+                    connectionOffset = -connectionSelectedBuilding.localPosition;
+                    Debug.Log(connectionSelectedBuilding.localPosition);
+                    break;
+                }
+            }
+            //Debug.Log(connectionLocation.position);
+            //Debug.Log(offset);
+            selectedBuilding.transform.position = connectionLocation.position + connectionOffset;
+        }
+        else
+        {
+            // follow mouse at predetermined depth
+            selectedBuilding.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, selectedBuildingDepth));
+        }
     }
 
     void RotateBuilding()

@@ -451,6 +451,7 @@ MonoBehaviour:
   translateSpeed: 1.5
   altitudeSpeed: 0.2
   selectedBuildingDepth: 10
+  connectionLocation: {x: 0, y: 0, z: 0}
   buildingPrefab: {fileID: 6522357898032194963, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
     type: 3}
 --- !u!1001 &1421827574267727691
@@ -461,6 +462,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1401721782799389434, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434589012633780711, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1751895741476355463, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160994498183675479, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2533114880644021985, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
         type: 3}
       propertyPath: m_IsTrigger
@@ -521,6 +542,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5138233462019211446, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5320246273402504200, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
         type: 3}
       propertyPath: m_IsTrigger
@@ -535,6 +561,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 6694744822246678163, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8277249884151697162, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9188058239510570980, guid: 94cf0f997d8a5ed4f8604cd97d9126b6,
         type: 3}
