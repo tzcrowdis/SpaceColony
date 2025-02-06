@@ -38,7 +38,7 @@ public class SolarSystemCamera : MonoBehaviour
     {
         // zoom in/out
         Vector3 camPos = cam.localPosition;
-        float inputCompensation = 120; // HACK input reads as 120/-120 rather than 1/-1
+        float inputCompensation = 120f; // HACK input reads as 120/-120 rather than 1/-1
         camPos.z += zoomAction.ReadValue<float>() / inputCompensation * zoomSpeed;
         cam.localPosition = new Vector3(0, 0, Mathf.Clamp(camPos.z, -20f, -5f)); // clamp zoom
     }
@@ -47,7 +47,7 @@ public class SolarSystemCamera : MonoBehaviour
     {
         // rotate up/down left/right
         Vector2 rotation = rotateAction.ReadValue<Vector2>();
-        transform.eulerAngles += new Vector3(rotation.y, -rotation.x, 0) * rotationSpeed;
+        transform.eulerAngles += new Vector3(10 * rotation.y, -rotation.x, 0) * rotationSpeed;
 
         // clamp up/down rotation
         // source for condition: https://discussions.unity.com/t/clamping-between-everything-but-the-min-max-values/142014

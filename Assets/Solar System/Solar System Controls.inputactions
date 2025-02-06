@@ -39,7 +39,7 @@
                 {
                     "name": "up",
                     "id": "428e4f48-6c35-4549-bbcd-d127ed48b674",
-                    "path": "<Keyboard>/w",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -50,7 +50,7 @@
                 {
                     "name": "down",
                     "id": "e3600b4b-c196-4d49-a09d-f38275e57147",
-                    "path": "<Keyboard>/s",
+                    "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -81,15 +81,37 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "",
-                    "id": "3928f7ea-eb77-436c-a0a0-4f1152ef1b6a",
-                    "path": "<Mouse>/scroll/y",
+                    "name": "1D Axis",
+                    "id": "acdcb2a4-a840-4409-b0a8-fb412425d5ad",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "65553e9b-3465-478c-83d0-20106905326e",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Zoom",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "1577eff6-b99c-49e6-9683-ab9a752845e3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
