@@ -131,16 +131,14 @@ public class ColonyControls : MonoBehaviour
                     continue;
 
                 // set offset based on if connection points are facing eachother
-                Debug.Log(Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward));
-                if (Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward) == -1f)
+                float dot = Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward);
+                if (Mathf.Approximately(dot, -1f))
                 {
                     connectionOffset = -connectionSelectedBuilding.localPosition;
-                    Debug.Log(connectionSelectedBuilding.localPosition);
-                    break;
+;                   break;
                 }
             }
-            //Debug.Log(connectionLocation.position);
-            //Debug.Log(offset);
+            
             selectedBuilding.transform.position = connectionLocation.position + connectionOffset;
         }
         else
