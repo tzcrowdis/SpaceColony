@@ -14,10 +14,14 @@ public class ConnectionPoint : MonoBehaviour
     void OnMouseOver()
     {
         controls.connectionLocation = transform;
+        controls.placeable = true;
     }
+
+    // TODO on click destroy connection point???
 
     void OnMouseExit()
     {
         controls.connectionLocation = null;
+        controls.placeable = false;
     }
 }

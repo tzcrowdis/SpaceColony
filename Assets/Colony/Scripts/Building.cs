@@ -2,23 +2,36 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph;
 using UnityEngine;
 
 public class Building : MonoBehaviour
 {
     bool selected;
 
-    [Tooltip("Dimensions should be from the origin of the object. So if it has a width of 1 along the x-axis the x should be 0.5.")]
-    public Vector3 dimensions;
-
     void Start()
     {
-        // testing on unit cube
-        dimensions = new Vector3(0.5f, 0.5f, 0.5f);
+        
     }
 
     void Update()
     {
 
+    }
+
+    public void PlaceBuilding()
+    {
+        // TODO add construction delay (animations, effects, etc) before adding colliders
+        
+        // activate all colliders
+        GetComponent<BoxCollider>().enabled = true;
+        foreach (Transform connections in transform)
+        {
+            // TODO in the future consider only activating exterior connections
+
+            connections.gameObject.SetActive(true);
+        }
+
+        // TODO once construction is completed enable resource, workers, and other features
     }
 }

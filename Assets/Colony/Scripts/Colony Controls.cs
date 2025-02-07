@@ -22,24 +22,25 @@ public class ColonyControls : MonoBehaviour
     InputAction rotateBuilding;
     InputAction placeBuilding;
     InputAction cancelBuildingSelection;
-    GameObject selectedBuilding;
+    public GameObject selectedBuilding;
     [Header("Construction Variables")]
     [Tooltip("How far a selected building appears in the world from the camera.")]
     public float selectedBuildingDepth;
     [HideInInspector]
     public Transform connectionLocation;
     Vector3 connectionOffset;
+    public bool placeable;
 
     public GameObject buildingPrefab; // TESTING
 
     // states to track selections, menus, etc.
-    enum State
+    public enum State
     {
         Default,
         BuildingSelected,
         InMenu // TODO implement different menus/overlays
     }
-    State state;
+    public State state;
 
     void Start()
     {
@@ -54,36 +55,42 @@ public class ColonyControls : MonoBehaviour
         placeBuilding = playerInput.actions["PlaceBuilding"];
         cancelBuildingSelection = playerInput.actions["CancelBuildingSelection"];
         connectionLocation = null;
+        placeable = false;
 
-        //state = State.Default;
+        state = State.Default;
 
         // testing building selected
-        state = State.BuildingSelected;
-        selectedBuilding = Instantiate(buildingPrefab);
-        selectedBuilding.GetComponent<BoxCollider>().enabled = false;
-        foreach (Transform connections in selectedBuilding.transform)
-        {
-            connections.gameObject.SetActive(false);
-        }
+        //state = State.BuildingSelected;
     }
 
     void Update()
     {
         // TODO conditions for controller type and anything else...
-        if (state != State.InMenu)
-        {
-            TranslateCamera();
-            RotateCamera();
-            AltitudeCamera();
 
-            if (state == State.BuildingSelected)
-            {
-                // TODO clicking the UI element should set the state and the selectedBuilding gameobject
+        switch (state)
+        {
+            case State.Default:
+                // camera controls
+                TranslateCamera();
+                RotateCamera();
+                AltitudeCamera();
+                break;
+
+            case State.BuildingSelected:
+                // camera controls
+                TranslateCamera();
+                RotateCamera();
+                AltitudeCamera();
+
+                // building controls
                 BuildingLocation();
                 if (rotateBuilding.triggered) RotateBuilding();
                 if (placeBuilding.triggered) PlaceBuilding();
                 if (cancelBuildingSelection.triggered) CancelBuildingSelection();
-            }
+                break;
+
+            case State.InMenu:
+                break;
         }
     }
 
@@ -156,13 +163,12 @@ public class ColonyControls : MonoBehaviour
 
     void PlaceBuilding()
     {
-        // TODO
-        // if selected building is in acceptable position
-        // then set selected building to null here
-        // and run start building function in 
-
-        selectedBuilding = null;
-        state = State.Default;
+        if (placeable)
+        {
+            selectedBuilding.GetComponent<Building>().PlaceBuilding();
+            selectedBuilding = null;
+            state = State.Default;
+        }
     }
 
     void CancelBuildingSelection()
