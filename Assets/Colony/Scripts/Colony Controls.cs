@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class ColonyControls : MonoBehaviour
@@ -31,8 +32,6 @@ public class ColonyControls : MonoBehaviour
     Vector3 connectionOffset;
     public bool placeable;
 
-    public GameObject buildingPrefab; // TESTING
-
     // states to track selections, menus, etc.
     public enum State
     {
@@ -41,6 +40,16 @@ public class ColonyControls : MonoBehaviour
         InMenu // TODO implement different menus/overlays
     }
     public State state;
+
+    public static ColonyControls instance { get; private set; }
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+            Destroy(instance.gameObject);
+        else
+            instance = this;
+    }
 
     void Start()
     {
@@ -153,6 +162,12 @@ public class ColonyControls : MonoBehaviour
             // follow mouse at predetermined depth
             selectedBuilding.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, selectedBuildingDepth));
         }
+
+        // building only visible when not over UI
+        if (EventSystem.current.IsPointerOverGameObject())
+            selectedBuilding.GetComponent<Renderer>().enabled = false;
+        else
+            selectedBuilding.GetComponent<Renderer>().enabled = true;
     }
 
     void RotateBuilding()
@@ -163,7 +178,8 @@ public class ColonyControls : MonoBehaviour
 
     void PlaceBuilding()
     {
-        if (placeable)
+        // building only placeable if not over UI and told placeable by connection point
+        if (!EventSystem.current.IsPointerOverGameObject() && placeable)
         {
             selectedBuilding.GetComponent<Building>().PlaceBuilding();
             selectedBuilding = null;
@@ -171,7 +187,7 @@ public class ColonyControls : MonoBehaviour
         }
     }
 
-    void CancelBuildingSelection()
+    public void CancelBuildingSelection()
     {
         // remove the building and return to default
         Destroy(selectedBuilding);

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class BuildingButton : MonoBehaviour
 {
     public GameObject buildingPrefab;
-    public ColonyControls controls;
 
     Button button;
 
@@ -24,17 +23,18 @@ public class BuildingButton : MonoBehaviour
             Debug.Log("building prefab not found. have you added the reference in the editor?");
             return;
         }
-        else if (controls == null)
-        {
-            Debug.Log("controls not found. have you added the reference in the editor?");
-            return;
-        }
+
+        // on click destroy current selection
+        Destroy(ColonyControls.instance.selectedBuilding);
 
         // instantiate building and disable colliders while in blueprint mode
-        controls.state = ColonyControls.State.BuildingSelected;
-        controls.selectedBuilding = Instantiate(buildingPrefab);
-        controls.selectedBuilding.GetComponent<BoxCollider>().enabled = false;
-        foreach (Transform connections in controls.selectedBuilding.transform)
+        ColonyControls.instance.state = ColonyControls.State.BuildingSelected;
+        ColonyControls.instance.selectedBuilding = Instantiate(buildingPrefab);
+        ColonyControls.instance.selectedBuilding.GetComponent<BoxCollider>().enabled = false;
+        foreach (Transform connections in ColonyControls.instance.selectedBuilding.transform)
             connections.gameObject.SetActive(false);
+
+        // disable building panel
+        ColonyUI.instance.CloseBuildingPanelWhileBuilding();
     }
 }
