@@ -15,6 +15,31 @@ public class BuildingButton : MonoBehaviour
         button.onClick.AddListener(SelectedBuilding);
     }
 
+    void Update()
+    {
+        CheckBuildingAffordable();
+    }
+
+    // HACK gotta be a better way to perform these checks...
+    void CheckBuildingAffordable()
+    {
+        Building building = buildingPrefab.GetComponent<Building>();
+        
+        if (building.genericCost > ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Generic])
+        {
+            button.interactable = false;
+            return;
+        }
+        
+        if (building.energyCost > ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Energy])
+        {
+            button.interactable = false;
+            return;
+        }
+
+        button.interactable = true;
+    }
+
     void SelectedBuilding()
     {
         // early exit for errors

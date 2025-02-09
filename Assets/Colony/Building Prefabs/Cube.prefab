@@ -124,7 +124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f092fde4c5764f4699ba3da38f6f1bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimensions: {x: 0.5, y: 0.5, z: 0.5}
+  genericCost: 10
+  energyCost: 0
+  constructionTime: 0
+  resourceType: generic
+  productionQuantity: 0
 --- !u!1001 &541028732402131055
 PrefabInstance:
   m_ObjectHideFlags: 0

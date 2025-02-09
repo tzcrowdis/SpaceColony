@@ -7,7 +7,7 @@ public class ConnectionPoint : MonoBehaviour
     void OnMouseOver()
     {
         ColonyControls.instance.connectionLocation = transform;
-        ColonyControls.instance.placeable = true;
+        ColonyControls.instance.overConnectionPoint = true;
     }
 
     // TODO on click destroy connection point???
@@ -15,6 +15,6 @@ public class ConnectionPoint : MonoBehaviour
     void OnMouseExit()
     {
         ColonyControls.instance.connectionLocation = null;
-        ColonyControls.instance.placeable = false;
+        ColonyControls.instance.overConnectionPoint = false;
     }
 }

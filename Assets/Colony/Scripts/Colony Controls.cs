@@ -30,7 +30,7 @@ public class ColonyControls : MonoBehaviour
     [HideInInspector]
     public Transform connectionLocation;
     Vector3 connectionOffset;
-    public bool placeable;
+    public bool overConnectionPoint;
 
     // states to track selections, menus, etc.
     public enum State
@@ -64,7 +64,7 @@ public class ColonyControls : MonoBehaviour
         placeBuilding = playerInput.actions["PlaceBuilding"];
         cancelBuildingSelection = playerInput.actions["CancelBuildingSelection"];
         connectionLocation = null;
-        placeable = false;
+        overConnectionPoint = false;
 
         state = State.Default;
 
@@ -178,8 +178,8 @@ public class ColonyControls : MonoBehaviour
 
     void PlaceBuilding()
     {
-        // building only placeable if not over UI and told placeable by connection point
-        if (!EventSystem.current.IsPointerOverGameObject() && placeable)
+        // building only placeable if not over UI and over connection point
+        if (!EventSystem.current.IsPointerOverGameObject() && overConnectionPoint)
         {
             selectedBuilding.GetComponent<Building>().PlaceBuilding();
             selectedBuilding = null;
