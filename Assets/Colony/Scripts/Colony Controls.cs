@@ -18,6 +18,12 @@ public class ColonyControls : MonoBehaviour
     InputAction translateCameraAction;
     InputAction altitudeCameraAction;
 
+    // time inputs
+    InputAction stopTime;
+    InputAction oneTime;
+    InputAction twoTime;
+    InputAction threeTime;
+
     // building inputs
     InputAction buildingTracking;
     InputAction rotateBuilding;
@@ -59,6 +65,11 @@ public class ColonyControls : MonoBehaviour
         translateCameraAction = playerInput.actions["TranslateCamera"];
         altitudeCameraAction = playerInput.actions["AltitudeCamera"];
 
+        stopTime = playerInput.actions["StopTime"];
+        oneTime = playerInput.actions["1xTime"];
+        twoTime = playerInput.actions["2xTime"];
+        threeTime = playerInput.actions["3xTime"];
+
         buildingTracking = playerInput.actions["BuildingTracking"];
         rotateBuilding = playerInput.actions["RotateBuilding"];
         placeBuilding = playerInput.actions["PlaceBuilding"];
@@ -67,9 +78,6 @@ public class ColonyControls : MonoBehaviour
         overConnectionPoint = false;
 
         state = State.Default;
-
-        // testing building selected
-        //state = State.BuildingSelected;
     }
 
     void Update()
@@ -79,23 +87,15 @@ public class ColonyControls : MonoBehaviour
         switch (state)
         {
             case State.Default:
-                // camera controls
-                TranslateCamera();
-                RotateCamera();
-                AltitudeCamera();
+                CameraControls();
+                TimeControls();
                 break;
 
             case State.BuildingSelected:
-                // camera controls
-                TranslateCamera();
-                RotateCamera();
-                AltitudeCamera();
+                CameraControls();
+                TimeControls();
 
-                // building controls
-                BuildingLocation();
-                if (rotateBuilding.triggered) RotateBuilding();
-                if (placeBuilding.triggered) PlaceBuilding();
-                if (cancelBuildingSelection.triggered) CancelBuildingSelection();
+                BuildingControls();
                 break;
 
             case State.InMenu:
@@ -106,6 +106,13 @@ public class ColonyControls : MonoBehaviour
     /*
      *  CAMERA CONTROLS
      */
+    void CameraControls()
+    {
+        TranslateCamera();
+        RotateCamera();
+        AltitudeCamera();
+    }
+
     void TranslateCamera()
     {
         // translate forward/backward left/right
@@ -129,8 +136,58 @@ public class ColonyControls : MonoBehaviour
     }
 
     /*
+     *  TIME CONTROLS
+     */
+
+    void TimeControls()
+    {
+        PauseUnpauseTime();
+        OneTime();
+        TwoTime();
+        ThreeTime();
+    }
+
+    void PauseUnpauseTime()
+    {     
+        
+        if (stopTime.triggered)
+        {
+            if (Mathf.Approximately(Time.timeScale, 0f))
+                Time.timeScale = 1f;
+            else
+                Time.timeScale = 0f;
+        }  
+    }
+
+    void OneTime()
+    {
+        if (oneTime.triggered)
+            Time.timeScale = 1f;
+    }
+
+    void TwoTime()
+    {
+        if (twoTime.triggered)
+            Time.timeScale = 2f;
+    }
+
+    void ThreeTime()
+    {
+        if (threeTime.triggered)
+            Time.timeScale = 3f;
+    }
+
+    /*
      *  BUILDING CONTROLS
      */
+    void BuildingControls()
+    {
+        BuildingLocation();
+        if (rotateBuilding.triggered) RotateBuilding();
+        if (placeBuilding.triggered) PlaceBuilding();
+        if (cancelBuildingSelection.triggered) CancelBuildingSelection();
+    }
+
     void BuildingLocation()
     {
         // find connection point

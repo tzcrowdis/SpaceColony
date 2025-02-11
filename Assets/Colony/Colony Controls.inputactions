@@ -67,6 +67,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "StopTime",
+                    "type": "Button",
+                    "id": "43e2e910-0b66-4f1b-aa6d-09a77d55ffc8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "1xTime",
+                    "type": "Button",
+                    "id": "b152637f-1176-4965-a236-75f72fcc8010",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "2xTime",
+                    "type": "Button",
+                    "id": "9de4001f-a6d8-4dc4-b15a-8f1cfadb3aa9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "3xTime",
+                    "type": "Button",
+                    "id": "35b96bf8-dfd5-475c-a451-f3034d57d28e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -210,6 +246,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "BuildingTracking",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c7f83a6-d1df-4178-b01a-8d3b6640c24a",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StopTime",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "498a2e3a-746c-46d5-816e-3de55341dc1f",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "1xTime",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c82df72-764b-4bd4-a987-1a5cb1daa204",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "2xTime",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1a48134e-a8c1-46bf-8bcb-5a4423f79cc7",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "3xTime",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
