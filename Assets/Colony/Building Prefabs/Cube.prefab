@@ -126,9 +126,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   genericCost: 10
   energyCost: 0
-  constructionTime: 0
-  resourceType: generic
-  productionQuantity: 0
+  totalConstructionTime: 3
+  productionResource: 0
+  productionQuantity: 1
+  consumptionResource: 0
+  consumptionQuantity: 0
+  state: 0
 --- !u!1001 &541028732402131055
 PrefabInstance:
   m_ObjectHideFlags: 0

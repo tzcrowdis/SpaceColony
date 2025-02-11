@@ -52,10 +52,14 @@ public class BuildingButton : MonoBehaviour
         // on click destroy current selection
         Destroy(ColonyControls.instance.selectedBuilding);
 
-        // instantiate building and disable colliders while in blueprint mode
+        // instantiate building in blueprint mode
         ColonyControls.instance.state = ColonyControls.State.BuildingSelected;
         ColonyControls.instance.selectedBuilding = Instantiate(buildingPrefab);
-        ColonyControls.instance.selectedBuilding.GetComponent<BoxCollider>().enabled = false;
+        ColonyControls.instance.selectedBuilding.GetComponent<Building>().state = Building.State.Blueprint;
+
+        // disable building colliders
+        foreach (Collider c  in ColonyControls.instance.selectedBuilding.GetComponents<Collider>())
+            c.enabled = false;
         foreach (Transform connections in ColonyControls.instance.selectedBuilding.transform)
             connections.gameObject.SetActive(false);
 

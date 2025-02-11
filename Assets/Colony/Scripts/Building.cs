@@ -10,22 +10,58 @@ public class Building : MonoBehaviour
     [Header("Building Construction Variables")]
     public int genericCost;
     public int energyCost;
+    // etc.
+    [Tooltip("real time seconds")]
+    public float totalConstructionTime;
+    float constructionTime = 0f;
 
-    public float constructionTime;
-
-    [Header("Building Production Variables")]
-    public ColonyResources.ResourceTypes resource;
+    [Header("Building Production")]
+    public ColonyResources.ResourceTypes productionResource;
     [Tooltip("resource per second")]
     public float productionQuantity;
 
+    [Header("Building Consumption")]
+    public ColonyResources.ResourceTypes consumptionResource;
+    [Tooltip("resource per second")]
+    public float consumptionQuantity;
+
+    public enum State
+    {
+        Blueprint,
+        Construction,
+        Operating
+    }
+    [Header("Building Working State")]
+    public State state;
+
+    // temp vars for construction
+    Color ogColor;
+    Renderer r;
+
     void Start()
     {
-        
+        //state = State.Blueprint;
+
+        r = GetComponent<Renderer>();
+        ogColor = r.material.color;
     }
 
     void Update()
     {
+        switch (state)
+        {
+            case State.Blueprint:
+                Blueprint();
+                break;
 
+            case State.Construction:
+                Construction();
+                break;
+
+            case State.Operating:
+                Operation();
+                break;
+        }
     }
 
     public void PlaceBuilding()
@@ -34,17 +70,58 @@ public class Building : MonoBehaviour
         ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Generic] -= genericCost;
         ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Energy] -= energyCost;
 
-        // TODO add construction delay (animations, effects, etc) before adding colliders
+        state = State.Construction;
+    }
 
-        // activate all colliders
-        GetComponent<BoxCollider>().enabled = true;
-        foreach (Transform connections in transform)
+    void Blueprint()
+    {
+        if (ColonyControls.instance.overConnectionPoint)
+            r.material.SetColor("_BaseColor", Color.green);
+        else
+            r.material.SetColor("_BaseColor", Color.blue);
+
+        // exited by colony controls
+    }
+
+    void Construction()
+    {
+        // construction begin
+        if (Mathf.Approximately(constructionTime, 0f))
         {
-            // TODO in the future consider only activating exterior connections
-
-            connections.gameObject.SetActive(true);
+            // TODO add (animations, effects, etc) for construction
+            r.material.SetColor("_BaseColor", Color.yellow);
         }
+        
+        // constructing
+        // TODO modify construction speed based on workers
+        constructionTime += Time.deltaTime;
 
-        // TODO once construction is completed enable resource, workers, and other features
+        // construction complete
+        if (constructionTime > totalConstructionTime)
+        {
+            r.material.SetColor("_BaseColor", ogColor);
+
+            // activate all colliders
+            foreach (Collider c in GetComponents<Collider>())
+                c.enabled = true;
+            foreach (Transform connections in transform)
+            {
+                // TODO in the future consider only activating exterior connections
+                connections.gameObject.SetActive(true);
+            }
+
+            state = State.Operating;
+        }
+    }
+
+    void Operation()
+    {
+        // TODO track workers and modifiers from them
+
+        // production
+        ColonyResources.instance.colonyResources[productionResource] += productionQuantity * Time.deltaTime;
+
+        // consumption
+        ColonyResources.instance.colonyResources[consumptionResource] -= consumptionQuantity * Time.deltaTime;
     }
 }
