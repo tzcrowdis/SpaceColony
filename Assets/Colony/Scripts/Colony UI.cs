@@ -7,10 +7,24 @@ using UnityEditor.UI;
 
 public class ColonyUI : MonoBehaviour
 {
-    GameObject buildingPanel;
-    Button buildingPanelButton;
-    Button buildingPanelExit;
+    [Header("Building UI")]
+    // building variables
+    public GameObject buildingPanel;
+    public Button buildingPanelButton;
+    public Button buildingPanelExit;
 
+    List<GameObject> allBuildingPanels;
+
+    public Button genericBuildingsButton;
+    public GameObject genericBuildingsPanel;
+
+    public Button energyBuildingsButton;
+    public GameObject energyBuildingsPanel;
+
+    // etc.
+
+    [Header("Time UI")]
+    // time variables
     public TMP_Text clock;
     public Button stopTime;
     public Button oneTime;
@@ -29,13 +43,20 @@ public class ColonyUI : MonoBehaviour
 
     void Start()
     {
-        buildingPanelButton = GameObject.Find("BuildingPanelButton").GetComponent<Button>();
+        allBuildingPanels = new List<GameObject>();
+        
+        genericBuildingsButton.onClick.AddListener(ActivateGenericBuildingPanel);
+        allBuildingPanels.Add(genericBuildingsPanel);
+
+        energyBuildingsButton.onClick.AddListener(ActivateEnergyBuildingPanel);
+        allBuildingPanels.Add(energyBuildingsPanel);
+
+        // TODO other building panels...
+
+        DeactivateAllOtherBuildingPanels(genericBuildingsPanel); // default active building panel
+
         buildingPanelButton.onClick.AddListener(OpenBuildingPanel);
-
-        buildingPanelExit = GameObject.Find("ExitBuildingPanelButton").GetComponent<Button>();
         buildingPanelExit.onClick.AddListener(CloseBuildingPanel);
-
-        buildingPanel = GameObject.Find("BuildingPanel");
         buildingPanel.SetActive(false); // NOTE deactivate panels last otherwise find doesn't work
 
         stopTime.onClick.AddListener(StopTime);
@@ -72,6 +93,34 @@ public class ColonyUI : MonoBehaviour
         buildingPanel.SetActive(false);
         buildingPanelButton.gameObject.SetActive(true);
     }
+
+    // GENERIC PANEL
+    void ActivateGenericBuildingPanel()
+    {
+        genericBuildingsPanel.SetActive(true);
+        DeactivateAllOtherBuildingPanels(genericBuildingsPanel);
+    }
+
+    // ENERGY PANEL
+    void ActivateEnergyBuildingPanel()
+    {
+        energyBuildingsPanel.SetActive(true);
+        DeactivateAllOtherBuildingPanels(energyBuildingsPanel);
+    }
+
+    // ETC.
+
+    void DeactivateAllOtherBuildingPanels(GameObject activePanel)
+    {
+        foreach (GameObject panel in allBuildingPanels)
+        {
+            if (panel == activePanel)
+                continue;
+
+            panel.SetActive(false);
+        }
+    }
+
 
     /*
      *  TIME UI

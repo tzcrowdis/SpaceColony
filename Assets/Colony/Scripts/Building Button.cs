@@ -7,6 +7,8 @@ public class BuildingButton : MonoBehaviour
 {
     public GameObject buildingPrefab;
 
+    public bool unlocked;
+
     Button button;
 
     void Start()
