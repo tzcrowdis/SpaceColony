@@ -197,7 +197,7 @@ public class ColonyControls : MonoBehaviour
         if (connectionLocation != null)
         {
             // determine the offset
-            foreach (Transform connectionSelectedBuilding in selectedBuilding.transform)
+            foreach (Transform connectionSelectedBuilding in selectedBuilding.GetComponent<Building>().connectionPoints.transform)
             {
                 // skip if not on building connection layer
                 if (connectionSelectedBuilding.gameObject.layer != 6)
@@ -207,12 +207,12 @@ public class ColonyControls : MonoBehaviour
                 float dot = Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward);
                 if (Mathf.Approximately(dot, -1f))
                 {
-                    connectionOffset = -connectionSelectedBuilding.localPosition;
+                    connectionOffset = connectionSelectedBuilding.localPosition * selectedBuilding.transform.localScale.x; // assumes scale x=y=z
 ;                   break;
                 }
             }
             
-            selectedBuilding.transform.position = connectionLocation.position + connectionOffset;
+            selectedBuilding.transform.position = connectionLocation.position - connectionOffset;
         }
         else
         {
@@ -222,15 +222,15 @@ public class ColonyControls : MonoBehaviour
 
         // building only visible when not over UI
         if (EventSystem.current.IsPointerOverGameObject())
-            selectedBuilding.GetComponent<Renderer>().enabled = false;
+            selectedBuilding.GetComponent<Building>().building.GetComponent<Renderer>().enabled = false;
         else
-            selectedBuilding.GetComponent<Renderer>().enabled = true;
+            selectedBuilding.GetComponent<Building>().building.GetComponent<Renderer>().enabled = true;
     }
 
     void RotateBuilding()
     {
         //rotates 90 degrees around y-axis
-        selectedBuilding.transform.Rotate(new Vector3(0f, 90f, 0f));
+        selectedBuilding.GetComponent<Building>().building.transform.Rotate(new Vector3(0f, 90f, 0f));
     }
 
     void PlaceBuilding()

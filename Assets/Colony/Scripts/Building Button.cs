@@ -59,11 +59,9 @@ public class BuildingButton : MonoBehaviour
         ColonyControls.instance.selectedBuilding = Instantiate(buildingPrefab);
         ColonyControls.instance.selectedBuilding.GetComponent<Building>().state = Building.State.Blueprint;
 
-        // disable building colliders
-        foreach (Collider c  in ColonyControls.instance.selectedBuilding.GetComponents<Collider>())
-            c.enabled = false;
-        foreach (Transform connections in ColonyControls.instance.selectedBuilding.transform)
-            connections.gameObject.SetActive(false);
+        // disable building connections
+        foreach (Transform connection in ColonyControls.instance.selectedBuilding.GetComponent<Building>().connectionPoints.transform)
+            connection.gameObject.SetActive(false);
 
         // disable building panel
         ColonyUI.instance.CloseBuildingPanelWhileBuilding();

@@ -7,6 +7,10 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
+    [Header("Physical Building & Connection Points")]
+    public GameObject building;
+    public GameObject connectionPoints;
+    
     [Header("Building Construction Variables")]
     public int genericCost;
     public int energyCost;
@@ -41,8 +45,7 @@ public class Building : MonoBehaviour
     void Start()
     {
         //state = State.Blueprint;
-
-        r = GetComponent<Renderer>();
+        r = building.GetComponent<Renderer>();
         ogColor = r.material.color;
     }
 
@@ -101,13 +104,11 @@ public class Building : MonoBehaviour
         {
             r.material.SetColor("_BaseColor", ogColor);
 
-            // activate all colliders
-            foreach (Collider c in GetComponents<Collider>())
-                c.enabled = true;
-            foreach (Transform connections in transform)
+            // activate all connection points
+            foreach (Transform connection in connectionPoints.transform)
             {
                 // TODO in the future consider only activating exterior connections
-                connections.gameObject.SetActive(true);
+                connection.gameObject.SetActive(true);
             }
 
             state = State.Operating;
