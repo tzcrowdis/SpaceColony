@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
@@ -42,11 +43,19 @@ public class Building : MonoBehaviour
     Color ogColor;
     Renderer r;
 
+    [Header("Colonists")]
+    public GameObject[] workStations;
+    [HideInInspector]
+    public List<Colonist> colonists; // NOTE: line up indexes with work station
+    int colonistCapacity;
+
     void Start()
     {
         //state = State.Blueprint;
         r = building.GetComponent<Renderer>();
         ogColor = r.material.color;
+
+        colonistCapacity = workStations.Length;
     }
 
     void Update()
@@ -111,18 +120,21 @@ public class Building : MonoBehaviour
                 connection.gameObject.SetActive(true);
             }
 
+            // rebake nav mesh surface
+            GameObject.Find("Colony NavMesh Surface").GetComponent<NavMeshSurface>().BuildNavMesh();
+
             state = State.Operating;
         }
     }
 
     void Operation()
     {
-        // TODO track workers and modifiers from them
+        float efficiency = colonists.Count / colonistCapacity;
 
         // production
-        ColonyResources.instance.colonyResources[productionResource] += productionQuantity * Time.deltaTime;
+        ColonyResources.instance.colonyResources[productionResource] += efficiency * productionQuantity * Time.deltaTime;
 
         // consumption
-        ColonyResources.instance.colonyResources[consumptionResource] -= consumptionQuantity * Time.deltaTime;
+        ColonyResources.instance.colonyResources[consumptionResource] -= efficiency * consumptionQuantity * Time.deltaTime;
     }
 }

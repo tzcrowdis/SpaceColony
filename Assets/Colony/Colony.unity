@@ -1898,7 +1898,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: a0d395a107a2a10469a2c43e6f35a543, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1147245692
 Transform:
@@ -3289,6 +3289,12 @@ MonoBehaviour:
   genericText: {fileID: 1230849026}
   foodText: {fileID: 0}
   energyText: {fileID: 0}
+--- !u!1 &1691187904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8104979521318193360, guid: f8d06c113211a2e49a6360f34771d53b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4232810914798072947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1785337465
 GameObject:
   m_ObjectHideFlags: 0
@@ -4582,6 +4588,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2687290529320671200, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
+        type: 3}
+      propertyPath: agent
+      value: 
+      objectReference: {fileID: 1346685742958466734}
+    - target: {fileID: 2687290529320671200, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
+        type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1346685742958466735}
+    - target: {fileID: 2687290529320671200, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
+        type: 3}
+      propertyPath: workStation
+      value: 
+      objectReference: {fileID: 1691187904}
     - target: {fileID: 7305385686635601405, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4642,6 +4663,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0a1edbaf878d1e4c88288e7cf68a4c7, type: 3}
+--- !u!195 &1346685742958466734 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 3263212738485512859, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1346685742958466733}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1346685742958466735 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 533830180971642967, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1346685742958466733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4232810914798072947
 PrefabInstance:
   m_ObjectHideFlags: 0
