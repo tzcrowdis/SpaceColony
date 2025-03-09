@@ -5,6 +5,7 @@ using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Building : MonoBehaviour
 {
@@ -30,6 +31,17 @@ public class Building : MonoBehaviour
     [Tooltip("resource per second")]
     public float consumptionQuantity;
 
+    [Header("Colonists")]
+    public GameObject[] workStations;
+    [HideInInspector]
+    public List<Colonist> colonists; // NOTE: line up indexes with work station
+    int colonistCapacity;
+    [HideInInspector]
+    public float efficiency;
+
+    [Header("Active Building UI Panel")]
+    public GameObject activeBuildingPanel;
+
     public enum State
     {
         Blueprint,
@@ -42,12 +54,6 @@ public class Building : MonoBehaviour
     // temp vars for construction
     Color ogColor;
     Renderer r;
-
-    [Header("Colonists")]
-    public GameObject[] workStations;
-    [HideInInspector]
-    public List<Colonist> colonists; // NOTE: line up indexes with work station
-    int colonistCapacity;
 
     void Start()
     {
@@ -74,6 +80,8 @@ public class Building : MonoBehaviour
                 Operation();
                 break;
         }
+
+        BuildingClicked();
     }
 
     public void PlaceBuilding()
@@ -129,12 +137,35 @@ public class Building : MonoBehaviour
 
     void Operation()
     {
-        float efficiency = colonists.Count / colonistCapacity;
+        efficiency = colonists.Count / colonistCapacity;
 
         // production
         ColonyResources.instance.colonyResources[productionResource] += efficiency * productionQuantity * Time.deltaTime;
 
         // consumption
         ColonyResources.instance.colonyResources[consumptionResource] -= efficiency * consumptionQuantity * Time.deltaTime;
+    }
+
+
+
+    void BuildingClicked() // NOTE requires collider
+    {
+        if (state  == State.Operating)
+        {
+            Camera camera = Camera.main;
+            Mouse mouse = Mouse.current;
+            if (mouse.leftButton.wasPressedThisFrame)
+            {
+                Vector3 mousePosition = mouse.position.ReadValue();
+                Ray ray = camera.ScreenPointToRay(mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    if (hit.collider.gameObject == this)
+                    {
+                        Instantiate(activeBuildingPanel, mousePosition, Quaternion.identity, ColonyUI.instance.transform);
+                    }
+                }
+            }
+        }
     }
 }
