@@ -24,6 +24,9 @@ public class ColonyResources : MonoBehaviour
     public TMP_Text foodText;
     public TMP_Text energyText;
 
+    [Header("Unemployed Colonists")]
+    public List<Colonist> unemployedColonists = new List<Colonist>();
+
     public static ColonyResources instance { get; private set; }
     private void Awake()
     {

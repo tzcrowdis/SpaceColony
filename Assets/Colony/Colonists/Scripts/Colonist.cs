@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class Colonist : MonoBehaviour
 {
+    public string characterName;
+    
     // HEALTH/STATUS
     // limbs
     GameObject head;
@@ -49,6 +51,9 @@ public class Colonist : MonoBehaviour
 
     void Start()
     {
+        if (workStation == null)
+            ColonyResources.instance.unemployedColonists.Add(this);
+
         state = State.Resting;
         workState = WorkState.GoingToWork;
     }
@@ -69,13 +74,16 @@ public class Colonist : MonoBehaviour
 
     void Idle()
     {
-        // exit idle
-        state = State.Working;
+        if (workStation != null)
+        {
+            // exit idle
+            state = State.Working;
 
-        // activate walking animation
-        foreach (AnimatorControllerParameter parameter in animator.parameters)
-            animator.SetBool(parameter.name, false);
-        animator.SetBool("Walking", true);
+            // activate walking animation
+            foreach (AnimatorControllerParameter parameter in animator.parameters)
+                animator.SetBool(parameter.name, false);
+            animator.SetBool("Walking", true);
+        }
     }
 
     void Working()

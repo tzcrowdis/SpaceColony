@@ -41,6 +41,7 @@ public class Building : MonoBehaviour
 
     [Header("Active Building UI Panel")]
     public GameObject activeBuildingPanel;
+    public bool panelOpen = false;
 
     public enum State
     {
@@ -146,11 +147,10 @@ public class Building : MonoBehaviour
         ColonyResources.instance.colonyResources[consumptionResource] -= efficiency * consumptionQuantity * Time.deltaTime;
     }
 
-
-
+    // MISC FUNCTIONS
     void BuildingClicked() // NOTE requires collider
     {
-        if (state  == State.Operating)
+        if (state  == State.Operating & !panelOpen)
         {
             Camera camera = Camera.main;
             Mouse mouse = Mouse.current;
@@ -160,9 +160,13 @@ public class Building : MonoBehaviour
                 Ray ray = camera.ScreenPointToRay(mousePosition);
                 if (Physics.Raycast(ray, out RaycastHit hit))
                 {
-                    if (hit.collider.gameObject == this)
+                    if (hit.collider.gameObject == gameObject)
                     {
-                        Instantiate(activeBuildingPanel, mousePosition, Quaternion.identity, ColonyUI.instance.transform);
+                        GameObject bldg = Instantiate(activeBuildingPanel, mousePosition, Quaternion.identity, ColonyUI.instance.transform);
+                        bldg.GetComponent<ActiveBuildingPanel>().building = this;
+                        bldg.SetActive(true);
+
+                        panelOpen = true;
                     }
                 }
             }
