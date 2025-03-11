@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class Colonist : MonoBehaviour
 {
-    public string characterName;
+    public string characterName; // becomes the object name on start
     
     // HEALTH/STATUS
     // limbs
@@ -26,8 +26,8 @@ public class Colonist : MonoBehaviour
     // NOTE: high level states
     enum State
     {
-        Resting,
-        Working
+        Rest,
+        Work
     }
     State state;
 
@@ -36,7 +36,7 @@ public class Colonist : MonoBehaviour
     enum WorkState
     {
         GoingToWork,
-        Working
+        AtWork
     }
     WorkState workState;
 
@@ -54,64 +54,88 @@ public class Colonist : MonoBehaviour
         if (workStation == null)
             ColonyResources.instance.unemployedColonists.Add(this);
 
-        state = State.Resting;
+        state = State.Rest;
         workState = WorkState.GoingToWork;
+
+        gameObject.name = characterName;
     }
 
     void Update()
     {
         switch (state)
         {
-            case State.Resting:
-                Idle();
+            case State.Rest:
+                Rest();
                 break;
 
-            case State.Working:
-                Working();
+            case State.Work:
+                Work();
                 break;
         }
     }
 
-    void Idle()
+    void Rest()
     {
+        ColonistAnimation("Idling");
+
         if (workStation != null)
         {
-            // exit idle
-            state = State.Working;
-
-            // activate walking animation
-            foreach (AnimatorControllerParameter parameter in animator.parameters)
-                animator.SetBool(parameter.name, false);
-            animator.SetBool("Walking", true);
+            state = State.Work;
         }
     }
 
-    void Working()
+    void Work()
     {
+        // TODO check which substate?
+        
         switch (workState)
         {
             case WorkState.GoingToWork:
-
-                agent.destination = workStation.transform.position;
-
-                // if at work station
-                if (!agent.pathPending & agent.remainingDistance < agent.stoppingDistance)
-                {
-                    // face direction of work station
-                    transform.forward = workStation.transform.forward;
-
-                    // activate working animation
-                    foreach (AnimatorControllerParameter parameter in animator.parameters)
-                        animator.SetBool(parameter.name, false);
-                    animator.SetBool("Working", true);
-
-                    workState = WorkState.Working;
-                }
-
+                GoingToWork();
                 break;
 
-            case WorkState.Working:
+            case WorkState.AtWork:
+                AtWork();
                 break;
+        }
+    }
+
+    void GoingToWork()
+    {
+        ColonistAnimation("Walking");
+        
+        agent.destination = workStation.transform.position;
+
+        // if at work station
+        if (!agent.pathPending & agent.remainingDistance < agent.stoppingDistance)
+        {
+            // face direction of work station
+            transform.forward = workStation.transform.forward;
+
+            workState = WorkState.AtWork;
+        }
+    }
+
+    void AtWork()
+    {
+        ColonistAnimation("Working");
+        
+        if (workStation == null)
+            state = State.Rest;
+    }
+
+
+    /*
+     * HELPER FUNCTIONS
+     */
+
+    void ColonistAnimation(string animationName)
+    {
+        if (!animator.GetBool(animationName))
+        {
+            foreach (AnimatorControllerParameter parameter in animator.parameters)
+                animator.SetBool(parameter.name, false);
+            animator.SetBool(animationName, true);
         }
     }
 }

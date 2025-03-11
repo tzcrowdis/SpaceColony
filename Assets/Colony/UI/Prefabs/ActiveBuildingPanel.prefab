@@ -1352,6 +1352,7 @@ MonoBehaviour:
   - {fileID: 251965436004850106}
   - {fileID: 3947414113259810182}
   exit: {fileID: 1603013833821416485}
+  noWorkerSelected: None
 --- !u!1 &2259748821752392401
 GameObject:
   m_ObjectHideFlags: 0

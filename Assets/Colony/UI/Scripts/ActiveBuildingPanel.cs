@@ -21,15 +21,15 @@ public class ActiveBuildingPanel : MonoBehaviour
     [Header("Work Stations")]
     [Tooltip("order of dropdowns must be same as order of work stations in building hierarchy")]
     public TMP_Dropdown[] workStationDropdowns;
+    int[] dropdownSelections;
 
+    [Header("Exit Button")]
     public Button exit;
 
-    void Start()
-    {
-        
-    }
+    [Header("Text Displayed When No Worker Selected")]
+    public string noWorkerSelected;
 
-    void OnEnable()
+    void Start()
     {
         // building name
         buildingName.text = building.name;
@@ -40,7 +40,12 @@ public class ActiveBuildingPanel : MonoBehaviour
         consumption.text = $"- {building.consumptionQuantity} {building.consumptionResource}";
 
         // colonists / work stations
+        dropdownSelections = new int[workStationDropdowns.Length];
+        for (int i = 0; i < workStationDropdowns.Length; i++)
+            dropdownSelections[i] = workStationDropdowns[i].value;
+
         UpdateDropdownUnemployedLists();
+
         foreach (TMP_Dropdown dropdown in workStationDropdowns)
             dropdown.onValueChanged.AddListener(delegate { WorkerChanged(dropdown); });
 
@@ -48,47 +53,58 @@ public class ActiveBuildingPanel : MonoBehaviour
         exit.onClick.AddListener(ClosePanel);
     }
 
-    void Update()
-    {
-        
-    }
-
     void UpdateDropdownUnemployedLists()
     {
         foreach (TMP_Dropdown dropdown in workStationDropdowns)
         {
-            if (dropdown.options[dropdown.value].text == "None")
-            {
-                dropdown.ClearOptions();
+            TMP_Dropdown.OptionData selected = dropdown.options[dropdown.value];
+            dropdown.ClearOptions();
+            dropdown.options.Add(selected);
+            dropdown.RefreshShownValue();
 
-                dropdown.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
-                dropdown.transform.GetChild(0).GetComponent<TMP_Text>().text = "None";
+            if (selected.text != noWorkerSelected)
+                dropdown.options.Add(new TMP_Dropdown.OptionData() { text = noWorkerSelected });
 
-                foreach (Colonist colonist in ColonyResources.instance.unemployedColonists)
-                    dropdown.options.Add(new TMP_Dropdown.OptionData() { text = colonist.characterName });
-            }
-            else
-            {
-                // TODO case where not none but need to remove other employed colonist
-            }
+            foreach (Colonist colonist in ColonyResources.instance.unemployedColonists)
+                dropdown.options.Add(new TMP_Dropdown.OptionData() { text = colonist.characterName });
         }
     }
 
     void WorkerChanged(TMP_Dropdown dropdown)
     {
-        // TODO case of removing colonist from work station
-        
-        Colonist employedColonist = ColonyResources.instance.unemployedColonists[dropdown.value - 1]; // -1 bc None option
-
-        // NOTE assumes order of dropdowns is same as order of work stations in building object
-        for (int i = 0; i < workStationDropdowns.Length; i++)
+        if (dropdown.options[dropdown.value].text == noWorkerSelected) // remove colonist from work station
         {
-            if (workStationDropdowns[i] == dropdown)
+            // find index of previous selection then update current dropdown selections
+            int previousValue = 0;
+            for (int i = 0; i < workStationDropdowns.Length; i++)
             {
-                employedColonist.workStation = building.workStations[i];
-                ColonyResources.instance.unemployedColonists.Remove(employedColonist);
-                break;
-            }  
+                if (workStationDropdowns[i] == dropdown)
+                {
+                    previousValue = dropdownSelections[i];
+                    dropdownSelections[i] = dropdown.value;
+                    break;
+                }
+            }
+
+            // unemploy the colonist
+            Colonist unemployedColonist = GameObject.Find(dropdown.options[previousValue].text).GetComponent<Colonist>();
+            unemployedColonist.workStation = null;
+            ColonyResources.instance.unemployedColonists.Add(unemployedColonist);
+        }
+        else // add colonist to work station
+        {
+            Colonist employedColonist = ColonyResources.instance.unemployedColonists[dropdown.value - 1]; // -1 bc None option
+
+            // NOTE assumes order of dropdowns is same as order of work stations in building object
+            for (int i = 0; i < workStationDropdowns.Length; i++)
+            {
+                if (workStationDropdowns[i] == dropdown)
+                {
+                    employedColonist.workStation = building.workStations[i];
+                    ColonyResources.instance.unemployedColonists.Remove(employedColonist);
+                    break;
+                }
+            }
         }
         
         UpdateDropdownUnemployedLists();
@@ -98,6 +114,6 @@ public class ActiveBuildingPanel : MonoBehaviour
     {
         building.panelOpen = false;
         
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

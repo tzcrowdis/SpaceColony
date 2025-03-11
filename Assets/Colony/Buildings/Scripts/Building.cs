@@ -40,7 +40,8 @@ public class Building : MonoBehaviour
     public float efficiency;
 
     [Header("Active Building UI Panel")]
-    public GameObject activeBuildingPanel;
+    public GameObject activeBuildingPanelPrefab;
+    GameObject bldgPanel;
     public bool panelOpen = false;
 
     public enum State
@@ -63,6 +64,11 @@ public class Building : MonoBehaviour
         ogColor = r.material.color;
 
         colonistCapacity = workStations.Length;
+
+        // spawn active building panel object for this building
+        bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
+        bldgPanel.GetComponent<ActiveBuildingPanel>().building = this;
+        bldgPanel.name = $"{gameObject.name} Panel";
     }
 
     void Update()
@@ -147,10 +153,11 @@ public class Building : MonoBehaviour
         ColonyResources.instance.colonyResources[consumptionResource] -= efficiency * consumptionQuantity * Time.deltaTime;
     }
 
+
     // MISC FUNCTIONS
     void BuildingClicked() // NOTE requires collider
     {
-        if (state  == State.Operating & !panelOpen)
+        if (state == State.Operating & !panelOpen)
         {
             Camera camera = Camera.main;
             Mouse mouse = Mouse.current;
@@ -162,9 +169,11 @@ public class Building : MonoBehaviour
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        GameObject bldg = Instantiate(activeBuildingPanel, mousePosition, Quaternion.identity, ColonyUI.instance.transform);
-                        bldg.GetComponent<ActiveBuildingPanel>().building = this;
-                        bldg.SetActive(true);
+                        // TODO enable instead of instantiate
+                        
+                        //GameObject bldg = Instantiate(activeBuildingPanel, mousePosition, Quaternion.identity, ColonyUI.instance.transform);
+                        bldgPanel.transform.position = mousePosition;
+                        bldgPanel.SetActive(true);
 
                         panelOpen = true;
                     }
