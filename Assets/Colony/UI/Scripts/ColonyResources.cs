@@ -9,7 +9,8 @@ public class ColonyResources : MonoBehaviour
     {
         Generic,
         Food,
-        Energy
+        Energy,
+        Mineral
     }
 
     public Dictionary<ResourceTypes, float> colonyResources;
@@ -17,12 +18,14 @@ public class ColonyResources : MonoBehaviour
     public float generic;
     public float food;
     public float energy;
+    public float mineral;
     // etc.
 
     [Header("Text where Resource is Displayed")]
     public TMP_Text genericText;
     public TMP_Text foodText;
     public TMP_Text energyText;
+    public TMP_Text mineralText;
 
     [Header("Unemployed Colonists")]
     public List<Colonist> unemployedColonists = new List<Colonist>();
@@ -42,6 +45,7 @@ public class ColonyResources : MonoBehaviour
         colonyResources.Add(ResourceTypes.Generic, generic);
         colonyResources.Add(ResourceTypes.Food, food);
         colonyResources.Add(ResourceTypes.Energy, energy);
+        colonyResources.Add(ResourceTypes.Mineral, mineral);
     }
 
     void Update()
@@ -64,6 +68,11 @@ public class ColonyResources : MonoBehaviour
         if (energyText != null)
         {
             energyText.text = $"Energy: {(int)colonyResources[ResourceTypes.Energy]}";
+        }
+
+        if (mineralText != null)
+        {
+            mineralText.text = $"Minerals: {(int)colonyResources[ResourceTypes.Mineral]}";
         }
     }
 }
