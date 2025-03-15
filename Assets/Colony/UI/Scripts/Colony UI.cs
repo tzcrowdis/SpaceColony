@@ -15,11 +15,17 @@ public class ColonyUI : MonoBehaviour
 
     List<GameObject> allBuildingPanels;
 
+    [Header("Generic Building UI")]
     public Button genericBuildingsButton;
     public GameObject genericBuildingsPanel;
 
+    [Header("Generic Building UI")]
     public Button energyBuildingsButton;
     public GameObject energyBuildingsPanel;
+
+    [Header("Extraction Building UI")]
+    public Button extractionBuildingsButton;
+    public GameObject extractionBuildingsPanel;
 
     // etc.
 
@@ -45,11 +51,15 @@ public class ColonyUI : MonoBehaviour
     {
         allBuildingPanels = new List<GameObject>();
         
+        // TODO [PANEL ACTIVATION] rework with delegates so there's one activate panels button that takes a reference to the desired panel
         genericBuildingsButton.onClick.AddListener(ActivateGenericBuildingPanel);
         allBuildingPanels.Add(genericBuildingsPanel);
 
         energyBuildingsButton.onClick.AddListener(ActivateEnergyBuildingPanel);
         allBuildingPanels.Add(energyBuildingsPanel);
+
+        extractionBuildingsButton.onClick.AddListener(ActivateExtractionBuildingPanel);
+        allBuildingPanels.Add(extractionBuildingsPanel);
 
         // TODO other building panels...
 
@@ -94,6 +104,7 @@ public class ColonyUI : MonoBehaviour
         buildingPanelButton.gameObject.SetActive(true);
     }
 
+    // TODO [PANEL ACTIVATION]
     // GENERIC PANEL
     void ActivateGenericBuildingPanel()
     {
@@ -106,6 +117,13 @@ public class ColonyUI : MonoBehaviour
     {
         energyBuildingsPanel.SetActive(true);
         DeactivateAllOtherBuildingPanels(energyBuildingsPanel);
+    }
+
+    // EXTRACTION PANEL
+    void ActivateExtractionBuildingPanel()
+    {
+        extractionBuildingsPanel.SetActive(true);
+        DeactivateAllOtherBuildingPanels(extractionBuildingsPanel);
     }
 
     // ETC.

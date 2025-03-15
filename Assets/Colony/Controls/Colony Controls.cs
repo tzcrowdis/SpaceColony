@@ -35,8 +35,7 @@ public class ColonyControls : MonoBehaviour
     public float selectedBuildingDepth;
     [HideInInspector]
     public Transform connectionLocation;
-    Vector3 connectionOffset;
-    public bool overConnectionPoint;
+    public bool overValidConnectionPoint;
 
     // states to track selections, menus, etc.
     public enum State
@@ -75,7 +74,7 @@ public class ColonyControls : MonoBehaviour
         placeBuilding = playerInput.actions["PlaceBuilding"];
         cancelBuildingSelection = playerInput.actions["CancelBuildingSelection"];
         connectionLocation = null;
-        overConnectionPoint = false;
+        overValidConnectionPoint = false;
 
         state = State.Default;
     }
@@ -182,6 +181,8 @@ public class ColonyControls : MonoBehaviour
      */
     void BuildingControls()
     {
+        DisableBuildingInfoMenus();
+
         BuildingLocation();
         if (rotateBuilding.triggered) RotateBuilding();
         if (placeBuilding.triggered) PlaceBuilding();
@@ -193,7 +194,10 @@ public class ColonyControls : MonoBehaviour
         // find connection point
         Vector2 screenPos = buildingTracking.ReadValue<Vector2>();
 
-        // mouse over connection position
+        // follow mouse at predetermined depth
+        selectedBuilding.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, selectedBuildingDepth));
+
+        // overwrite location if mouse over connection position
         if (connectionLocation != null)
         {
             // determine the offset
@@ -207,17 +211,14 @@ public class ColonyControls : MonoBehaviour
                 float dot = Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward);
                 if (Mathf.Approximately(dot, -1f))
                 {
-                    connectionOffset = connectionSelectedBuilding.localPosition * selectedBuilding.transform.localScale.x; // assumes scale x=y=z
+                    //connectionOffset = connectionSelectedBuilding.localPosition * selectedBuilding.transform.localScale.x; // assumes scale x=y=z
+                    //selectedBuilding.transform.position = connectionLocation.position - connectionOffset; // set the building location
+                    Vector3 offset = connectionLocation.transform.position - connectionSelectedBuilding.transform.position;
+                    selectedBuilding.transform.position += offset;
+                    overValidConnectionPoint = true;
 ;                   break;
                 }
             }
-            
-            selectedBuilding.transform.position = connectionLocation.position - connectionOffset;
-        }
-        else
-        {
-            // follow mouse at predetermined depth
-            selectedBuilding.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, selectedBuildingDepth));
         }
 
         // building only visible when not over UI
@@ -230,17 +231,22 @@ public class ColonyControls : MonoBehaviour
     void RotateBuilding()
     {
         //rotates 90 degrees around y-axis
-        selectedBuilding.GetComponent<Building>().building.transform.Rotate(new Vector3(0f, 90f, 0f));
+        selectedBuilding.transform.Rotate(new Vector3(0f, 90f, 0f));
+
+        overValidConnectionPoint = false;
+        BuildingLocation(); // update building location after rotate
     }
 
     void PlaceBuilding()
     {
         // building only placeable if not over UI and over connection point
-        if (!EventSystem.current.IsPointerOverGameObject() && overConnectionPoint)
+        if (!EventSystem.current.IsPointerOverGameObject() && overValidConnectionPoint)
         {
             selectedBuilding.GetComponent<Building>().PlaceBuilding();
             selectedBuilding = null;
             state = State.Default;
+
+            EnableBuildingInfoMenus();
         }
     }
 
@@ -249,5 +255,26 @@ public class ColonyControls : MonoBehaviour
         // remove the building and return to default
         Destroy(selectedBuilding);
         state = State.Default;
+
+        EnableBuildingInfoMenus();
+    }
+
+    // TODO expand toggle info menus to colonists and other objects as well
+    void EnableBuildingInfoMenus()
+    {
+        GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
+        foreach (GameObject building in buildings)
+        {
+            building.GetComponent<Building>().clickCollider.enabled = true;
+        }
+    }
+
+    void DisableBuildingInfoMenus()
+    {
+        GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
+        foreach (GameObject building in buildings)
+        {
+            building.GetComponent<Building>().clickCollider.enabled = false;
+        }
     }
 }

@@ -5,6 +5,7 @@ using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class Building : MonoBehaviour
@@ -43,6 +44,7 @@ public class Building : MonoBehaviour
     public GameObject activeBuildingPanelPrefab;
     GameObject bldgPanel;
     public bool panelOpen = false;
+    public Collider clickCollider;
 
     public enum State
     {
@@ -69,6 +71,10 @@ public class Building : MonoBehaviour
         bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
         bldgPanel.GetComponent<ActiveBuildingPanel>().building = this;
         bldgPanel.name = $"{gameObject.name} Panel";
+
+        clickCollider = GetComponent<Collider>();
+        if (state == State.Blueprint)
+            clickCollider.enabled = false;
     }
 
     void Update()
@@ -102,7 +108,7 @@ public class Building : MonoBehaviour
 
     void Blueprint()
     {
-        if (ColonyControls.instance.overConnectionPoint)
+        if (ColonyControls.instance.overValidConnectionPoint)
             r.material.SetColor("_BaseColor", Color.green);
         else
             r.material.SetColor("_BaseColor", Color.blue);
@@ -136,7 +142,8 @@ public class Building : MonoBehaviour
             }
 
             // rebake nav mesh surface
-            GameObject.Find("Colony NavMesh Surface").GetComponent<NavMeshSurface>().BuildNavMesh();
+            NavMeshSurface surface = GameObject.Find("Colony NavMesh Surface").GetComponent<NavMeshSurface>();
+            surface.BuildNavMesh();
 
             state = State.Operating;
         }
@@ -157,7 +164,7 @@ public class Building : MonoBehaviour
     // MISC FUNCTIONS
     void BuildingClicked() // NOTE requires collider
     {
-        if (state == State.Operating & !panelOpen)
+        if (state == State.Operating & !panelOpen & !EventSystem.current.IsPointerOverGameObject())
         {
             Camera camera = Camera.main;
             Mouse mouse = Mouse.current;
@@ -169,9 +176,6 @@ public class Building : MonoBehaviour
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        // TODO enable instead of instantiate
-                        
-                        //GameObject bldg = Instantiate(activeBuildingPanel, mousePosition, Quaternion.identity, ColonyUI.instance.transform);
                         bldgPanel.transform.position = mousePosition;
                         bldgPanel.SetActive(true);
 
