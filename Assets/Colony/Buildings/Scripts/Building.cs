@@ -36,7 +36,6 @@ public class Building : MonoBehaviour
     public GameObject[] workStations;
     [HideInInspector]
     public List<Colonist> colonists; // NOTE: line up indexes with work station
-    int colonistCapacity;
     [HideInInspector]
     public float efficiency;
 
@@ -59,13 +58,11 @@ public class Building : MonoBehaviour
     Color ogColor;
     Renderer r;
 
-    void Start()
+    protected virtual void Start()
     {
         //state = State.Blueprint;
         r = building.GetComponent<Renderer>();
         ogColor = r.material.color;
-
-        colonistCapacity = workStations.Length;
 
         // spawn active building panel object for this building
         bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
@@ -77,7 +74,7 @@ public class Building : MonoBehaviour
             clickCollider.enabled = false;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         switch (state)
         {
@@ -106,7 +103,7 @@ public class Building : MonoBehaviour
         state = State.Construction;
     }
 
-    void Blueprint()
+    protected void Blueprint()
     {
         if (ColonyControls.instance.overValidConnectionPoint)
             r.material.SetColor("_BaseColor", Color.green);
@@ -116,7 +113,7 @@ public class Building : MonoBehaviour
         // exited by colony controls
     }
 
-    void Construction()
+    protected void Construction()
     {
         // construction begin
         if (Mathf.Approximately(constructionTime, 0f))
@@ -149,9 +146,9 @@ public class Building : MonoBehaviour
         }
     }
 
-    void Operation()
+    protected virtual void Operation()
     {
-        efficiency = colonists.Count / colonistCapacity;
+        efficiency = colonists.Count / workStations.Length;
 
         // production
         ColonyResources.instance.colonyResources[productionResource] += efficiency * productionQuantity * Time.deltaTime;
@@ -162,7 +159,7 @@ public class Building : MonoBehaviour
 
 
     // MISC FUNCTIONS
-    void BuildingClicked() // NOTE requires collider
+    protected void BuildingClicked() // NOTE requires collider
     {
         if (state == State.Operating & !panelOpen & !EventSystem.current.IsPointerOverGameObject())
         {
