@@ -69,6 +69,7 @@ Transform:
   - {fileID: 3461415159051687809}
   - {fileID: 2292072474193078297}
   - {fileID: 3901145144762102099}
+  - {fileID: 8071623352477791956}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5943282946622346483
@@ -89,24 +90,24 @@ MonoBehaviour:
   energyCost: 0
   totalConstructionTime: 5
   productionResource: 3
-  productionQuantity: 0
+  productionQuantity: 2
   consumptionResource: 2
   consumptionQuantity: 0
   workStations:
   - {fileID: 3202588121091142477}
   colonists: []
   efficiency: 0
-  activeBuildingPanelPrefab: {fileID: 2104327364345012469, guid: 37021f99f290e7e4a9e84781f88b6d66,
+  activeBuildingPanelPrefab: {fileID: 2104327364345012469, guid: b9d29d0bf3993c7458c19a7a8db22495,
     type: 3}
   panelOpen: 0
   clickCollider: {fileID: 8918892182604545616}
   state: 0
   laser: {fileID: 5143837898394425224}
-  laserStartPosition: {x: 0, y: 3.5, z: -2.5}
-  laserDestiantion: {x: 0, y: 0, z: 0}
-  laserSpeed: 100
+  laserStart: {fileID: 8071623352477791956}
+  laserDestination: {x: 0, y: 0, z: 0}
+  laserSpeed: 10
   resourceParticles: {fileID: 3601379028841776357}
-  selectedResource: 3
+  selectedResource: {fileID: 0}
 --- !u!65 &8918892182604545616
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5060,6 +5061,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3901145144762102099}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!1 &3230230191834633744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8071623352477791956}
+  m_Layer: 0
+  m_Name: LaserStartPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8071623352477791956
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3230230191834633744}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.65, z: -0.553}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 9215448319421412872}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4838328880192277193
 GameObject:
   m_ObjectHideFlags: 0

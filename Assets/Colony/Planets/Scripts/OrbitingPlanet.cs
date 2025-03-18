@@ -9,9 +9,19 @@ public class OrbitingPlanet : MonoBehaviour
     public float rotationSpeed;
     Vector3 rotationEuler;
 
+    [Header("Resources")]
+    [HideInInspector]
+    public List<PlanetResource> planetResources;
+
     void Start()
     {
         rotationEuler = new Vector3(0, rotationSpeed, 0);
+
+        foreach (Transform child in transform)
+        {
+            if (child.CompareTag("Planet Resource"))
+                planetResources.Add(child.gameObject.GetComponent<PlanetResource>());
+        }
     }
 
     void FixedUpdate()

@@ -29,7 +29,7 @@ public class ActiveBuildingPanel : MonoBehaviour
     [Header("Text Displayed When No Worker Selected")]
     public string noWorkerSelected;
 
-    void Start()
+    protected virtual void Start()
     {
         // building name
         buildingName.text = building.name;
@@ -53,7 +53,7 @@ public class ActiveBuildingPanel : MonoBehaviour
         exit.onClick.AddListener(ClosePanel);
     }
 
-    void UpdateDropdownUnemployedLists()
+    protected virtual void UpdateDropdownUnemployedLists()
     {
         foreach (TMP_Dropdown dropdown in workStationDropdowns)
         {
@@ -70,7 +70,7 @@ public class ActiveBuildingPanel : MonoBehaviour
         }
     }
 
-    void WorkerChanged(TMP_Dropdown dropdown)
+    protected virtual void WorkerChanged(TMP_Dropdown dropdown)
     {
         if (dropdown.options[dropdown.value].text == noWorkerSelected) // remove colonist from work station
         {
@@ -89,6 +89,7 @@ public class ActiveBuildingPanel : MonoBehaviour
             // unemploy the colonist
             Colonist unemployedColonist = GameObject.Find(dropdown.options[previousValue].text).GetComponent<Colonist>();
             unemployedColonist.workStation = null;
+            building.colonists.Remove(unemployedColonist);
             ColonyResources.instance.unemployedColonists.Add(unemployedColonist);
         }
         else // add colonist to work station
@@ -101,6 +102,7 @@ public class ActiveBuildingPanel : MonoBehaviour
                 if (workStationDropdowns[i] == dropdown)
                 {
                     employedColonist.workStation = building.workStations[i];
+                    building.colonists.Add(employedColonist);
                     ColonyResources.instance.unemployedColonists.Remove(employedColonist);
                     break;
                 }
@@ -110,7 +112,7 @@ public class ActiveBuildingPanel : MonoBehaviour
         UpdateDropdownUnemployedLists();
     }
 
-    void ClosePanel()
+    protected virtual void ClosePanel()
     {
         building.panelOpen = false;
         

@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 229544037}
   m_Layer: 0
   m_Name: OrbitingPlanet
-  m_TagString: Untagged
+  m_TagString: Planet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -588,6 +588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 1
+  planetResources: []
 --- !u!1 &253088050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1501,7 +1502,7 @@ GameObject:
   - component: {fileID: 436225594}
   m_Layer: 0
   m_Name: MineralDeposit
-  m_TagString: Untagged
+  m_TagString: Planet Resource
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4371,7 +4372,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.1
+  m_fontSize: 20.75
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
