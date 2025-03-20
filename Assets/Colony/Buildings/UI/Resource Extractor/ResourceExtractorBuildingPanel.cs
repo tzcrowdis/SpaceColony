@@ -53,8 +53,8 @@ public class ResourceExtractorBuildingPanel : ActiveBuildingPanel
             selectedResource = orbitingPlanet.planetResources[value - 1];// -1 bc None always added first
         // TODO test this, i think something will be funky with more than one planet resources 
         // might be true for colonists as well
-
+        
         reBuilding.ChangeSelectedResource(selectedResource); 
-        UpdateResourceTargetList(false);
+        //UpdateResourceTargetList(false);
     }
 }
