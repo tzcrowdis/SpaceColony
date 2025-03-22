@@ -161,6 +161,8 @@ public class Building : MonoBehaviour
     // MISC FUNCTIONS
     protected void BuildingClicked() // NOTE requires collider
     {
+        // TODO should this all just be in the OnMouseOver function?
+        
         if (state == State.Operating & !panelOpen & !EventSystem.current.IsPointerOverGameObject())
         {
             Camera camera = Camera.main;

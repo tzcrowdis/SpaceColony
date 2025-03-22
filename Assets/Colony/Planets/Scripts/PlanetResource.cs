@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlanetResource : MonoBehaviour
 {
@@ -11,12 +12,12 @@ public class PlanetResource : MonoBehaviour
     public Transform extractionLocation;
     public Transform laserLocation; // set by extractor building
 
-    [Header("Resource Particle System")]
-    public ParticleSystem resourceParticles;
+    [Header("Deposit Info Panel")]
+    public GameObject depositInfoPanel;
 
     private void Start()
     {
-        resourceParticles = GetComponent<ParticleSystem>();
+        depositInfoPanel = GameObject.Find("DepositInfoPanel");
     }
 
     private void Update()
@@ -64,5 +65,31 @@ public class PlanetResource : MonoBehaviour
     public void Depleted()
     {
         Destroy(gameObject);
+    }
+
+    /*
+     *  UI FUNCTIONS
+     */
+    private void OnMouseEnter()
+    {
+        DepositInfoPanel dip = depositInfoPanel.GetComponent<DepositInfoPanel>();
+        dip.depositType.text = resource.ToString();
+        dip.depositQuantity.text = resourceQuantity.ToString();
+
+        depositInfoPanel.SetActive(true);
+    }
+
+    private void OnMouseOver()
+    {
+        // track mouse
+        Mouse mouse = Mouse.current;
+        Vector3 mousePosition = mouse.position.ReadValue();
+        mousePosition += depositInfoPanel.GetComponent<DepositInfoPanel>().infoPanelOffset;
+        depositInfoPanel.transform.position = mousePosition;
+    }
+
+    private void OnMouseExit()
+    {
+        depositInfoPanel.SetActive(false);
     }
 }

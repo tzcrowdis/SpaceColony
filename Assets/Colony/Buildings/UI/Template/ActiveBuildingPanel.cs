@@ -33,6 +33,8 @@ public class ActiveBuildingPanel : MonoBehaviour
     {
         // building name
         buildingName.text = building.name;
+        buildingName.text = buildingName.text.Remove(buildingName.text.Length - 7); // removes "(Clone)" from name
+        // TODO write a function that adds spaces before capital letters
 
         //stats
         efficiency.text = $"Efficiency: {building.efficiency}%";
