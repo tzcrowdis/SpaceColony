@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlanetResource : MonoBehaviour
 {
     public ColonyResources.ResourceTypes resource;
     public float resourceQuantity;
-    bool extracting = false;
+    //bool extracting = false;
 
     public Transform extractionLocation;
     public Transform laserLocation; // set by extractor building
@@ -17,7 +18,7 @@ public class PlanetResource : MonoBehaviour
 
     private void Start()
     {
-        depositInfoPanel = GameObject.Find("DepositInfoPanel");
+        //depositInfoPanel = GameObject.Find("DepositInfoPanel");
     }
 
     private void Update()
@@ -59,7 +60,7 @@ public class PlanetResource : MonoBehaviour
     public void StopExtractingResource()
     {
         //resourceParticles.Stop();
-        extracting = false;
+        //extracting = false;
     }
 
     public void Depleted()
@@ -81,11 +82,15 @@ public class PlanetResource : MonoBehaviour
 
     private void OnMouseOver()
     {
-        // track mouse
-        Mouse mouse = Mouse.current;
-        Vector3 mousePosition = mouse.position.ReadValue();
-        mousePosition += depositInfoPanel.GetComponent<DepositInfoPanel>().infoPanelOffset;
-        depositInfoPanel.transform.position = mousePosition;
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            // track mouse
+            Mouse mouse = Mouse.current;
+            Vector3 mousePosition = mouse.position.ReadValue();
+            mousePosition += depositInfoPanel.GetComponent<DepositInfoPanel>().infoPanelOffset;
+            depositInfoPanel.transform.position = mousePosition;
+            depositInfoPanel.GetComponent<DepositInfoPanel>().depositQuantity.text = resourceQuantity.ToString("F0");
+        }
     }
 
     private void OnMouseExit()

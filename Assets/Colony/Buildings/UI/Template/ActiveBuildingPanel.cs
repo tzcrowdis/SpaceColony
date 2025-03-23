@@ -37,7 +37,7 @@ public class ActiveBuildingPanel : MonoBehaviour
         // TODO write a function that adds spaces before capital letters
 
         //stats
-        efficiency.text = $"Efficiency: {building.efficiency}%";
+        efficiency.text = $"Efficiency: {building.BuildingEfficiency() * 100}%";
         generation.text = $"+ {building.productionQuantity} {building.productionResource}";
         consumption.text = $"- {building.consumptionQuantity} {building.consumptionResource}";
 
@@ -53,6 +53,17 @@ public class ActiveBuildingPanel : MonoBehaviour
 
         // exit button
         exit.onClick.AddListener(ClosePanel);
+    }
+
+    protected virtual void Update()
+    {
+        if (building.BuildingEfficiency() > 0)
+        {
+            // update stats
+            efficiency.text = $"Efficiency: {building.BuildingEfficiency() * 100}%";
+            generation.text = $"+ {building.productionQuantity} {building.productionResource}";
+            consumption.text = $"- {building.consumptionQuantity} {building.consumptionResource}";
+        }
     }
 
     protected virtual void UpdateDropdownUnemployedLists()

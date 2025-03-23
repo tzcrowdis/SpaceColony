@@ -583,6 +583,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: Generic Planet
   planetDescription: "lore\nlore\nlore\nlore \nlore"
+  planetInfoPanel: {fileID: 1594124240}
   rotationSpeed: 1
   planetResources: []
 --- !u!1 &253088050
@@ -4286,12 +4287,12 @@ GameObject:
   - component: {fileID: 1594124243}
   - component: {fileID: 1594124242}
   m_Layer: 5
-  m_Name: PlanetPanel
+  m_Name: PlanetInfoPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1594124241
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4621,7 +4622,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1732853999
 RectTransform:
   m_ObjectHideFlags: 0

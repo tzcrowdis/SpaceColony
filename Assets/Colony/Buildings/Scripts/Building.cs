@@ -37,7 +37,7 @@ public class Building : MonoBehaviour
     [HideInInspector]
     public List<Colonist> colonists; // NOTE: line up indexes with work station
     [HideInInspector]
-    public float efficiency;
+    //public float efficiency;
 
     [Header("Active Building UI Panel")]
     public GameObject activeBuildingPanelPrefab;
@@ -148,13 +148,23 @@ public class Building : MonoBehaviour
 
     protected virtual void Operation()
     {
-        efficiency = colonists.Count / workStations.Length;
+        //efficiency = colonists.Count / workStations.Length;
 
         // production
-        ColonyResources.instance.colonyResources[productionResource] += efficiency * productionQuantity * Time.deltaTime;
+        ColonyResources.instance.colonyResources[productionResource] += BuildingEfficiency() * productionQuantity * Time.deltaTime;
 
         // consumption
-        ColonyResources.instance.colonyResources[consumptionResource] -= efficiency * consumptionQuantity * Time.deltaTime;
+        ColonyResources.instance.colonyResources[consumptionResource] -= BuildingEfficiency() * consumptionQuantity * Time.deltaTime;
+    }
+
+    public float BuildingEfficiency()
+    {
+        float efficiency = 0;
+        foreach (Colonist colonist in colonists)
+        {
+            efficiency += colonist.workEfficiency;
+        }
+        return efficiency / workStations.Length;
     }
 
 

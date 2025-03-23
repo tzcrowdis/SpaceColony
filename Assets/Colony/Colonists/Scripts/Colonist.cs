@@ -42,6 +42,8 @@ public class Colonist : MonoBehaviour
 
     [Header("Occupation")]
     public GameObject workStation;
+    [HideInInspector]
+    public float workEfficiency;
 
 
     // ADMINISTRATIVE
@@ -84,6 +86,10 @@ public class Colonist : MonoBehaviour
         }
     }
 
+    /*
+     *  WORK FUNCTIONS
+     */
+
     void Work()
     {
         // TODO check which substate?
@@ -98,6 +104,8 @@ public class Colonist : MonoBehaviour
                 AtWork();
                 break;
         }
+
+        UpdateWorkEfficiency();
     }
 
     void GoingToWork()
@@ -124,6 +132,18 @@ public class Colonist : MonoBehaviour
             state = State.Rest;
     }
 
+    void UpdateWorkEfficiency()
+    {
+        if (state == State.Work && workState == WorkState.AtWork)
+        {
+            workEfficiency = 1f;
+        }
+        else
+        {
+            workEfficiency = 0f;
+        }
+    }
+
 
     /*
      * HELPER FUNCTIONS
@@ -138,4 +158,6 @@ public class Colonist : MonoBehaviour
             animator.SetBool(animationName, true);
         }
     }
+
+    
 }

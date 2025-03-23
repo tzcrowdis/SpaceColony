@@ -30,14 +30,12 @@ public class ResourceExtractorBuilding : Building
 
     protected override void Operation()
     {
-        efficiency = colonists.Count / workStations.Length; // TODO alter based on colonist state?
-
         // check line of sight from laser to deposit
         RaycastHit hit;
         Physics.Raycast(laserStart.position, (laserDestination - laserStart.position).normalized, out hit, 2 * Vector3.Distance(laserDestination, laserStart.position));
         
         // Operate Laser
-        if (hit.collider.CompareTag("Planet Resource") & efficiency != 0 & selectedResource != null)
+        if (hit.collider.CompareTag("Planet Resource") & BuildingEfficiency() != 0 & selectedResource != null)
         {
             OperateLaser();
         }
@@ -74,7 +72,7 @@ public class ResourceExtractorBuilding : Building
         }
         else
         {
-            float extractionRate = efficiency * productionQuantity * Time.deltaTime;
+            float extractionRate = BuildingEfficiency() * productionQuantity * Time.deltaTime;
 
             // increment resource
             ColonyResources.instance.colonyResources[productionResource] += extractionRate;
@@ -87,7 +85,7 @@ public class ResourceExtractorBuilding : Building
         }
 
         // energy use
-        ColonyResources.instance.colonyResources[consumptionResource] -= efficiency * consumptionQuantity * Time.deltaTime;
+        ColonyResources.instance.colonyResources[consumptionResource] -= BuildingEfficiency() * consumptionQuantity * Time.deltaTime;
     }
 
     public void ChangeSelectedResource(PlanetResource resource)

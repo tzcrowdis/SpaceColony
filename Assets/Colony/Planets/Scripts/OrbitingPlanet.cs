@@ -10,7 +10,7 @@ public class OrbitingPlanet : MonoBehaviour
     public string planetName;
     [TextArea(10, 10)]
     public string planetDescription;
-    GameObject planetInfoPanel;
+    public GameObject planetInfoPanel;
     
     [Header("Orbit Variables")]
     [Tooltip("degrees per second around y-axis")]
@@ -22,9 +22,7 @@ public class OrbitingPlanet : MonoBehaviour
     public List<PlanetResource> planetResources;
 
     void Start()
-    {
-        planetInfoPanel = GameObject.Find("PlanetPanel"); // NOTE probably inefficient
-        
+    {        
         rotationEuler = new Vector3(0, rotationSpeed, 0);
 
         foreach (Transform child in transform)
@@ -54,16 +52,19 @@ public class OrbitingPlanet : MonoBehaviour
 
     private void OnMouseOver()
     {
-        // track mouse
-        Mouse mouse = Mouse.current;
-        Vector3 mousePosition = mouse.position.ReadValue();
-        mousePosition += planetInfoPanel.GetComponent<PlanetInfoPanel>().infoPanelOffset;
-        planetInfoPanel.transform.position = mousePosition;
-
-        // display lore on click
-        if (mouse.leftButton.wasPressedThisFrame)
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            planetInfoPanel.GetComponent<PlanetInfoPanel>().planetDescription.enabled = true;
+            // track mouse
+            Mouse mouse = Mouse.current;
+            Vector3 mousePosition = mouse.position.ReadValue();
+            mousePosition += planetInfoPanel.GetComponent<PlanetInfoPanel>().infoPanelOffset;
+            planetInfoPanel.transform.position = mousePosition;
+
+            // display lore on click
+            if (mouse.leftButton.wasPressedThisFrame)
+            {
+                planetInfoPanel.GetComponent<PlanetInfoPanel>().planetDescription.enabled = true;
+            }
         }
     }
     
