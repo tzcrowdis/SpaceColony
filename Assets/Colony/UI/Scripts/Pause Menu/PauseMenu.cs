@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -10,42 +11,31 @@ public class PauseMenu : MonoBehaviour
     public GameObject rootMenu;
     public Button resumeBtn;
     public Button settingsMenuBtn;
-    public Button saveMenuBtn;
-    public Button loadMenuBtn;
+    public Button saveBtn;
+    public TMP_Text saveConfirmationMsg;
+    string lastSaved;
     public Button quitToDesktopBtn;
 
     [Header("Settings Menu")]
     public GameObject settingsMenu;
     public Button backSettingsBtn;
 
-    [Header("Save Menu")]
-    public GameObject saveMenu;
-    public Button backSaveBtn;
-
-    [Header("Load Menu")]
-    public GameObject loadMenu;
-    public Button backLoadBtn;
-
     void Start()
     {
+        // last saved
+        if (lastSaved == null)
+            lastSaved = "never";
+        saveConfirmationMsg.text = lastSaved;
+
         // root menu
         resumeBtn.onClick.AddListener(Resume);
         settingsMenuBtn.onClick.AddListener(OpenSettingsMenu);
-        saveMenuBtn.onClick.AddListener(OpenSaveMenu);
-        loadMenuBtn.onClick.AddListener(OpenLoadMenu);
+        saveBtn.onClick.AddListener(SaveGame);
         quitToDesktopBtn.onClick.AddListener(QuitToDesktop);
 
         // settings menu
         settingsMenu.SetActive(false);
         backSettingsBtn.onClick.AddListener(RootFromSettings);
-
-        // save menu
-        saveMenu.SetActive(false);
-        backSaveBtn.onClick.AddListener(RootFromSave);
-
-        // load menu
-        loadMenu.SetActive(false);
-        backLoadBtn.onClick.AddListener(RootFromLoad);
     }
 
 
@@ -64,18 +54,6 @@ public class PauseMenu : MonoBehaviour
         settingsMenu.SetActive(true);
     }
 
-    void OpenSaveMenu()
-    {
-        rootMenu.SetActive(false);
-        saveMenu.SetActive(true);
-    }
-
-    void OpenLoadMenu()
-    {
-        rootMenu.SetActive(false);
-        loadMenu.SetActive(true);
-    }
-
     void QuitToDesktop()
     {
         #if UNITY_EDITOR
@@ -86,29 +64,27 @@ public class PauseMenu : MonoBehaviour
     }
 
     /*
+     * SAVE GAME
+     */
+    void SaveGame()
+    {
+        // call all save functions
+        // TODO
+
+        // update last saved msg
+        lastSaved = DateTime.Now.ToString();
+        saveConfirmationMsg.text = $"Last Saved: {lastSaved} [LIE]";
+
+        // update and store json file
+        // TODO
+    }
+
+    /*
      * SETTINGS MENU
      */
     void RootFromSettings()
     {
         settingsMenu.SetActive(false);
-        rootMenu.SetActive(true);
-    }
-
-    /*
-     * SAVE MENU
-     */
-    void RootFromSave()
-    {
-        saveMenu.SetActive(false);
-        rootMenu.SetActive(true);
-    }
-
-    /*
-     * LOAD MENU
-     */
-    void RootFromLoad()
-    {
-        loadMenu.SetActive(false);
         rootMenu.SetActive(true);
     }
 }
