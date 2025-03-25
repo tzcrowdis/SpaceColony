@@ -37,6 +37,9 @@ public class ColonyUI : MonoBehaviour
     public Button twoTime;
     public Button threeTime;
 
+    [Header("Pause Menu")]
+    public Button pauseMenuButton;
+
     public static ColonyUI instance { get; private set; }
 
     private void Awake()
@@ -73,6 +76,8 @@ public class ColonyUI : MonoBehaviour
         oneTime.onClick.AddListener(OneTime);
         twoTime.onClick.AddListener(TwoTime);
         threeTime.onClick.AddListener(ThreeTime);
+
+        pauseMenuButton.onClick.AddListener(ColonyControls.instance.PauseGame);
     }
 
     void Update()
@@ -168,5 +173,13 @@ public class ColonyUI : MonoBehaviour
     void ThreeTime()
     {
         Time.timeScale = 3f;
+    }
+
+    /*
+     * PAUSE MENU
+     */
+    void OpenPauseMenu()
+    {
+        
     }
 }

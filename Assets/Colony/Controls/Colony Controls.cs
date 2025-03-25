@@ -37,13 +37,18 @@ public class ColonyControls : MonoBehaviour
     public Transform connectionLocation;
     public bool overValidConnectionPoint;
 
+    [Header("Pause Menu")]
+    public GameObject pauseMenu;
+    InputAction escape;
+
     // states to track selections, menus, etc.
     public enum State
     {
         Default,
         BuildingSelected,
-        InMenu // TODO implement different menus/overlays
+        InMenu
     }
+    [Header("Control State")]
     public State state;
 
     public static ColonyControls instance { get; private set; }
@@ -76,6 +81,9 @@ public class ColonyControls : MonoBehaviour
         connectionLocation = null;
         overValidConnectionPoint = false;
 
+        escape = playerInput.actions["Escape"];
+        pauseMenu.SetActive(false);
+
         state = State.Default;
     }
 
@@ -88,6 +96,7 @@ public class ColonyControls : MonoBehaviour
             case State.Default:
                 CameraControls();
                 TimeControls();
+                if (escape.triggered) PauseGame();
                 break;
 
             case State.BuildingSelected:
@@ -98,6 +107,7 @@ public class ColonyControls : MonoBehaviour
                 break;
 
             case State.InMenu:
+                if (escape.triggered) UnpauseGame();
                 break;
         }
     }
@@ -137,7 +147,6 @@ public class ColonyControls : MonoBehaviour
     /*
      *  TIME CONTROLS
      */
-
     void TimeControls()
     {
         PauseUnpauseTime();
@@ -186,7 +195,7 @@ public class ColonyControls : MonoBehaviour
         BuildingLocation();
         if (rotateBuilding.triggered) RotateBuilding();
         if (placeBuilding.triggered) PlaceBuilding();
-        if (cancelBuildingSelection.triggered) CancelBuildingSelection();
+        if (cancelBuildingSelection.triggered | escape.triggered) CancelBuildingSelection();
     }
 
     void BuildingLocation()
@@ -276,5 +285,39 @@ public class ColonyControls : MonoBehaviour
         {
             building.GetComponent<Building>().clickCollider.enabled = false;
         }
+    }
+
+    /*
+     * PAUSE/UNPAUSE
+     */
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        pauseMenu.SetActive(true);
+        state = State.InMenu;
+    }
+
+    public void UnpauseGame()
+    {
+        if (!pauseMenu.GetComponent<PauseMenu>().rootMenu.activeSelf)
+        {
+            // goes back to root from any sub menu
+            // NOTE assumes menus have no child menus (should be ok?)
+            foreach (Transform childMenu in pauseMenu.transform)
+            {
+                if (childMenu.gameObject.activeSelf)
+                {
+                    childMenu.gameObject.SetActive(false);
+                    pauseMenu.GetComponent<PauseMenu>().rootMenu.SetActive(true);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            pauseMenu.SetActive(false);
+            state = State.Default;
+        }    
     }
 }
