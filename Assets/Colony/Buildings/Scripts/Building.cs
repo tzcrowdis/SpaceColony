@@ -36,7 +36,7 @@ public class Building : MonoBehaviour
     public GameObject[] workStations;
     [HideInInspector]
     public List<Colonist> colonists; // NOTE: line up indexes with work station
-    [HideInInspector]
+    //[HideInInspector]
     //public float efficiency;
 
     [Header("Active Building UI Panel")]
@@ -61,8 +61,16 @@ public class Building : MonoBehaviour
     protected virtual void Start()
     {
         //state = State.Blueprint;
-        r = building.GetComponent<Renderer>();
-        ogColor = r.material.color;
+        try
+        {
+            r = building.GetComponent<Renderer>();
+            ogColor = r.material.color;
+        }
+        catch
+        {
+            Debug.Log("renderer not found");
+        }
+        
 
         // spawn active building panel object for this building
         bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
@@ -157,7 +165,7 @@ public class Building : MonoBehaviour
         ColonyResources.instance.colonyResources[consumptionResource] -= BuildingEfficiency() * consumptionQuantity * Time.deltaTime;
     }
 
-    public float BuildingEfficiency()
+    public virtual float BuildingEfficiency()
     {
         float efficiency = 0;
         foreach (Colonist colonist in colonists)
