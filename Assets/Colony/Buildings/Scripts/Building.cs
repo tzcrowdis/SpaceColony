@@ -76,6 +76,7 @@ public class Building : MonoBehaviour
         bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
         bldgPanel.GetComponent<ActiveBuildingPanel>().building = this;
         bldgPanel.name = $"{gameObject.name} Panel";
+        bldgPanel.SetActive(false);
 
         clickCollider = GetComponent<Collider>();
         if (state == State.Blueprint)

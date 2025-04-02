@@ -19,13 +19,17 @@ public class ColonyUI : MonoBehaviour
     public Button genericBuildingsButton;
     public GameObject genericBuildingsPanel;
 
-    [Header("Generic Building UI")]
+    [Header("Energy Building UI")]
     public Button energyBuildingsButton;
     public GameObject energyBuildingsPanel;
 
     [Header("Extraction Building UI")]
     public Button extractionBuildingsButton;
     public GameObject extractionBuildingsPanel;
+
+    [Header("Food Building UI")]
+    public Button foodBuildingsButton;
+    public GameObject foodBuildingsPanel;
 
     // etc.
 
@@ -63,6 +67,9 @@ public class ColonyUI : MonoBehaviour
 
         extractionBuildingsButton.onClick.AddListener(ActivateExtractionBuildingPanel);
         allBuildingPanels.Add(extractionBuildingsPanel);
+
+        foodBuildingsButton.onClick.AddListener(ActivateFoodBuildingsPanel);
+        allBuildingPanels.Add(foodBuildingsPanel);
 
         // TODO other building panels...
 
@@ -129,6 +136,13 @@ public class ColonyUI : MonoBehaviour
     {
         extractionBuildingsPanel.SetActive(true);
         DeactivateAllOtherBuildingPanels(extractionBuildingsPanel);
+    }
+
+    // FOOD PANEL
+    void ActivateFoodBuildingsPanel()
+    {
+        foodBuildingsPanel.SetActive(true);
+        DeactivateAllOtherBuildingPanels(foodBuildingsPanel);
     }
 
     // ETC.
