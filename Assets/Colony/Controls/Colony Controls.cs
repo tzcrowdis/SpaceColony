@@ -220,8 +220,6 @@ public class ColonyControls : MonoBehaviour
                 float dot = Vector3.Dot(connectionLocation.forward, connectionSelectedBuilding.forward);
                 if (Mathf.Approximately(dot, -1f))
                 {
-                    //connectionOffset = connectionSelectedBuilding.localPosition * selectedBuilding.transform.localScale.x; // assumes scale x=y=z
-                    //selectedBuilding.transform.position = connectionLocation.position - connectionOffset; // set the building location
                     Vector3 offset = connectionLocation.transform.position - connectionSelectedBuilding.transform.position;
                     selectedBuilding.transform.position += offset;
                     overValidConnectionPoint = true;
