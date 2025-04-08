@@ -37,9 +37,12 @@ public class ActiveBuildingPanel : MonoBehaviour
         // TODO write a function that adds spaces before capital letters
 
         //stats
-        efficiency.text = $"Efficiency: {building.BuildingEfficiency() * 100}%";
-        generation.text = $"+ {building.productionQuantity} {building.productionResource}";
-        consumption.text = $"- {building.consumptionQuantity} {building.consumptionResource}";
+        if (efficiency != null || generation != null || consumption != null)
+        {
+            efficiency.text = $"Efficiency: {building.BuildingEfficiency() * 100}%";
+            generation.text = $"+ {building.productionQuantity} {building.productionResource}";
+            consumption.text = $"- {building.consumptionQuantity} {building.consumptionResource}";
+        }
 
         // colonists / work stations
         dropdownSelections = new int[workStationDropdowns.Length];

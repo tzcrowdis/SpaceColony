@@ -21,6 +21,12 @@ public class ColonyResources : MonoBehaviour
     public float mineral;
     // etc.
 
+    [Header("Resource Caps")]
+    public float genericMax;
+    public float foodMax;
+    public float energyMax;
+    public float mineralMax;
+
     [Header("Text where Resource is Displayed")]
     public TMP_Text genericText;
     public TMP_Text foodText;
