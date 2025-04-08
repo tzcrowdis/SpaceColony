@@ -49,7 +49,8 @@ public class Building : MonoBehaviour
     {
         Blueprint,
         Construction,
-        Operating
+        Operating, 
+        Idle
     }
     [Header("Building Working State")]
     public State state;
@@ -68,7 +69,7 @@ public class Building : MonoBehaviour
         }
         catch
         {
-            Debug.Log("renderer not found");
+            Debug.Log($"renderer not found on {gameObject.name}");
         }
         
 
@@ -97,6 +98,10 @@ public class Building : MonoBehaviour
 
             case State.Operating:
                 Operation();
+                break;
+
+            case State.Idle:
+                Idle();
                 break;
         }
 
@@ -157,23 +162,43 @@ public class Building : MonoBehaviour
 
     protected virtual void Operation()
     {
-        //efficiency = colonists.Count / workStations.Length;
+        // consumption
+        bool consumed = ColonyResources.instance.ConsumeResource(consumptionResource, BuildingEfficiency() * consumptionQuantity * Time.deltaTime);
+        if (!consumed)
+        {
+            // early exit so nothing is produced
+            state = State.Idle;
+            return;
+        }
 
         // production
-        ColonyResources.instance.colonyResources[productionResource] += BuildingEfficiency() * productionQuantity * Time.deltaTime;
+        bool produced = ColonyResources.instance.ProduceResource(productionResource, BuildingEfficiency() * productionQuantity * Time.deltaTime);
+        if (!produced)
+            state = State.Idle;
+    }
 
-        // consumption
-        ColonyResources.instance.colonyResources[consumptionResource] -= BuildingEfficiency() * consumptionQuantity * Time.deltaTime;
+    protected virtual void Idle()
+    {
+        // TODO tell workers that work cannot be done
+
+        // TODO check if we can go back to operating
     }
 
     public virtual float BuildingEfficiency()
     {
-        float efficiency = 0;
-        foreach (Colonist colonist in colonists)
+        if (workStations.Length > 0)
         {
-            efficiency += colonist.workEfficiency;
+            float efficiency = 0;
+            foreach (Colonist colonist in colonists)
+            {
+                efficiency += colonist.workEfficiency;
+            }
+            return efficiency / workStations.Length;
         }
-        return efficiency / workStations.Length;
+        else
+        {
+            return 0;
+        }
     }
 
 

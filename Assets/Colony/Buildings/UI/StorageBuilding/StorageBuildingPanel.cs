@@ -17,6 +17,8 @@ public class StorageBuildingPanel : ActiveBuildingPanel
         resourceDropdown.onValueChanged.AddListener(ChangeStorageResource);
 
         // add resource options to dropdown
+        resourceDropdown.ClearOptions();
+        resourceDropdown.options.Add(new TMP_Dropdown.OptionData() { text = "None" });
         foreach (var r in Enum.GetValues(typeof(ColonyResources.ResourceTypes)))
         {
             resourceDropdown.options.Add(new TMP_Dropdown.OptionData() { text = r.ToString() });
@@ -25,18 +27,6 @@ public class StorageBuildingPanel : ActiveBuildingPanel
 
     void ChangeStorageResource(int value)
     {
-        ColonyResources.ResourceTypes resource = ColonyResources.ResourceTypes.Generic;
-
-        // determine resource type
-        foreach (var r in Enum.GetValues(typeof(ColonyResources.ResourceTypes)))
-        {
-            if (r.ToString().Equals(resourceDropdown.options[value]))
-            {
-                resource = (ColonyResources.ResourceTypes)r;
-                break;
-            }
-        }
-
-        building.GetComponent<StorageBuilding>().ChangeStoredResource(resource);
+        building.GetComponent<StorageBuilding>().ChangeStoredResource(resourceDropdown.options[value].text);
     }
 }

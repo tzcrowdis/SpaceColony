@@ -50,7 +50,7 @@ GameObject:
   - component: {fileID: 6799528560131329525}
   m_Layer: 0
   m_Name: StorageBuilding
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86,9 +86,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 3221808962265038618}
   connectionPoints: {fileID: 516636341318797159}
-  genericCost: 0
+  genericCost: 50
   energyCost: 0
-  totalConstructionTime: 0
+  totalConstructionTime: 2
   productionResource: 0
   productionQuantity: 0
   consumptionResource: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   clickCollider: {fileID: 6799528560131329525}
   state: 0
   storageType: 0
+  storageAdder: 500
 --- !u!65 &6799528560131329525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -184,6 +185,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StorageBuildingModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c285ea91e128764419574a34476fbfb1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

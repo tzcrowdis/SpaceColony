@@ -58,6 +58,8 @@ public class ResourceExtractorBuilding : Building
 
     void OperateLaser()
     {
+        // TODO handle colony resource empty/full conidtions
+        
         if (!laser.enabled)
         {
             laser.enabled = true;
@@ -75,7 +77,8 @@ public class ResourceExtractorBuilding : Building
             float extractionRate = BuildingEfficiency() * productionQuantity * Time.deltaTime;
 
             // increment resource
-            ColonyResources.instance.colonyResources[productionResource] += extractionRate;
+            //ColonyResources.instance.colonyResources[productionResource] += extractionRate;
+            ColonyResources.instance.ProduceResource(productionResource, extractionRate);
 
             // decrement deposit
             selectedResource.ExtractResource(extractionRate);
@@ -85,7 +88,7 @@ public class ResourceExtractorBuilding : Building
         }
 
         // energy use
-        ColonyResources.instance.colonyResources[consumptionResource] -= BuildingEfficiency() * consumptionQuantity * Time.deltaTime;
+        ColonyResources.instance.ConsumeResource(consumptionResource, BuildingEfficiency() * consumptionQuantity * Time.deltaTime);
     }
 
     public void ChangeSelectedResource(PlanetResource resource)
