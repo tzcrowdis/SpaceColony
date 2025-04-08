@@ -7113,7 +7113,7 @@ MonoBehaviour:
   genericMax: 1000
   foodMax: 1000
   energyMax: 1000
-  mineralMax: 1000
+  mineralMax: 50
   genericText: {fileID: 1230849026}
   foodText: {fileID: 1035077393}
   energyText: {fileID: 471290646}

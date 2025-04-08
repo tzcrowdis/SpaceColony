@@ -22,6 +22,7 @@ public class ColonyResources : MonoBehaviour
     public float mineral;
     // etc.
 
+    public Dictionary<ResourceTypes, float> colonyResourcesCaps;
     [Header("Resource Caps")]
     public float genericMax;
     public float foodMax;
@@ -48,11 +49,21 @@ public class ColonyResources : MonoBehaviour
 
     void Start()
     {
-        colonyResources = new Dictionary<ResourceTypes, float>();
-        colonyResources.Add(ResourceTypes.Generic, generic);
-        colonyResources.Add(ResourceTypes.Food, food);
-        colonyResources.Add(ResourceTypes.Energy, energy);
-        colonyResources.Add(ResourceTypes.Mineral, mineral);
+        colonyResources = new Dictionary<ResourceTypes, float>
+        {
+            { ResourceTypes.Generic, generic },
+            { ResourceTypes.Food, food },
+            { ResourceTypes.Energy, energy },
+            { ResourceTypes.Mineral, mineral }
+        };
+
+        colonyResourcesCaps = new Dictionary<ResourceTypes, float>
+        {
+            { ResourceTypes.Generic, genericMax },
+            { ResourceTypes.Food, foodMax },
+            { ResourceTypes.Energy, energyMax },
+            { ResourceTypes.Mineral, mineralMax }
+        };
     }
 
     void Update()
@@ -64,22 +75,22 @@ public class ColonyResources : MonoBehaviour
     {
         if (genericText != null)
         {
-            genericText.text = $"Generic: {(int)colonyResources[ResourceTypes.Generic]} / {(int)genericMax}";
+            genericText.text = $"Generic: {(int)colonyResources[ResourceTypes.Generic]} / {(int)colonyResourcesCaps[ResourceTypes.Generic]}";
         }
 
         if (foodText != null)
         {
-            foodText.text = $"Food: {(int)colonyResources[ResourceTypes.Food]} / {(int)foodMax}";
+            foodText.text = $"Food: {(int)colonyResources[ResourceTypes.Food]} / {(int)colonyResourcesCaps[ResourceTypes.Food]}";
         }
 
         if (energyText != null)
         {
-            energyText.text = $"Energy: {(int)colonyResources[ResourceTypes.Energy]} / {(int)energyMax}";
+            energyText.text = $"Energy: {(int)colonyResources[ResourceTypes.Energy]} / {(int)colonyResourcesCaps[ResourceTypes.Energy]}";
         }
 
         if (mineralText != null)
         {
-            mineralText.text = $"Minerals: {(int)colonyResources[ResourceTypes.Mineral]} / {(int)mineralMax}";
+            mineralText.text = $"Minerals: {(int)colonyResources[ResourceTypes.Mineral]} / {(int)colonyResourcesCaps[ResourceTypes.Mineral]}";
         }
     }
 
@@ -89,52 +100,39 @@ public class ColonyResources : MonoBehaviour
     public bool ProduceResource(ResourceTypes type, float quantity)
     {
         // determine max to use
-        float max = 1000;
-        if (type.ToString() == "Generic")
-            max = genericMax;
-        else if (type.ToString() == "Food")
-            max = foodMax;
-        else if (type.ToString() == "Energy")
-            max = energyMax;
-        else if (type.ToString() == "Mineral")
-            max = mineralMax;
-        else
-            Debug.Log("couldn't determine max when adding to resource (default is 1000)");
+        float max = colonyResourcesCaps[type];
 
         // resource is full then early exit
-        if (colonyResources[type] == max)
-            return false;
-
-        // add to resource
         if (colonyResources[type] + quantity > max)
-            colonyResources[type] = max;
-        else
-            colonyResources[type] += quantity;
+        {
+            colonyResources[type] = max; 
+            return false;
+        }
 
         // production successful
+        colonyResources[type] += quantity;
         return true;
     }
 
     public bool ConsumeResource(ResourceTypes type, float quantity)
     {
-        // resource is empty then early exit
-        if (colonyResources[type] == 0)
+        float min = 0;
+        
+        // resource cannot be consumed then early exit
+        if (colonyResources[type] - quantity < min)
             return false;
 
-        // subtract from resource
-        float min = 0;
-        if (colonyResources[type] - quantity < min)
-            colonyResources[type] = min;
-        else
-            colonyResources[type] -= quantity;
-
         // consumption successful
+        colonyResources[type] -= quantity;
         return true;
     }
 
     public bool FullOrEmptyResource(ResourceTypes type)
     {
-        // TODO
-        return false;
+        // TODO check for floating point errors
+        if (colonyResources[type] == colonyResourcesCaps[type] || colonyResources[type] == 0)
+            return true;
+        else
+            return false;
     }
 }

@@ -92,6 +92,8 @@ public class Colonist : MonoBehaviour
 
     void Work()
     {
+        // TODO check if assigned building is in Idle or Operating
+        
         // TODO check which substate?
         
         switch (workState)

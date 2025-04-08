@@ -28,6 +28,13 @@ public class ResourceExtractorBuilding : Building
         base.Update();
     }
 
+    protected override void Idle()
+    {
+        base.Idle();
+
+        laser.enabled = false;
+    }
+
     protected override void Operation()
     {
         // check line of sight from laser to deposit
@@ -58,18 +65,16 @@ public class ResourceExtractorBuilding : Building
 
     void OperateLaser()
     {
-        // TODO handle colony resource empty/full conidtions
-        
         if (!laser.enabled)
         {
             laser.enabled = true;
             laser.SetPosition(0, laserStart.position);
         }
 
+        bool produced = true;
         if (Vector3.Distance(laserEndPosition, laserDestination) > 1f)
         {
-            // move end of laser to destination (was missing the target)
-            //laserEndPosition += (laserDestination - laserStart.position).normalized * laserSpeed * Time.deltaTime;
+            // set end of laser to destination
             laserEndPosition = laserDestination;
         }
         else
@@ -77,8 +82,7 @@ public class ResourceExtractorBuilding : Building
             float extractionRate = BuildingEfficiency() * productionQuantity * Time.deltaTime;
 
             // increment resource
-            //ColonyResources.instance.colonyResources[productionResource] += extractionRate;
-            ColonyResources.instance.ProduceResource(productionResource, extractionRate);
+            produced = ColonyResources.instance.ProduceResource(productionResource, extractionRate);
 
             // decrement deposit
             selectedResource.ExtractResource(extractionRate);
@@ -88,12 +92,16 @@ public class ResourceExtractorBuilding : Building
         }
 
         // energy use
-        ColonyResources.instance.ConsumeResource(consumptionResource, BuildingEfficiency() * consumptionQuantity * Time.deltaTime);
+        bool consumed = ColonyResources.instance.ConsumeResource(consumptionResource, BuildingEfficiency() * consumptionQuantity * Time.deltaTime);
+
+        // no energy or no space then idle
+        if (!produced | !consumed)
+            state = State.Idle;
     }
 
     public void ChangeSelectedResource(PlanetResource resource)
     {
-        selectedResource = resource; // TODO add None resource
+        selectedResource = resource; // TODO add None resourceq
 
         // update production
         if (resource != null)

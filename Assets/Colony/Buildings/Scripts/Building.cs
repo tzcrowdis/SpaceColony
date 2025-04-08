@@ -164,24 +164,19 @@ public class Building : MonoBehaviour
     {
         // consumption
         bool consumed = ColonyResources.instance.ConsumeResource(consumptionResource, BuildingEfficiency() * consumptionQuantity * Time.deltaTime);
-        if (!consumed)
-        {
-            // early exit so nothing is produced
-            state = State.Idle;
-            return;
-        }
-
+        
         // production
         bool produced = ColonyResources.instance.ProduceResource(productionResource, BuildingEfficiency() * productionQuantity * Time.deltaTime);
-        if (!produced)
+
+        if (!consumed | !produced)
             state = State.Idle;
     }
 
     protected virtual void Idle()
     {
-        // TODO tell workers that work cannot be done
-
-        // TODO check if we can go back to operating
+        // check if we can go back to operating
+        if (!ColonyResources.instance.FullOrEmptyResource(productionResource) && !ColonyResources.instance.FullOrEmptyResource(consumptionResource))
+            state = State.Operating;
     }
 
     public virtual float BuildingEfficiency()
