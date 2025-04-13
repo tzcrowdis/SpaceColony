@@ -148,7 +148,7 @@ MonoBehaviour:
   clickCollider: {fileID: 6658473224528210162}
   state: 0
   loop: {fileID: 5771481947147331581}
-  loopRotationSpeed: 1
+  loopRotationSpeed: 500
 --- !u!65 &6658473224528210162
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -18,6 +18,6 @@ public class FusionBuilding : Building
         base.Update();
 
         if (state == State.Operating)
-            loop.transform.Rotate(new Vector3(0, loopRotationSpeed, 0));
+            loop.transform.Rotate(new Vector3(0, loopRotationSpeed * Time.deltaTime, 0));
     }
 }

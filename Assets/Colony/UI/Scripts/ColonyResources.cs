@@ -11,7 +11,8 @@ public class ColonyResources : MonoBehaviour
         Generic,
         Food,
         Energy,
-        Mineral
+        Mineral,
+        Research
     }
 
     public Dictionary<ResourceTypes, float> colonyResources;
@@ -20,6 +21,7 @@ public class ColonyResources : MonoBehaviour
     public float food;
     public float energy;
     public float mineral;
+    public float research;
     // etc.
 
     public Dictionary<ResourceTypes, float> colonyResourcesCaps;
@@ -28,12 +30,14 @@ public class ColonyResources : MonoBehaviour
     public float foodMax;
     public float energyMax;
     public float mineralMax;
+    public float researchMax;
 
     [Header("Text where Resource is Displayed")]
     public TMP_Text genericText;
     public TMP_Text foodText;
     public TMP_Text energyText;
     public TMP_Text mineralText;
+    public TMP_Text researchText;
 
     [Header("Unemployed Colonists")]
     public List<Colonist> unemployedColonists = new List<Colonist>();
@@ -54,7 +58,8 @@ public class ColonyResources : MonoBehaviour
             { ResourceTypes.Generic, generic },
             { ResourceTypes.Food, food },
             { ResourceTypes.Energy, energy },
-            { ResourceTypes.Mineral, mineral }
+            { ResourceTypes.Mineral, mineral },
+            { ResourceTypes.Research, research }
         };
 
         colonyResourcesCaps = new Dictionary<ResourceTypes, float>
@@ -62,7 +67,8 @@ public class ColonyResources : MonoBehaviour
             { ResourceTypes.Generic, genericMax },
             { ResourceTypes.Food, foodMax },
             { ResourceTypes.Energy, energyMax },
-            { ResourceTypes.Mineral, mineralMax }
+            { ResourceTypes.Mineral, mineralMax },
+            { ResourceTypes.Research, researchMax }
         };
     }
 
@@ -91,6 +97,11 @@ public class ColonyResources : MonoBehaviour
         if (mineralText != null)
         {
             mineralText.text = $"Minerals: {(int)colonyResources[ResourceTypes.Mineral]} / {(int)colonyResourcesCaps[ResourceTypes.Mineral]}";
+        }
+
+        if (researchText != null)
+        {
+            researchText.text = $"Research: {(int)colonyResources[ResourceTypes.Research]} / Inf";
         }
     }
 

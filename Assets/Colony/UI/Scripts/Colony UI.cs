@@ -31,6 +31,10 @@ public class ColonyUI : MonoBehaviour
     public Button foodBuildingsButton;
     public GameObject foodBuildingsPanel;
 
+    [Header("Research Building UI")]
+    public Button researchBuildingsButton;
+    public GameObject researchBuildingsPanel;
+
     // etc.
 
     [Header("Time UI")]
@@ -70,6 +74,9 @@ public class ColonyUI : MonoBehaviour
 
         foodBuildingsButton.onClick.AddListener(ActivateFoodBuildingsPanel);
         allBuildingPanels.Add(foodBuildingsPanel);
+
+        researchBuildingsButton.onClick.AddListener(ActivateResearchBuildingsPanel);
+        allBuildingPanels.Add(researchBuildingsPanel);
 
         // TODO other building panels...
 
@@ -143,6 +150,13 @@ public class ColonyUI : MonoBehaviour
     {
         foodBuildingsPanel.SetActive(true);
         DeactivateAllOtherBuildingPanels(foodBuildingsPanel);
+    }
+
+    // RESEARCH PANEL
+    void ActivateResearchBuildingsPanel()
+    {
+        researchBuildingsPanel.SetActive(true);
+        DeactivateAllOtherBuildingPanels(researchBuildingsPanel);
     }
 
     // ETC.
