@@ -7,38 +7,7 @@ using UnityEditor.UI;
 
 public class ColonyUI : MonoBehaviour
 {
-    [Header("Building UI")]
-    // building variables
-    public GameObject buildingPanel;
-    public Button buildingPanelButton;
-    public Button buildingPanelExit;
-
-    List<GameObject> allBuildingPanels;
-
-    [Header("Generic Building UI")]
-    public Button genericBuildingsButton;
-    public GameObject genericBuildingsPanel;
-
-    [Header("Energy Building UI")]
-    public Button energyBuildingsButton;
-    public GameObject energyBuildingsPanel;
-
-    [Header("Extraction Building UI")]
-    public Button extractionBuildingsButton;
-    public GameObject extractionBuildingsPanel;
-
-    [Header("Food Building UI")]
-    public Button foodBuildingsButton;
-    public GameObject foodBuildingsPanel;
-
-    [Header("Research Building UI")]
-    public Button researchBuildingsButton;
-    public GameObject researchBuildingsPanel;
-
-    // etc.
-
     [Header("Time UI")]
-    // time variables
     public TMP_Text clock;
     public Button stopTime;
     public Button oneTime;
@@ -47,6 +16,18 @@ public class ColonyUI : MonoBehaviour
 
     [Header("Pause Menu")]
     public Button pauseMenuButton;
+
+    [Header("Build UI")]
+    public GameObject build;
+    public Button buildButton;
+    public Button buildExit;
+
+    [Header("Building List UI")]
+    public GameObject buildingList;
+    public Button buildingListButton;
+    public Button buildingListExit;
+
+    List<Button> colonyButtons;
 
     public static ColonyUI instance { get; private set; }
 
@@ -60,38 +41,24 @@ public class ColonyUI : MonoBehaviour
 
     void Start()
     {
-        allBuildingPanels = new List<GameObject>();
-        
-        // TODO [PANEL ACTIVATION] rework with delegates so there's one activate panels button that takes a reference to the desired panel
-        genericBuildingsButton.onClick.AddListener(ActivateGenericBuildingPanel);
-        allBuildingPanels.Add(genericBuildingsPanel);
-
-        energyBuildingsButton.onClick.AddListener(ActivateEnergyBuildingPanel);
-        allBuildingPanels.Add(energyBuildingsPanel);
-
-        extractionBuildingsButton.onClick.AddListener(ActivateExtractionBuildingPanel);
-        allBuildingPanels.Add(extractionBuildingsPanel);
-
-        foodBuildingsButton.onClick.AddListener(ActivateFoodBuildingsPanel);
-        allBuildingPanels.Add(foodBuildingsPanel);
-
-        researchBuildingsButton.onClick.AddListener(ActivateResearchBuildingsPanel);
-        allBuildingPanels.Add(researchBuildingsPanel);
-
-        // TODO other building panels...
-
-        DeactivateAllOtherBuildingPanels(genericBuildingsPanel); // default active building panel
-
-        buildingPanelButton.onClick.AddListener(OpenBuildingPanel);
-        buildingPanelExit.onClick.AddListener(CloseBuildingPanel);
-        buildingPanel.SetActive(false); // NOTE deactivate panels last otherwise find doesn't work
-
         stopTime.onClick.AddListener(StopTime);
         oneTime.onClick.AddListener(OneTime);
         twoTime.onClick.AddListener(TwoTime);
         threeTime.onClick.AddListener(ThreeTime);
 
         pauseMenuButton.onClick.AddListener(ColonyControls.instance.PauseGame);
+
+        buildButton.onClick.AddListener(OpenBuildCanvas);
+        buildExit.onClick.AddListener(CloseBuildCanvas);
+        build.SetActive(false);
+
+        buildingListButton.onClick.AddListener(OpenBuildingList);
+        buildingListExit.onClick.AddListener(CloseBuildingList);
+
+        colonyButtons = new List<Button>();
+        colonyButtons.Add(buildButton);
+        colonyButtons.Add(buildingListButton);
+        // etc.
     }
 
     void Update()
@@ -99,84 +66,24 @@ public class ColonyUI : MonoBehaviour
         UpdateClock();
     }
 
-    // TODO find way to wrap buttons together (all build buttons, all default buttons, etc.)
-
     /*
-     *  BUILDING UI
+     * GENERAL UI
      */
-    void OpenBuildingPanel()
+    void ActivateColonyButtons()
     {
-        buildingPanel.SetActive(true);
-        buildingPanelButton.gameObject.SetActive(false);
+        foreach (Button button in colonyButtons)
+            button.gameObject.SetActive(true);
     }
 
-    void CloseBuildingPanel()
+    void DeactivateColonyButtons()
     {
-        buildingPanel.SetActive(false);
-        buildingPanelButton.gameObject.SetActive(true);
-        ColonyControls.instance.CancelBuildingSelection();
+        foreach (Button button in colonyButtons)
+            button.gameObject.SetActive(false);
     }
-
-    public void CloseBuildingPanelWhileBuilding()
-    {
-        buildingPanel.SetActive(false);
-        buildingPanelButton.gameObject.SetActive(true);
-    }
-
-    // TODO [PANEL ACTIVATION]
-    // GENERIC PANEL
-    void ActivateGenericBuildingPanel()
-    {
-        genericBuildingsPanel.SetActive(true);
-        DeactivateAllOtherBuildingPanels(genericBuildingsPanel);
-    }
-
-    // ENERGY PANEL
-    void ActivateEnergyBuildingPanel()
-    {
-        energyBuildingsPanel.SetActive(true);
-        DeactivateAllOtherBuildingPanels(energyBuildingsPanel);
-    }
-
-    // EXTRACTION PANEL
-    void ActivateExtractionBuildingPanel()
-    {
-        extractionBuildingsPanel.SetActive(true);
-        DeactivateAllOtherBuildingPanels(extractionBuildingsPanel);
-    }
-
-    // FOOD PANEL
-    void ActivateFoodBuildingsPanel()
-    {
-        foodBuildingsPanel.SetActive(true);
-        DeactivateAllOtherBuildingPanels(foodBuildingsPanel);
-    }
-
-    // RESEARCH PANEL
-    void ActivateResearchBuildingsPanel()
-    {
-        researchBuildingsPanel.SetActive(true);
-        DeactivateAllOtherBuildingPanels(researchBuildingsPanel);
-    }
-
-    // ETC.
-
-    void DeactivateAllOtherBuildingPanels(GameObject activePanel)
-    {
-        foreach (GameObject panel in allBuildingPanels)
-        {
-            if (panel == activePanel)
-                continue;
-
-            panel.SetActive(false);
-        }
-    }
-
 
     /*
      *  TIME UI
      */
-    
     void UpdateClock() // TODO format this to the game world time
     {
         int time = (int)Time.time;
@@ -204,10 +111,39 @@ public class ColonyUI : MonoBehaviour
     }
 
     /*
-     * PAUSE MENU
+     *  BUILD UI
      */
-    void OpenPauseMenu()
+    void OpenBuildCanvas()
     {
-        
+        build.SetActive(true);
+        DeactivateColonyButtons();
+    }
+
+    void CloseBuildCanvas()
+    {
+        build.SetActive(false);
+        ActivateColonyButtons();
+        ColonyControls.instance.CancelBuildingSelection();
+    }
+
+    public void CloseBuildCanvasWhileBuilding()
+    {
+        build.SetActive(false);
+        ActivateColonyButtons();
+    }
+
+    /*
+     * BUILDING LIST
+     */
+    void OpenBuildingList()
+    {
+        buildingList.SetActive(true);
+        DeactivateColonyButtons();
+    }
+
+    void CloseBuildingList()
+    {
+        buildingList.SetActive(false);
+        ActivateColonyButtons();
     }
 }

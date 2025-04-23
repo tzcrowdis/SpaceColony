@@ -64,6 +64,6 @@ public class BuildingButton : MonoBehaviour
             connection.gameObject.SetActive(false);
 
         // disable building panel
-        ColonyUI.instance.CloseBuildingPanelWhileBuilding();
+        ColonyUI.instance.CloseBuildCanvasWhileBuilding();
     }
 }
