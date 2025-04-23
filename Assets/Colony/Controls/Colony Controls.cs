@@ -10,6 +10,8 @@ public class ColonyControls : MonoBehaviour
     public float rotateSpeed;
     public float translateSpeed;
     public float altitudeSpeed;
+    [HideInInspector]
+    public bool altitudeLock = false;
 
     PlayerInput playerInput;
     
@@ -119,7 +121,7 @@ public class ColonyControls : MonoBehaviour
     {
         TranslateCamera();
         RotateCamera();
-        AltitudeCamera();
+        if (!altitudeLock) AltitudeCamera();
     }
 
     void TranslateCamera()

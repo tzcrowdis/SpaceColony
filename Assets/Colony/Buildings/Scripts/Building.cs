@@ -36,10 +36,9 @@ public class Building : MonoBehaviour
     public GameObject[] workStations;
     [HideInInspector]
     public List<Colonist> colonists; // NOTE: line up indexes with work station
-    //[HideInInspector]
-    //public float efficiency;
 
-    [Header("Active Building UI Panel")]
+    [Header("Building UI")]
+    //TODO reworking...
     public GameObject activeBuildingPanelPrefab;
     GameObject bldgPanel;
     public bool panelOpen = false;
@@ -72,7 +71,7 @@ public class Building : MonoBehaviour
             Debug.Log($"renderer not found on {gameObject.name}");
         }
         
-
+        // building UI
         // spawn active building panel object for this building
         bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
         bldgPanel.GetComponent<ActiveBuildingPanel>().building = this;
@@ -113,6 +112,9 @@ public class Building : MonoBehaviour
         // enact cost of building
         ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Generic] -= genericCost;
         ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Energy] -= energyCost;
+
+        // add to building list
+        BuildingList.instance.AddBuildingToList(this);
 
         state = State.Construction;
     }
@@ -222,5 +224,10 @@ public class Building : MonoBehaviour
                 }
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        // TODO handle colonists inside building or other edge cases
     }
 }

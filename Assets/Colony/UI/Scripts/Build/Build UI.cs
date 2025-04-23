@@ -34,11 +34,10 @@ public class BuildUI : MonoBehaviour
     // etc.
 
 
-    void Start()
+    void Awake()
     {
         allBuildingPanels = new List<GameObject>();
 
-        // TODO [PANEL ACTIVATION] rework with delegates so there's one activate panels button that takes a reference to the desired panel
         genericBuildingsButton.onClick.AddListener(delegate { ActivateBuildingPanel(genericBuildingsPanel); });
         allBuildingPanels.Add(genericBuildingsPanel);
 
@@ -54,10 +53,11 @@ public class BuildUI : MonoBehaviour
         researchBuildingsButton.onClick.AddListener(delegate { ActivateBuildingPanel(researchBuildingsPanel); });
         allBuildingPanels.Add(researchBuildingsPanel);
 
-        // TODO other building panels...
+        // etc.
 
+        // NOTE deactivate panels last otherwise find doesn't work
         DeactivateAllOtherBuildingPanels(genericBuildingsPanel); // default active building panel
-        buildingPanel.SetActive(false); // NOTE deactivate panels last otherwise find doesn't work
+        buildingPanel.SetActive(false);
     }
 
     private void OnEnable()
