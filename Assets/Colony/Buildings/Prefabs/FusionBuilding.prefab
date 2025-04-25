@@ -142,10 +142,12 @@ MonoBehaviour:
   consumptionQuantity: 0
   workStations: []
   colonists: []
-  activeBuildingPanelPrefab: {fileID: 2104327364345012469, guid: 6257c9348aa031941b4a159e2e10ef2f,
+  buildingMenuPrefab: {fileID: 2104327364345012469, guid: 6257c9348aa031941b4a159e2e10ef2f,
     type: 3}
   panelOpen: 0
   clickCollider: {fileID: 6658473224528210162}
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  title: Fusion Core
   state: 0
   loop: {fileID: 5771481947147331581}
   loopRotationSpeed: 500

@@ -41,6 +41,11 @@ public class ColonyUI : MonoBehaviour
 
     void Start()
     {
+        colonyButtons = new List<Button>(){
+            buildButton,
+            buildingListButton
+        };
+
         stopTime.onClick.AddListener(StopTime);
         oneTime.onClick.AddListener(OneTime);
         twoTime.onClick.AddListener(TwoTime);
@@ -54,11 +59,7 @@ public class ColonyUI : MonoBehaviour
 
         buildingListButton.onClick.AddListener(OpenBuildingList);
         buildingListExit.onClick.AddListener(CloseBuildingList);
-
-        colonyButtons = new List<Button>();
-        colonyButtons.Add(buildButton);
-        colonyButtons.Add(buildingListButton);
-        // etc.
+        CloseBuildingList();
     }
 
     void Update()
@@ -137,13 +138,17 @@ public class ColonyUI : MonoBehaviour
      */
     void OpenBuildingList()
     {
-        buildingList.SetActive(true);
+        buildingList.GetComponent<Canvas>().enabled = true;
+        buildingList.GetComponent<GraphicRaycaster>().enabled = true;
+        buildingList.transform.GetChild(0).gameObject.SetActive(true);
         DeactivateColonyButtons();
     }
 
     void CloseBuildingList()
     {
-        buildingList.SetActive(false);
+        buildingList.GetComponent<Canvas>().enabled = false;
+        buildingList.GetComponent<GraphicRaycaster>().enabled = false;
+        buildingList.transform.GetChild(0).gameObject.SetActive(false);
         ActivateColonyButtons();
     }
 }

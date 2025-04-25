@@ -96,10 +96,12 @@ MonoBehaviour:
   workStations:
   - {fileID: 3202588121091142477}
   colonists: []
-  activeBuildingPanelPrefab: {fileID: 2104327364345012469, guid: b9d29d0bf3993c7458c19a7a8db22495,
+  buildingMenuPrefab: {fileID: 2104327364345012469, guid: b9d29d0bf3993c7458c19a7a8db22495,
     type: 3}
   panelOpen: 0
   clickCollider: {fileID: 8918892182604545616}
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  title: Extractor
   state: 0
   laser: {fileID: 5143837898394425224}
   laserStart: {fileID: 8071623352477791956}

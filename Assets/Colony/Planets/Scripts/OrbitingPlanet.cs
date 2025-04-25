@@ -54,6 +54,9 @@ public class OrbitingPlanet : MonoBehaviour
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
+            // set active
+            planetInfoPanel.SetActive(true);
+
             // track mouse
             Mouse mouse = Mouse.current;
             Vector3 mousePosition = mouse.position.ReadValue();
@@ -65,6 +68,11 @@ public class OrbitingPlanet : MonoBehaviour
             {
                 planetInfoPanel.GetComponent<PlanetInfoPanel>().planetDescription.enabled = true;
             }
+        }
+        else
+        {
+            planetInfoPanel.SetActive(false);
+            planetInfoPanel.GetComponent<PlanetInfoPanel>().planetDescription.enabled = false;
         }
     }
     

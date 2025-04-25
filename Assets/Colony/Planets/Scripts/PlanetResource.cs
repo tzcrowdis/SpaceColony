@@ -84,12 +84,18 @@ public class PlanetResource : MonoBehaviour
     {
         if (!EventSystem.current.IsPointerOverGameObject())
         {
+            depositInfoPanel.SetActive(true);
+            
             // track mouse
             Mouse mouse = Mouse.current;
             Vector3 mousePosition = mouse.position.ReadValue();
             mousePosition += depositInfoPanel.GetComponent<DepositInfoPanel>().infoPanelOffset;
             depositInfoPanel.transform.position = mousePosition;
             depositInfoPanel.GetComponent<DepositInfoPanel>().depositQuantity.text = resourceQuantity.ToString("F0");
+        }
+        else
+        {
+            depositInfoPanel.SetActive(false);
         }
     }
 

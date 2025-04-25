@@ -191,10 +191,12 @@ MonoBehaviour:
   - {fileID: 226968087994449967}
   - {fileID: 6213594811009494623}
   colonists: []
-  activeBuildingPanelPrefab: {fileID: 2104327364345012469, guid: 0d73197f766023a4eb9b4d0be88cbfc7,
+  buildingMenuPrefab: {fileID: 2104327364345012469, guid: 0d73197f766023a4eb9b4d0be88cbfc7,
     type: 3}
   panelOpen: 0
   clickCollider: {fileID: 319481681572524374}
+  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  title: Quantum Lab
   state: 0
   particles: {fileID: 891712032223925593}
 --- !u!65 &319481681572524374

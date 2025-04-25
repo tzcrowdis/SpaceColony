@@ -39,10 +39,12 @@ public class Building : MonoBehaviour
 
     [Header("Building UI")]
     //TODO reworking...
-    public GameObject activeBuildingPanelPrefab;
+    public GameObject buildingMenuPrefab;
     GameObject bldgPanel;
     public bool panelOpen = false;
     public Collider clickCollider;
+    public Sprite icon;
+    public string title;
 
     public enum State
     {
@@ -73,10 +75,12 @@ public class Building : MonoBehaviour
         
         // building UI
         // spawn active building panel object for this building
+        /*
         bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
         bldgPanel.GetComponent<ActiveBuildingPanel>().building = this;
         bldgPanel.name = $"{gameObject.name} Panel";
         bldgPanel.SetActive(false);
+        */
 
         clickCollider = GetComponent<Collider>();
         if (state == State.Blueprint)
