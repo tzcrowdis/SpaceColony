@@ -273,9 +273,8 @@ MonoBehaviour:
   building: {fileID: 0}
   buildingButton: {fileID: 8496615063809141236}
   deleteButton: {fileID: 5437000432921806030}
-  moveSpeed: 20
-  rotateSpeed: 2
   focusStopDistance: 10
+  focusSpeed: 3
 --- !u!1 &5800406034397376590
 GameObject:
   m_ObjectHideFlags: 0

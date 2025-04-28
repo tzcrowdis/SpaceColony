@@ -15,12 +15,18 @@ public class BuildingListItem : MonoBehaviour
     [Header("Focus on Building")]
     Camera cam;
     bool engageFocus;
+
+    Vector3 camPositionStart = Vector3.one;
     Vector3 focusDestination = Vector3.one;
-    public float moveSpeed;
-    Vector3 focusForwardVec = Vector3.one;
-    public float rotateSpeed;
     public float focusStopDistance;
     float tol = 0.1f;
+
+    Vector3 camForwardStart = Vector3.one;
+    Vector3 focusForwardVec = Vector3.one;
+
+    public float focusSpeed;
+    float focusTime = 0f;
+
 
     void Start()
     {
@@ -47,35 +53,31 @@ public class BuildingListItem : MonoBehaviour
 
     void FocusColonyBuilding()
     {
-        // TODO adjust speeds so rotation and movement always stop at the end (LERP?)
-        
-        // center camera on this building
         // find point inbetween camera and building that's a dist of x from the building
         if (focusDestination == Vector3.one)
         {
-            focusDestination = (cam.transform.position - building.transform.position).normalized * focusStopDistance;
+            focusDestination = (cam.transform.position - building.transform.position).normalized * focusStopDistance + building.transform.position;
             focusDestination.y = building.transform.position.y; // locks rotation to y-axis
+
+            Debug.Log(Vector3.Distance(building.transform.position, focusDestination));
+
+            camPositionStart = cam.transform.position;
         }
+        cam.transform.position = Vector3.Lerp(camPositionStart, focusDestination, focusTime * focusSpeed);
 
-        //cam.transform.position = Vector3.MoveTowards(cam.transform.position, focusDestination, moveSpeed * Time.deltaTime);
-        //cam.transform.position = Vector3.Lerp(cam.transform.position, focusDestination, 1f);
-
-        // rotate towards normal from point to building
+        // rotate towards normal from cam og point to building
         if (focusForwardVec == Vector3.one)
         {
             focusForwardVec = (building.transform.position - focusDestination).normalized;
-        }
 
-        //cam.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(cam.transform.forward, focusForwardVec, rotateSpeed * Time.deltaTime, 0f));
-        //cam.transform.rotation = Vector3.Lerp(cam.transform.forward,)
+            camForwardStart = cam.transform.forward;
+        }
+        cam.transform.rotation = Quaternion.LookRotation(Vector3.Lerp(camForwardStart, focusForwardVec, focusTime * focusSpeed));
+
+        // increment focous/lerp time
+        focusTime += Time.deltaTime;
 
         // check if focused
-        if (Vector3.Distance(cam.transform.position, focusDestination) < tol)
-            Debug.Log("within distance");
-
-        if (Mathf.Approximately(Vector3.Dot(cam.transform.forward, focusForwardVec), 1f))
-            Debug.Log("within rotation");
-
         if (Vector3.Distance(cam.transform.position, focusDestination) < tol & Mathf.Approximately(Vector3.Dot(cam.transform.forward, focusForwardVec), 1f))
         {
             cam.transform.position = focusDestination;
@@ -84,6 +86,7 @@ public class BuildingListItem : MonoBehaviour
             engageFocus = false;
             focusDestination = Vector3.one;
             focusForwardVec = Vector3.one;
+            focusTime = 0f;
             Debug.Log("focused");
         }
     }
