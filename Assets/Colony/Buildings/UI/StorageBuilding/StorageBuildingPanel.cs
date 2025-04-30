@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StorageBuildingPanel : ActiveBuildingPanel
+public class StorageBuildingPanel : BuildingInfoMenu
 {
     [Header("Resource Dropdown")]
     public TMP_Dropdown resourceDropdown;

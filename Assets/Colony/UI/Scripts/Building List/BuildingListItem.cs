@@ -46,8 +46,9 @@ public class BuildingListItem : MonoBehaviour
     {
         engageFocus = true;
 
-        Transform parentCanvas = GameObject.Find("Building List Canvas").transform;
+        Transform parentCanvas = GameObject.Find("Colony Canvas").transform;
         GameObject menu = Instantiate(building.buildingMenuPrefab, parentCanvas);
+        menu.GetComponent<BuildingInfoMenu>().building = building;
         // TODO menu position
     }
 
@@ -87,7 +88,6 @@ public class BuildingListItem : MonoBehaviour
             focusDestination = Vector3.one;
             focusForwardVec = Vector3.one;
             focusTime = 0f;
-            Debug.Log("focused");
         }
     }
 

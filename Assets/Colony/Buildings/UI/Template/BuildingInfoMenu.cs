@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System.Linq;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-public class ActiveBuildingPanel : MonoBehaviour
+public class BuildingInfoMenu : MonoBehaviour, IDragHandler, IBeginDragHandler
 {
-    [HideInInspector]
+    //[HideInInspector]
     public Building building; // set by on click function of building (same as the screen position)
 
     [Header("Text Fields")]
@@ -29,12 +30,14 @@ public class ActiveBuildingPanel : MonoBehaviour
     [Header("Text Displayed When No Worker Selected")]
     public string noWorkerSelected;
 
+    // draggable UI
+    Vector2 dragOffset;
+
     protected virtual void Start()
     {
         // building name
-        buildingName.text = building.name;
-        buildingName.text = buildingName.text.Remove(buildingName.text.Length - 7); // removes "(Clone)" from name
-        // TODO write a function that adds spaces before capital letters
+        buildingName.text = building.title;
+        //buildingName.text = buildingName.text.Remove(buildingName.text.Length - 7); // removes "(Clone)" from name
 
         //stats
         if (efficiency != null || generation != null || consumption != null)
@@ -67,6 +70,21 @@ public class ActiveBuildingPanel : MonoBehaviour
             generation.text = $"+ {building.productionQuantity} {building.productionResource}";
             consumption.text = $"- {building.consumptionQuantity} {building.consumptionResource}";
         }
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        Vector2 uiPosition = transform.position;
+        Debug.Log("ui pos " + uiPosition);
+        Debug.Log("trans " + transform.position);
+        dragOffset = eventData.position - uiPosition;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.position = eventData.position - dragOffset;
+
+        // TODO stop menus from being dragged off screen
     }
 
     protected virtual void UpdateDropdownUnemployedLists()
@@ -124,14 +142,14 @@ public class ActiveBuildingPanel : MonoBehaviour
                 }
             }
         }
-        
+
         UpdateDropdownUnemployedLists();
     }
 
     protected virtual void ClosePanel()
     {
         building.panelOpen = false;
-        
+
         gameObject.SetActive(false);
     }
 }
