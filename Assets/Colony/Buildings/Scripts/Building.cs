@@ -40,11 +40,15 @@ public class Building : MonoBehaviour
     [Header("Building UI")]
     //TODO reworking...
     public GameObject buildingMenuPrefab;
-    GameObject bldgPanel;
-    public bool panelOpen = false;
-    public Collider clickCollider;
+    GameObject bldgMenu;
+    [HideInInspector]
+    public BuildingListItem buildingListItem;
     public Sprite icon;
     public string title;
+    public bool requiresPlayerAttention;
+    // drop vars when building clicking dropped
+    public bool panelOpen = false;
+    public Collider clickCollider;
 
     public enum State
     {
@@ -118,7 +122,7 @@ public class Building : MonoBehaviour
         ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Energy] -= energyCost;
 
         // add to building list
-        BuildingList.instance.AddBuildingToList(this);
+        buildingListItem = BuildingList.instance.AddBuildingToList(this);
 
         state = State.Construction;
     }
@@ -220,8 +224,8 @@ public class Building : MonoBehaviour
                 {
                     if (hit.collider.gameObject == gameObject)
                     {
-                        bldgPanel.transform.position = mousePosition;
-                        bldgPanel.SetActive(true);
+                        bldgMenu.transform.position = mousePosition;
+                        bldgMenu.SetActive(true);
 
                         panelOpen = true;
                     }

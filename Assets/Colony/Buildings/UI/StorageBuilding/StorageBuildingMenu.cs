@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StorageBuildingPanel : BuildingInfoMenu
+public class StorageBuildingMenu : BuildingInfoMenu
 {
     [Header("Resource Dropdown")]
     public TMP_Dropdown resourceDropdown;
@@ -28,5 +28,10 @@ public class StorageBuildingPanel : BuildingInfoMenu
     void ChangeStorageResource(int value)
     {
         building.GetComponent<StorageBuilding>().ChangeStoredResource(resourceDropdown.options[value].text);
+
+        if (resourceDropdown.options[value].text == "None")
+            building.buildingListItem.BuildingAlert();
+        else
+            building.buildingListItem.ClearBuildingAlert();
     }
 }

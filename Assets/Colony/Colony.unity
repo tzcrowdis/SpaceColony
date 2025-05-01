@@ -7642,7 +7642,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!224 &1436918271
 RectTransform:
@@ -12021,7 +12021,7 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
@@ -12031,12 +12031,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 620
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
@@ -12081,12 +12081,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 310
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}

@@ -34,12 +34,13 @@ public class BuildingList : MonoBehaviour
         DisableOtherScrollControlsOverScrollView();
     }
 
-    public void AddBuildingToList(Building bldg)
+    public BuildingListItem AddBuildingToList(Building bldg)
     {
         GameObject buildingListItem = Instantiate(listItemPrefab, contentContainer);
         buildingListItem.transform.GetChild(0).GetComponent<Image>().sprite = bldg.icon;
         buildingListItem.transform.GetChild(1).GetComponent<TMP_Text>().text = bldg.title;
         buildingListItem.GetComponent<BuildingListItem>().building = bldg;
+        return buildingListItem.GetComponent<BuildingListItem>();
     }
 
     void DisableOtherScrollControlsOverScrollView() // NOTE locks scroll for all UI not just scrollable...

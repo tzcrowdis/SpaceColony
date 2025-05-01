@@ -34,6 +34,9 @@ public class BuildingListItem : MonoBehaviour
         deleteButton.onClick.AddListener(DeconstructBuilding);
 
         cam = Camera.main;
+
+        if (building.requiresPlayerAttention)
+            BuildingAlert();
     }
 
     void Update()
@@ -47,9 +50,16 @@ public class BuildingListItem : MonoBehaviour
         engageFocus = true;
 
         Transform parentCanvas = GameObject.Find("Colony Canvas").transform;
+
+        // makes sure building menu isn't already open
+        BuildingInfoMenu[] menus = parentCanvas.GetComponentsInChildren<BuildingInfoMenu>();
+        foreach (BuildingInfoMenu bldgMenu in menus)
+            if (bldgMenu.building == building) return;
+
+        // otherwise open menu
         GameObject menu = Instantiate(building.buildingMenuPrefab, parentCanvas);
         menu.GetComponent<BuildingInfoMenu>().building = building;
-        // TODO menu position
+        menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);
     }
 
     void FocusColonyBuilding()
@@ -59,8 +69,6 @@ public class BuildingListItem : MonoBehaviour
         {
             focusDestination = (cam.transform.position - building.transform.position).normalized * focusStopDistance + building.transform.position;
             focusDestination.y = building.transform.position.y; // locks rotation to y-axis
-
-            Debug.Log(Vector3.Distance(building.transform.position, focusDestination));
 
             camPositionStart = cam.transform.position;
         }
@@ -89,6 +97,22 @@ public class BuildingListItem : MonoBehaviour
             focusForwardVec = Vector3.one;
             focusTime = 0f;
         }
+    }
+
+    public void BuildingAlert()
+    {
+        // TODO some other means of alerting player
+
+        ColorBlock cb = buildingButton.colors;
+        cb.normalColor = Color.red;
+        building.buildingListItem.gameObject.GetComponent<Button>().colors = cb;
+    }
+
+    public void ClearBuildingAlert()
+    {
+        // NOTE assumes only thing was making the button red
+
+        buildingButton.colors = ColorBlock.defaultColorBlock;
     }
 
     public void DeconstructBuilding()

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ResourceExtractorBuildingPanel : BuildingInfoMenu
+public class ResourceExtractorBuildingMenu : BuildingInfoMenu
 {
     [Header("Resource Target")]
     public TMP_Dropdown resourceDropdown;
