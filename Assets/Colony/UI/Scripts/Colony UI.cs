@@ -27,6 +27,11 @@ public class ColonyUI : MonoBehaviour
     public Button buildingListButton;
     public Button buildingListExit;
 
+    [Header("Colonist List UI")]
+    public GameObject colonistList;
+    public Button colonistListButton;
+    public Button colonistListExit;
+
     List<Button> colonyButtons;
 
     public static ColonyUI instance { get; private set; }
@@ -57,9 +62,13 @@ public class ColonyUI : MonoBehaviour
         buildExit.onClick.AddListener(CloseBuildCanvas);
         build.SetActive(false);
 
-        buildingListButton.onClick.AddListener(OpenBuildingList);
-        buildingListExit.onClick.AddListener(CloseBuildingList);
-        CloseBuildingList();
+        buildingListButton.onClick.AddListener(delegate { OpenList(buildingList); });
+        buildingListExit.onClick.AddListener(delegate { CloseList(buildingList); });
+        CloseList(buildingList);
+
+        colonistListButton.onClick.AddListener(delegate { OpenList(colonistList); });
+        colonistListExit.onClick.AddListener(delegate { CloseList(colonistList); });
+        CloseList(colonistList);
     }
 
     void Update()
@@ -134,21 +143,21 @@ public class ColonyUI : MonoBehaviour
     }
 
     /*
-     * BUILDING LIST
+     *  LISTS
      */
-    void OpenBuildingList()
+    void OpenList(GameObject list)
     {
-        buildingList.GetComponent<Canvas>().enabled = true;
-        buildingList.GetComponent<GraphicRaycaster>().enabled = true;
-        buildingList.transform.GetChild(0).gameObject.SetActive(true);
+        list.GetComponent<Canvas>().enabled = true;
+        list.GetComponent<GraphicRaycaster>().enabled = true;
+        list.transform.GetChild(0).gameObject.SetActive(true);
         DeactivateColonyButtons();
     }
 
-    void CloseBuildingList()
+    void CloseList(GameObject list)
     {
-        buildingList.GetComponent<Canvas>().enabled = false;
-        buildingList.GetComponent<GraphicRaycaster>().enabled = false;
-        buildingList.transform.GetChild(0).gameObject.SetActive(false);
+        list.GetComponent<Canvas>().enabled = false;
+        list.GetComponent<GraphicRaycaster>().enabled = false;
+        list.transform.GetChild(0).gameObject.SetActive(false);
         ActivateColonyButtons();
     }
 }

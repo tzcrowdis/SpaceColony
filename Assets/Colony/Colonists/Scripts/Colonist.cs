@@ -6,6 +6,11 @@ using UnityEngine.AI;
 public class Colonist : MonoBehaviour
 {
     public string characterName; // becomes the object name on start
+    public Sprite headshot;
+
+    public GameObject colonistMenuPrefab;
+    public bool requiresPlayerAttention;
+    public ColonistListItem colonistListItem;
     
     // HEALTH/STATUS
     // limbs

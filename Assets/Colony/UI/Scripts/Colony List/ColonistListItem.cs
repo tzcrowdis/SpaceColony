@@ -4,15 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
 
-public class BuildingListItem : MonoBehaviour
+public class ColonistListItem : MonoBehaviour
 {
-    public Building building;
+    public Colonist colonist;
 
     [Header("Buttons")]
-    public Button buildingButton;
-    public Button deleteButton;
+    public Button colonistButton;
 
-    [Header("Focus on Building")]
+    [Header("Focus on Colonist")]
     public float focusStopDistance;
     public float focusSpeed;
 
@@ -29,45 +28,44 @@ public class BuildingListItem : MonoBehaviour
 
     void Start()
     {
-        buildingButton.onClick.AddListener(ListItemClicked);
-        deleteButton.onClick.AddListener(DeconstructBuilding);
+        colonistButton.onClick.AddListener(ListItemClicked);
 
         cam = Camera.main;
 
-        if (building.requiresPlayerAttention)
-            BuildingAlert();
+        if (colonist.requiresPlayerAttention)
+            ColonistAlert();
     }
 
     void Update()
     {
         if (engageFocus)
-            FocusColonyBuilding();
+            FocusColonist();
     }
 
     void ListItemClicked()
     {
         engageFocus = true;
 
-        Transform parentCanvas = GameObject.Find("Building List Canvas").transform;
+        Transform parentCanvas = GameObject.Find("Colonist List Canvas").transform;
 
         // makes sure building menu isn't already open
-        BuildingInfoMenu[] menus = parentCanvas.GetComponentsInChildren<BuildingInfoMenu>();
-        foreach (BuildingInfoMenu bldgMenu in menus)
-            if (bldgMenu.building == building) return;
+        ColonistInfoMenu[] menus = parentCanvas.GetComponentsInChildren<ColonistInfoMenu>();
+        foreach (ColonistInfoMenu clnstMenu in menus)
+            if (clnstMenu.colonist == colonist) return;
 
         // otherwise open menu
-        GameObject menu = Instantiate(building.buildingMenuPrefab, parentCanvas);
-        menu.GetComponent<BuildingInfoMenu>().building = building;
+        GameObject menu = Instantiate(colonist.colonistMenuPrefab, parentCanvas);
+        menu.GetComponent<ColonistInfoMenu>().colonist = colonist;
         menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);
     }
 
-    void FocusColonyBuilding()
+    void FocusColonist()
     {
         // find point inbetween camera and building that's a dist of x from the building
         if (focusDestination == Vector3.one)
         {
-            focusDestination = (cam.transform.position - building.transform.position).normalized * focusStopDistance + building.transform.position;
-            focusDestination.y = building.transform.position.y; // locks rotation to y-axis
+            focusDestination = (cam.transform.position - colonist.transform.position).normalized * focusStopDistance + colonist.transform.position;
+            focusDestination.y = colonist.transform.position.y; // locks rotation to y-axis
 
             camPositionStart = cam.transform.position;
         }
@@ -76,7 +74,7 @@ public class BuildingListItem : MonoBehaviour
         // rotate towards normal from cam og point to building
         if (focusForwardVec == Vector3.one)
         {
-            focusForwardVec = (building.transform.position - focusDestination).normalized;
+            focusForwardVec = (colonist.transform.position - focusDestination).normalized;
 
             camForwardStart = cam.transform.forward;
         }
@@ -98,28 +96,19 @@ public class BuildingListItem : MonoBehaviour
         }
     }
 
-    public void BuildingAlert()
+    public void ColonistAlert()
     {
         // TODO some other means of alerting player
 
-        ColorBlock cb = buildingButton.colors;
+        ColorBlock cb = colonistButton.colors;
         cb.normalColor = Color.red;
-        buildingButton.colors = cb;
+        colonistButton.colors = cb;
     }
 
-    public void ClearBuildingAlert()
+    public void ClearColonistAlert()
     {
         // NOTE assumes only thing was making the button red
 
-        buildingButton.colors = ColorBlock.defaultColorBlock;
-    }
-
-    public void DeconstructBuilding()
-    {
-        // TODO make sure destroying this building isn't stranding others
-        // check via navmesh path calcs..?
-        
-        Destroy(building.gameObject);
-        Destroy(gameObject);
+        colonistButton.colors = ColorBlock.defaultColorBlock;
     }
 }
