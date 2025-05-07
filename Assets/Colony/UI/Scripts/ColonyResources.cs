@@ -12,7 +12,8 @@ public class ColonyResources : MonoBehaviour
         Food,
         Energy,
         Mineral,
-        Research
+        Research,
+        None // NOTE will probably break a lot of things but is here for resource extraction
     }
 
     public Dictionary<ResourceTypes, float> colonyResources;

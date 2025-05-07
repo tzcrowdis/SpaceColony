@@ -58,7 +58,8 @@ public class BuildingListItem : MonoBehaviour
         // otherwise open menu
         GameObject menu = Instantiate(building.buildingMenuPrefab, parentCanvas);
         menu.GetComponent<BuildingInfoMenu>().building = building;
-        menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);
+        if (menus.Length > 0) 
+            menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);
     }
 
     void FocusColonyBuilding()

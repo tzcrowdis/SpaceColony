@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class BuildingList : MonoBehaviour
 {
     [Header("List Menu")]
-    public GameObject scrollView;
     public Transform contentContainer;
 
     [Header("List Item")]
@@ -24,16 +23,6 @@ public class BuildingList : MonoBehaviour
             instance = this;
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        DisableOtherScrollControlsOverScrollView();
-    }
-
     public BuildingListItem AddBuildingToList(Building bldg)
     {
         GameObject buildingListItem = Instantiate(listItemPrefab, contentContainer);
@@ -41,27 +30,5 @@ public class BuildingList : MonoBehaviour
         buildingListItem.transform.GetChild(1).GetComponent<TMP_Text>().text = bldg.title;
         buildingListItem.GetComponent<BuildingListItem>().building = bldg;
         return buildingListItem.GetComponent<BuildingListItem>();
-    }
-
-    void DisableOtherScrollControlsOverScrollView() // NOTE locks scroll for all UI not just scrollable...
-    {
-        bool overScrollableUI = false;
-        
-        PointerEventData eventData = new PointerEventData(EventSystem.current);
-        eventData.position = Input.mousePosition;
-
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventData, raycastResults);
-
-        if (raycastResults.Count > 0)
-        {
-            foreach (RaycastResult result in raycastResults)
-                if (result.gameObject == scrollView) overScrollableUI = true;
-        }
-
-        if (overScrollableUI)
-            ColonyControls.instance.altitudeLock = true;
-        else
-            ColonyControls.instance.altitudeLock = false;
     }
 }

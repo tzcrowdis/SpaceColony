@@ -29,6 +29,8 @@ public class ResourceExtractorBuildingMenu : BuildingInfoMenu
 
     void UpdateResourceTargetList(bool resourceDepleted)
     {
+        // TODO get selected from resource building selection (otherwise erases between menus)
+        
         TMP_Dropdown.OptionData selected;
         if (resourceDepleted)
             selected = new TMP_Dropdown.OptionData() { text = noResourceSelected };
@@ -40,7 +42,10 @@ public class ResourceExtractorBuildingMenu : BuildingInfoMenu
         resourceDropdown.RefreshShownValue();
 
         if (selected.text != noResourceSelected)
+        {
             resourceDropdown.options.Add(new TMP_Dropdown.OptionData() { text = noResourceSelected });
+            building.buildingListItem.ClearBuildingAlert();
+        }  
 
         foreach (PlanetResource resource in orbitingPlanet.planetResources)
             resourceDropdown.options.Add(new TMP_Dropdown.OptionData() { text = resource.resource.ToString() });

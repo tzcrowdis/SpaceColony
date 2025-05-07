@@ -122,6 +122,8 @@ public class ColonyControls : MonoBehaviour
         TranslateCamera();
         RotateCamera();
         if (!altitudeLock) AltitudeCamera();
+
+        altitudeLock = false; // NOTE refreshes the lock each frame
     }
 
     void TranslateCamera()

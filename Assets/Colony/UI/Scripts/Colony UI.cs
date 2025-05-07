@@ -48,7 +48,8 @@ public class ColonyUI : MonoBehaviour
     {
         colonyButtons = new List<Button>(){
             buildButton,
-            buildingListButton
+            buildingListButton,
+            colonistListButton
         };
 
         stopTime.onClick.AddListener(StopTime);

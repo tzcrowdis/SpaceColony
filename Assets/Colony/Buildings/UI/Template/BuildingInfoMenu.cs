@@ -37,7 +37,6 @@ public class BuildingInfoMenu : MonoBehaviour, IDragHandler, IBeginDragHandler
     {
         // building name
         buildingName.text = building.title;
-        //buildingName.text = buildingName.text.Remove(buildingName.text.Length - 7); // removes "(Clone)" from name
 
         //stats
         if (efficiency != null || generation != null || consumption != null)
@@ -75,8 +74,6 @@ public class BuildingInfoMenu : MonoBehaviour, IDragHandler, IBeginDragHandler
     public void OnBeginDrag(PointerEventData eventData)
     {
         Vector2 uiPosition = transform.position;
-        Debug.Log("ui pos " + uiPosition);
-        Debug.Log("trans " + transform.position);
         dragOffset = eventData.position - uiPosition;
     }
 
