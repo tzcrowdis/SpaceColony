@@ -12,7 +12,55 @@ public class Colonist : MonoBehaviour
     public GameObject colonistMenuPrefab;
     public bool requiresPlayerAttention;
     public ColonistListItem colonistListItem;
-    
+
+    public enum JobTypes
+    {
+        Unemployed,
+        Farmer,
+        Engineer,
+        Medic,
+        Scientist
+    }
+    public JobTypes job;
+
+    public enum Suggestion
+    {
+        Work,
+        Eat,
+        Sleep,
+        None
+    }
+    public Suggestion suggestion;
+
+    public enum MentalStatus
+    {
+        Hungry,
+        Bored,
+        Sleepy
+    }
+    public MentalStatus mentalState;
+
+    public enum Skill // developed over time with experience
+    {
+        Farming,
+        Engineering,
+        Medicine,
+        Science
+    }
+    public Dictionary<Skill, int> skills; // int here is a sum of values
+
+    public enum Proficiency // what they are naturally good or bad at
+    {
+        Farming,
+        Engineering,
+        Medicine,
+        Science
+    }
+    public Dictionary<Proficiency, int> proficiencies; // int here is a pos/neg percent modifier
+
+    // TODO vars beneath this comment subject to rework
+
+
     // HEALTH/STATUS
     // limbs
     GameObject head;
@@ -20,14 +68,6 @@ public class Colonist : MonoBehaviour
     GameObject armL;
     GameObject legR;
     GameObject legL;
-
-    // mental status
-    enum MentalStatus
-    {
-        Hungry,
-        Bored,
-        Sleepy
-    }
 
     // NOTE: high level states
     enum State
@@ -59,13 +99,17 @@ public class Colonist : MonoBehaviour
 
     void Start()
     {
-        if (workStation == null)
+        job = JobTypes.Unemployed;
+        
+        if (job == JobTypes.Unemployed)
             ColonyResources.instance.unemployedColonists.Add(this);
 
         state = State.Rest;
         workState = WorkState.GoingToWork;
 
         gameObject.name = characterName;
+
+        GenerateProficiencies();
     }
 
     void Update()
@@ -81,6 +125,22 @@ public class Colonist : MonoBehaviour
                 break;
         }
     }
+
+    
+    public void ChangeColonistsJob(int value)
+    {
+        job = (Colonist.JobTypes)value;
+    }
+
+    void GenerateProficiencies()
+    {
+        // TODO 
+    }
+
+
+
+
+    // TODO functions beneath this line subject to rework
 
     void Rest()
     {
