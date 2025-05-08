@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using ColonistAI;
+using UnityEditor.Experimental.GraphView;
 
 public class Colonist : MonoBehaviour
 {
@@ -40,23 +41,35 @@ public class Colonist : MonoBehaviour
     }
     public MentalStatus mentalState;
 
-    public enum Skill // developed over time with experience
+    public enum Skill 
     {
         Farming,
         Engineering,
         Medicine,
         Science
     }
-    public Dictionary<Skill, int> skills; // int here is a sum of values
 
-    public enum Proficiency // what they are naturally good or bad at
+    // developed over time with experience
+    public Dictionary<Skill, int> skills = new Dictionary<Skill, int> // int here is a sum of values
+    {
+        {Skill.Farming, 0 },
+        {Skill.Engineering, 0 },
+        {Skill.Medicine, 0 },
+        {Skill.Science, 0 },
+        // etc.
+    };
+    
+    // what they are naturally good or bad at
+    public Dictionary<Skill, float> proficiencies; // float here is a pos/neg percent modifier
+
+    /*public enum Proficiency 
     {
         Farming,
         Engineering,
         Medicine,
         Science
-    }
-    public Dictionary<Proficiency, int> proficiencies; // int here is a pos/neg percent modifier
+    }*/ // just the same as skill..?
+
 
     // TODO vars beneath this comment subject to rework
 
@@ -109,7 +122,7 @@ public class Colonist : MonoBehaviour
 
         gameObject.name = characterName;
 
-        GenerateProficiencies();
+        GenerateProficiencies(); // TODO logic to Load or Generate these (and all other colonist attributes)
     }
 
     void Update()
@@ -132,9 +145,34 @@ public class Colonist : MonoBehaviour
         job = (Colonist.JobTypes)value;
     }
 
+    public void MakeSuggestion(Suggestion suggest)
+    {
+        suggestion = suggest;
+    }
+
     void GenerateProficiencies()
     {
-        // TODO 
+        proficiencies = new Dictionary<Skill, float>
+        {
+            {Skill.Farming, 0 },
+            {Skill.Engineering, 0 },
+            {Skill.Medicine, 0 },
+            {Skill.Science, 0 },
+            // etc.
+        };
+
+        foreach (var key in proficiencies.Keys)
+        {
+            // options: -0.25, 0, 0.25 
+            // respective chances: 0.25, 0.5, 0.25
+            float chance = Random.Range(0f, 1f);
+            if (chance <= 0.25f)
+                proficiencies[key] = -0.25f;
+            else if (chance <= 0.75f)
+                proficiencies[key] = 0;
+            else
+                proficiencies[key] = 0.25f;
+        }
     }
 
 

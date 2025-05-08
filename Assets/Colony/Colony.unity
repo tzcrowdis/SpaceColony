@@ -10083,7 +10083,7 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
@@ -10093,12 +10093,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 395
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
@@ -10143,12 +10143,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 197.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
@@ -13669,6 +13669,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 425812203}
     m_Modifications:
+    - target: {fileID: 672196636387174319, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 672196636387174319, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 672196636387174319, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1763363143382313563, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_text
+      value: Sleep
+      objectReference: {fileID: 0}
     - target: {fileID: 2223245461029265721, guid: 43acdb5a8aa17974abf988ba59d29128,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -13683,6 +13703,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Colonist Info Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962734666998540830, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962734666998540830, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962734666998540830, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2962734666998540830, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242393560713155108, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_Name
+      value: None Suggestion Button
       objectReference: {fileID: 0}
     - target: {fileID: 3476664059263758111, guid: 43acdb5a8aa17974abf988ba59d29128,
         type: 3}
@@ -13784,6 +13829,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3512010167815717861, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_text
+      value: Work
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821889110663226161, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -84.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4858185269984298483, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_text
+      value: None
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005328472415700580, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_text
+      value: Eat
+      objectReference: {fileID: 0}
     - target: {fileID: 5167818937906460313, guid: 43acdb5a8aa17974abf988ba59d29128,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -13793,6 +13858,61 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856251096330350260, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_Name
+      value: Eat Suggestion Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916784922066040021, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_Name
+      value: Work Suggestion Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294766520454433294, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294766520454433294, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294766520454433294, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7294766520454433294, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7684410603865717948, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_Name
+      value: Sleep Suggestion Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174861452143013005, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174861452143013005, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174861452143013005, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174861452143013005, guid: 43acdb5a8aa17974abf988ba59d29128,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
