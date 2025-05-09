@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using static Colonist;
 
 public class ColonistInfoMenu : MonoBehaviour
 {
@@ -16,9 +17,9 @@ public class ColonistInfoMenu : MonoBehaviour
     public TMP_Dropdown occupationDropdown;
     public TMP_Text mentalState;
     public TMP_Text suggestLabel;
-    public Button suggestButton;
+    public Toggle suggestToggle;
     public GameObject suggestMenu;
-    public Button skillprofButton;
+    public Toggle skillprofToggle;
     public GameObject skillprofMenu;
 
     [Header("Suggestion Menu")]
@@ -44,13 +45,14 @@ public class ColonistInfoMenu : MonoBehaviour
         foreach (var r in Enum.GetValues(typeof(Colonist.JobTypes)))
             occupationDropdown.options.Add(new TMP_Dropdown.OptionData() { text = r.ToString() });
         occupationDropdown.onValueChanged.AddListener(colonist.ChangeColonistsJob);
+        occupationDropdown.RefreshShownValue();
 
         // mental state
         mentalState.text = $"Mental State: {colonist.mentalState.ToString()}";
 
         // suggestions
         suggestLabel.text = $"Suggestion: {colonist.suggestion.ToString()}";
-        suggestButton.onClick.AddListener(ToggleSuggestionMenu);
+        suggestToggle.onValueChanged.AddListener(ToggleSuggestionMenu);
         workSuggestion.onClick.AddListener(delegate { Suggest(workSuggestion.transform.GetComponentInChildren<TMP_Text>().text, workSuggestion); });
         eatSuggestion.onClick.AddListener(delegate { Suggest(eatSuggestion.transform.GetComponentInChildren<TMP_Text>().text, eatSuggestion); });
         sleepSuggestion.onClick.AddListener(delegate { Suggest(sleepSuggestion.transform.GetComponentInChildren<TMP_Text>().text, sleepSuggestion); });
@@ -66,7 +68,7 @@ public class ColonistInfoMenu : MonoBehaviour
         suggestMenu.SetActive(false);
 
         // skills and proficiencies
-        skillprofButton.onClick.AddListener(ToggleSkillProfMenu);
+        skillprofToggle.onValueChanged.AddListener(ToggleSkillProfMenu);
         PopulateSkillProfMenu();
         skillprofMenu.SetActive(false);
     }
@@ -78,15 +80,15 @@ public class ColonistInfoMenu : MonoBehaviour
 
     void CloseColonistMenu()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 
     /*
      * SUGGESTION MENU
      */
-    void ToggleSuggestionMenu()
+    void ToggleSuggestionMenu(bool on)
     {
-        if (!suggestMenu.activeSelf) 
+        if (on) 
             suggestMenu.SetActive(true);
         else 
             suggestMenu.SetActive(false);
@@ -107,13 +109,14 @@ public class ColonistInfoMenu : MonoBehaviour
     void Suggest(string suggestion, Button btn)
     {
         colonist.MakeSuggestion((Colonist.Suggestion)Enum.Parse(typeof(Colonist.Suggestion), suggestion));
+        suggestLabel.text = $"Suggestion: {suggestion}";
 
         foreach (Button suggestBtn in allSuggestButtons)
         {
             if (btn == suggestBtn)
-                btn.interactable = false;
+                suggestBtn.interactable = false;
             else
-                btn.interactable = true;
+                suggestBtn.interactable = true;
         }
     }
 
@@ -121,9 +124,9 @@ public class ColonistInfoMenu : MonoBehaviour
      * SKILLS + PROFICIENCY MENU
      */
 
-    void ToggleSkillProfMenu()
+    void ToggleSkillProfMenu(bool on)
     {
-        if (!skillprofMenu.activeSelf)
+        if (on)
             skillprofMenu.SetActive(true);
         else
             skillprofMenu.SetActive(false);
@@ -131,6 +134,22 @@ public class ColonistInfoMenu : MonoBehaviour
 
     void PopulateSkillProfMenu()
     {
-        // TODO get skill and proficiency details from colonist
+        // NOTE space at front of text for UI spacing
+
+        foreach (var skill in colonist.skills.Keys)
+        {
+            GameObject skillItem = Instantiate(skillPrefab, skillsContent.transform);
+            skillItem.GetComponent<TMP_Text>().text = $" {skill}: {colonist.skills[skill]}"; 
+        }
+
+        foreach (var proficiency in colonist.proficiencies.Keys)
+        {
+            if (colonist.proficiencies[proficiency] != 0f)
+            {
+                GameObject profItem = Instantiate(proficiencyPrefab, proficiencyContent.transform);
+                string plus = colonist.proficiencies[proficiency] > 0 ? "+" : "";
+                profItem.GetComponent<TMP_Text>().text = $" {proficiency}: {plus}{colonist.proficiencies[proficiency]}%";
+            }
+        }
     }
 }

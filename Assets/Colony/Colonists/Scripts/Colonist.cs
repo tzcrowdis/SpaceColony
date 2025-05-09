@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using ColonistAI;
 using UnityEditor.Experimental.GraphView;
+using System.Linq;
 
 public class Colonist : MonoBehaviour
 {
@@ -60,7 +61,14 @@ public class Colonist : MonoBehaviour
     };
     
     // what they are naturally good or bad at
-    public Dictionary<Skill, float> proficiencies; // float here is a pos/neg percent modifier
+    public Dictionary<Skill, float> proficiencies = new Dictionary<Skill, float> // float here is a pos/neg percent modifier
+    {
+        {Skill.Farming, 0 },
+        {Skill.Engineering, 0 },
+        {Skill.Medicine, 0 },
+        {Skill.Science, 0 },
+        // etc.
+    }; 
 
     /*public enum Proficiency 
     {
@@ -152,16 +160,7 @@ public class Colonist : MonoBehaviour
 
     void GenerateProficiencies()
     {
-        proficiencies = new Dictionary<Skill, float>
-        {
-            {Skill.Farming, 0 },
-            {Skill.Engineering, 0 },
-            {Skill.Medicine, 0 },
-            {Skill.Science, 0 },
-            // etc.
-        };
-
-        foreach (var key in proficiencies.Keys)
+        foreach (var key in proficiencies.Keys.ToList())
         {
             // options: -0.25, 0, 0.25 
             // respective chances: 0.25, 0.5, 0.25
@@ -169,7 +168,7 @@ public class Colonist : MonoBehaviour
             if (chance <= 0.25f)
                 proficiencies[key] = -0.25f;
             else if (chance <= 0.75f)
-                proficiencies[key] = 0;
+                proficiencies[key] = 0f;
             else
                 proficiencies[key] = 0.25f;
         }

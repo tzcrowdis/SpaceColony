@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class BuildingInfoMenu : MonoBehaviour, IDragHandler, IBeginDragHandler
+public class BuildingInfoMenu : MonoBehaviour
 {
     //[HideInInspector]
     public Building building; // set by on click function of building (same as the screen position)
@@ -29,9 +29,6 @@ public class BuildingInfoMenu : MonoBehaviour, IDragHandler, IBeginDragHandler
 
     [Header("Text Displayed When No Worker Selected")]
     public string noWorkerSelected;
-
-    // draggable UI
-    Vector2 dragOffset;
 
     protected virtual void Start()
     {
@@ -69,19 +66,6 @@ public class BuildingInfoMenu : MonoBehaviour, IDragHandler, IBeginDragHandler
             generation.text = $"+ {building.productionQuantity} {building.productionResource}";
             consumption.text = $"- {building.consumptionQuantity} {building.consumptionResource}";
         }
-    }
-
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        Vector2 uiPosition = transform.position;
-        dragOffset = eventData.position - uiPosition;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        transform.position = eventData.position - dragOffset;
-
-        // TODO stop menus from being dragged off screen
     }
 
     protected virtual void UpdateDropdownUnemployedLists()
@@ -147,6 +131,6 @@ public class BuildingInfoMenu : MonoBehaviour, IDragHandler, IBeginDragHandler
     {
         building.panelOpen = false;
 
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

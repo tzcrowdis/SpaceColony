@@ -1405,6 +1405,7 @@ GameObject:
   - component: {fileID: 7029684133736029237}
   - component: {fileID: 893250615686172661}
   - component: {fileID: -4297834829748525863}
+  - component: {fileID: 8842234889253238289}
   m_Layer: 5
   m_Name: BuildingInfoMenu
   m_TagString: Untagged
@@ -1494,6 +1495,18 @@ MonoBehaviour:
   workStationDropdowns: []
   exit: {fileID: 1603013833821416485}
   noWorkerSelected: None
+--- !u!114 &8842234889253238289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2104327364345012469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 976bc2587621e3c40ad47b5a31eafe05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2259748821752392401
 GameObject:
   m_ObjectHideFlags: 0

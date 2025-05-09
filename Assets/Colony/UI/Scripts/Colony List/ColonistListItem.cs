@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
+using TMPro;
 
 public class ColonistListItem : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class ColonistListItem : MonoBehaviour
 
     void Start()
     {
+        transform.GetChild(0).gameObject.GetComponent<Image>().sprite = colonist.headshot;
+        transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = colonist.characterName;
+        
         colonistButton.onClick.AddListener(ListItemClicked);
 
         cam = Camera.main;
@@ -56,7 +60,8 @@ public class ColonistListItem : MonoBehaviour
         // otherwise open menu
         GameObject menu = Instantiate(colonist.colonistMenuPrefab, parentCanvas);
         menu.GetComponent<ColonistInfoMenu>().colonist = colonist;
-        menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);
+        if (menus.Length > 0)
+            menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);
     }
 
     void FocusColonist()
