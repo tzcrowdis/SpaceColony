@@ -21,7 +21,7 @@ public class Colonist : MonoBehaviour
         Engineer,
         Medic,
         Scientist,
-        Chef
+        Cook
     }
     public JobType job;
 
@@ -46,6 +46,7 @@ public class Colonist : MonoBehaviour
     {
         Farming,
         Engineering,
+        Cooking,
         Medicine,
         Science
     }
@@ -55,6 +56,7 @@ public class Colonist : MonoBehaviour
     {
         {Skill.Farming, 0 },
         {Skill.Engineering, 0 },
+        {Skill.Cooking, 0 },
         {Skill.Medicine, 0 },
         {Skill.Science, 0 },
         // etc.
@@ -65,18 +67,11 @@ public class Colonist : MonoBehaviour
     {
         {Skill.Farming, 0 },
         {Skill.Engineering, 0 },
+        {Skill.Cooking, 0 },
         {Skill.Medicine, 0 },
         {Skill.Science, 0 },
         // etc.
     }; 
-
-    /*public enum Proficiency 
-    {
-        Farming,
-        Engineering,
-        Medicine,
-        Science
-    }*/ // just the same as skill..?
 
 
     // TODO vars beneath this comment subject to rework
@@ -153,7 +148,9 @@ public class Colonist : MonoBehaviour
     
     public void ChangeColonistsJob(int value)
     {
-        job = (Colonist.JobType)value;
+        job = (JobType)value;
+
+        workplace = ColonistAI.FindNewWorkplace(job);
     }
 
     public void MakeSuggestion(Suggestion suggest)

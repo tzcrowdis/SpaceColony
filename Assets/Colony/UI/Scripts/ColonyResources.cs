@@ -51,6 +51,7 @@ public class ColonyResources : MonoBehaviour
     List<Building> farmBuildings = new List<Building>();
     List<Building> researchBuildings = new List<Building>();
     List<Building> cafeteriaBuildings = new List<Building>();
+    List<Building> medicalBuildings = new List<Building>();
     List<Building> recreationBuildings = new List<Building>();
     List<Building> sleepBuildings = new List<Building>();
 
@@ -188,6 +189,9 @@ public class ColonyResources : MonoBehaviour
             case Building.BuildingType.Cafeteria:
                 cafeteriaBuildings.Add(building);
                 break;
+            case Building.BuildingType.Medical:
+                medicalBuildings.Add(building);
+                break;
             case Building.BuildingType.Recreation:
                 recreationBuildings.Add(building);
                 break;
@@ -213,6 +217,8 @@ public class ColonyResources : MonoBehaviour
                 return researchBuildings;
             case Building.BuildingType.Cafeteria:
                 return cafeteriaBuildings;
+            case Building.BuildingType.Medical:
+                return medicalBuildings;
             case Building.BuildingType.Recreation:
                 return recreationBuildings;
             case Building.BuildingType.Sleep:

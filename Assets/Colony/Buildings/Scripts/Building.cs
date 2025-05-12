@@ -40,6 +40,7 @@ public class Building : MonoBehaviour
         Farm,
         Research,
         Cafeteria,
+        Medical,
         Recreation,
         Sleep
     }
@@ -197,7 +198,6 @@ public class Building : MonoBehaviour
     /*
      * WORK FUNCTIONS
      */
-
     public virtual float BuildingEfficiency()
     {
         if (workStations.Length > 0)
@@ -241,7 +241,9 @@ public class Building : MonoBehaviour
     }
 
 
-    // MISC FUNCTIONS
+    /*
+     * MISC FUNCTIONS
+     */
     protected void BuildingClicked() // NOTE requires collider
     {
         // TODO should this all just be in the OnMouseOver function?
