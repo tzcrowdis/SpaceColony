@@ -44,6 +44,7 @@ public class BuildingInfoMenu : MonoBehaviour
         }
 
         // colonists / work stations
+        /*
         dropdownSelections = new int[workStationDropdowns.Length];
         for (int i = 0; i < workStationDropdowns.Length; i++)
             dropdownSelections[i] = workStationDropdowns[i].value;
@@ -52,6 +53,7 @@ public class BuildingInfoMenu : MonoBehaviour
 
         foreach (TMP_Dropdown dropdown in workStationDropdowns)
             dropdown.onValueChanged.AddListener(delegate { WorkerChanged(dropdown); });
+        */
 
         // exit button
         exit.onClick.AddListener(ClosePanel);
@@ -68,6 +70,7 @@ public class BuildingInfoMenu : MonoBehaviour
         }
     }
 
+    /*
     protected virtual void UpdateDropdownUnemployedLists()
     {
         foreach (TMP_Dropdown dropdown in workStationDropdowns)
@@ -85,6 +88,7 @@ public class BuildingInfoMenu : MonoBehaviour
         }
     }
 
+    
     protected virtual void WorkerChanged(TMP_Dropdown dropdown)
     {
         if (dropdown.options[dropdown.value].text == noWorkerSelected) // remove colonist from work station
@@ -126,6 +130,7 @@ public class BuildingInfoMenu : MonoBehaviour
 
         UpdateDropdownUnemployedLists();
     }
+    */
 
     protected virtual void ClosePanel()
     {

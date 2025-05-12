@@ -32,10 +32,24 @@ public class Building : MonoBehaviour
     [Tooltip("resource per second")]
     public float consumptionQuantity;
 
+    public enum BuildingType
+    {
+        Generic,
+        Energy,
+        Extraction,
+        Farm,
+        Research,
+        Cafeteria,
+        Recreation,
+        Sleep
+    }
+    [Header("Building Type")]
+    public BuildingType buildingType;
+
     [Header("Colonists")]
-    public GameObject[] workStations;
+    public WorkStation[] workStations;
     [HideInInspector]
-    public List<Colonist> colonists; // NOTE: line up indexes with work station
+    //public List<Colonist> colonists; // NOTE: line up indexes with work station
 
     [Header("Building UI")]
     //TODO reworking...
@@ -76,15 +90,6 @@ public class Building : MonoBehaviour
         {
             Debug.Log($"renderer not found on {gameObject.name}");
         }
-        
-        // building UI
-        // spawn active building panel object for this building
-        /*
-        bldgPanel = Instantiate(activeBuildingPanelPrefab, Vector3.zero, Quaternion.identity, ColonyUI.instance.transform);
-        bldgPanel.GetComponent<ActiveBuildingPanel>().building = this;
-        bldgPanel.name = $"{gameObject.name} Panel";
-        bldgPanel.SetActive(false);
-        */
 
         clickCollider = GetComponent<Collider>();
         if (state == State.Blueprint)
@@ -189,14 +194,18 @@ public class Building : MonoBehaviour
             state = State.Operating;
     }
 
+    /*
+     * WORK FUNCTIONS
+     */
+
     public virtual float BuildingEfficiency()
     {
         if (workStations.Length > 0)
         {
             float efficiency = 0;
-            foreach (Colonist colonist in colonists)
+            foreach (WorkStation station in workStations)
             {
-                efficiency += colonist.workEfficiency;
+                efficiency += station.GetWorkStationEfiiciency();
             }
             return efficiency / workStations.Length;
         }
@@ -204,6 +213,31 @@ public class Building : MonoBehaviour
         {
             return 0;
         }
+    }
+
+    public int OccupiedWorkStationCount()
+    {
+        int count = 0;
+        foreach (WorkStation station in workStations)
+        {
+            if (station.stationedColonist != null)
+                count++;
+        }
+        return count;  
+    }
+
+    public WorkStation GetEmptyWorkStation()
+    {
+        if (OccupiedWorkStationCount() >= workStations.Length)
+            Debug.Log($"no empty work stations at {gameObject.name}"); 
+
+        foreach (WorkStation station in workStations)
+        {
+            if (station.stationedColonist == null)
+                return station;
+        }
+
+        return null;
     }
 
 

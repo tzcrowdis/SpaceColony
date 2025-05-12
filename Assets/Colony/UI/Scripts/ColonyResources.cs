@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class ColonyResources : MonoBehaviour
 {
@@ -43,6 +44,16 @@ public class ColonyResources : MonoBehaviour
     [Header("Unemployed Colonists")]
     public List<Colonist> unemployedColonists = new List<Colonist>();
 
+    // Buildings by Job Type
+    List<Building> genericBuildings = new List<Building>();
+    List<Building> energyBuildings = new List<Building>();
+    List<Building> extractionBuildings = new List<Building>();
+    List<Building> farmBuildings = new List<Building>();
+    List<Building> researchBuildings = new List<Building>();
+    List<Building> cafeteriaBuildings = new List<Building>();
+    List<Building> recreationBuildings = new List<Building>();
+    List<Building> sleepBuildings = new List<Building>();
+
     public static ColonyResources instance { get; private set; }
     private void Awake()
     {
@@ -71,6 +82,10 @@ public class ColonyResources : MonoBehaviour
             { ResourceTypes.Mineral, mineralMax },
             { ResourceTypes.Research, researchMax }
         };
+
+        Building[] allBuildings = FindObjectsOfType<Building>();
+        foreach (Building building in allBuildings)
+            AddBuildingToTypeList(building);
     }
 
     void Update()
@@ -146,5 +161,64 @@ public class ColonyResources : MonoBehaviour
             return true;
         else
             return false;
+    }
+
+    /*
+     * BUILDING FUNCTIONS
+     */
+    public void AddBuildingToTypeList(Building building)
+    {
+        switch (building.buildingType)
+        {
+            case Building.BuildingType.Generic:
+                genericBuildings.Add(building);
+                break;
+            case Building.BuildingType.Energy:
+                energyBuildings.Add(building);
+                break;
+            case Building.BuildingType.Extraction:
+                extractionBuildings.Add(building);
+                break;
+            case Building.BuildingType.Farm:
+                farmBuildings.Add(building);
+                break;
+            case Building.BuildingType.Research:
+                researchBuildings.Add(building);
+                break;
+            case Building.BuildingType.Cafeteria:
+                cafeteriaBuildings.Add(building);
+                break;
+            case Building.BuildingType.Recreation:
+                recreationBuildings.Add(building);
+                break;
+            case Building.BuildingType.Sleep:
+                sleepBuildings.Add(building);
+                break;
+        }
+    }
+
+    public List<Building> GetBuildingListByType(Building.BuildingType type)
+    {
+        switch (type)
+        {
+            case Building.BuildingType.Generic:
+                return genericBuildings;
+            case Building.BuildingType.Energy:
+                return energyBuildings;
+            case Building.BuildingType.Extraction:
+                return extractionBuildings;
+            case Building.BuildingType.Farm:
+                return farmBuildings;
+            case Building.BuildingType.Research:
+                return researchBuildings;
+            case Building.BuildingType.Cafeteria:
+                return cafeteriaBuildings;
+            case Building.BuildingType.Recreation:
+                return recreationBuildings;
+            case Building.BuildingType.Sleep:
+                return sleepBuildings;
+        }
+
+        return null;
     }
 }

@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using ColonistAI;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
 
@@ -15,15 +14,16 @@ public class Colonist : MonoBehaviour
     public bool requiresPlayerAttention;
     public ColonistListItem colonistListItem;
 
-    public enum JobTypes
+    public enum JobType
     {
         Unemployed,
         Farmer,
         Engineer,
         Medic,
-        Scientist
+        Scientist,
+        Chef
     }
-    public JobTypes job;
+    public JobType job;
 
     public enum Suggestion
     {
@@ -108,7 +108,8 @@ public class Colonist : MonoBehaviour
     WorkState workState;
 
     [Header("Occupation")]
-    public GameObject workStation;
+    public Building workplace;
+    public WorkStation workStation;
     [HideInInspector]
     public float workEfficiency;
 
@@ -120,10 +121,12 @@ public class Colonist : MonoBehaviour
 
     void Start()
     {
-        job = JobTypes.Unemployed;
+        job = JobType.Unemployed;
         
-        if (job == JobTypes.Unemployed)
+        if (job == JobType.Unemployed)
             ColonyResources.instance.unemployedColonists.Add(this);
+
+        workplace = ColonistAI.FindNewWorkplace(job);
 
         state = State.Rest;
         workState = WorkState.GoingToWork;
@@ -150,7 +153,7 @@ public class Colonist : MonoBehaviour
     
     public void ChangeColonistsJob(int value)
     {
-        job = (Colonist.JobTypes)value;
+        job = (Colonist.JobType)value;
     }
 
     public void MakeSuggestion(Suggestion suggest)

@@ -42,7 +42,7 @@ public class ColonistInfoMenu : MonoBehaviour
 
         // occupation
         occupationDropdown.ClearOptions();
-        foreach (var r in Enum.GetValues(typeof(Colonist.JobTypes)))
+        foreach (var r in Enum.GetValues(typeof(Colonist.JobType)))
             occupationDropdown.options.Add(new TMP_Dropdown.OptionData() { text = r.ToString() });
         occupationDropdown.onValueChanged.AddListener(colonist.ChangeColonistsJob);
         occupationDropdown.RefreshShownValue();
