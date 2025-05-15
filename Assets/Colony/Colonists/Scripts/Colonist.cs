@@ -7,9 +7,9 @@ using System.Linq;
 
 public class Colonist : MonoBehaviour
 {
+    [Header("Colonist UI Elements")]
     public string characterName; // becomes the object name on start
     public Sprite headshot;
-
     public GameObject colonistMenuPrefab;
     public bool requiresPlayerAttention;
     public ColonistListItem colonistListItem;
@@ -71,43 +71,54 @@ public class Colonist : MonoBehaviour
         {Skill.Medicine, 0 },
         {Skill.Science, 0 },
         // etc.
-    }; 
-
-
-    // TODO vars beneath this comment subject to rework
-
+    };
 
     // HEALTH/STATUS
-    // limbs
-    GameObject head;
-    GameObject armR;
-    GameObject armL;
-    GameObject legR;
-    GameObject legL;
+
+    // TODO function that updates this
+    float health; // 0% dead / 100% healthy
+
+    // TODO function that updates this
+    float sleep; // 0% needs to sleep / 100% well rested
+
+    // TODO function that updates this
+    float hunger; // 0% needs to eat or lose health / 100% well fed
+
+    // TODO consider status effects like sick, injured, etc.
+
+    enum Emotion
+    {
+        Bored,
+        Angry,
+        Happy,
+        Sad
+        // etc.
+    }
+    Emotion emotion; // TODO getters/setters
 
     // NOTE: high level states
-    enum State
+    public enum State
     {
+        Navigate,
         Rest,
-        Work
+        Work,
+        Sleep,
+        Eat
+        // Kill
+        // Stalk
+        // Sabotage
     }
-    State state;
+    public State state;
 
-
-    // WORKING (rework later)
-    enum WorkState
-    {
-        GoingToWork,
-        AtWork
-    }
-    WorkState workState;
+    [Header("Navigate State")]
+    public Transform navDestination;
+    public State navNextState;
 
     [Header("Occupation")]
     public Building workplace;
     public WorkStation workStation;
     [HideInInspector]
     public float workEfficiency;
-
 
     // ADMINISTRATIVE
     [Header("Administrative")]
@@ -116,7 +127,7 @@ public class Colonist : MonoBehaviour
 
     void Start()
     {
-        job = JobType.Unemployed;
+        job = JobType.Unemployed; // TODO load from save file
         
         if (job == JobType.Unemployed)
             ColonyResources.instance.unemployedColonists.Add(this);
@@ -124,17 +135,20 @@ public class Colonist : MonoBehaviour
         workplace = ColonistAI.FindNewWorkplace(job);
 
         state = State.Rest;
-        workState = WorkState.GoingToWork;
 
         gameObject.name = characterName;
 
-        GenerateProficiencies(); // TODO logic to Load or Generate these (and all other colonist attributes)
+        LoadOrGenerateProficiencies(); // TODO logic to Load or Generate these (and all other colonist attributes)
     }
 
     void Update()
     {
         switch (state)
         {
+            case State.Navigate:
+                Navigate();
+                break;
+
             case State.Rest:
                 Rest();
                 break;
@@ -142,10 +156,20 @@ public class Colonist : MonoBehaviour
             case State.Work:
                 Work();
                 break;
+
+            case State.Sleep:
+                Sleep();
+                break;
+
+            case State.Eat:
+                Eat();
+                break;
         }
     }
 
-    
+    /*
+     * PLAYER INPUTS
+     */
     public void ChangeColonistsJob(int value)
     {
         job = (JobType)value;
@@ -156,10 +180,15 @@ public class Colonist : MonoBehaviour
     public void MakeSuggestion(Suggestion suggest)
     {
         suggestion = suggest;
+
+        // TODO react to suggestions
     }
 
-    void GenerateProficiencies()
+    void LoadOrGenerateProficiencies()
     {
+        // TODO check for save file
+        
+        // generate proficiencies
         foreach (var key in proficiencies.Keys.ToList())
         {
             // options: -0.25, 0, 0.25 
@@ -175,94 +204,50 @@ public class Colonist : MonoBehaviour
     }
 
 
+    /*
+     * STATES
+     */
 
+    void Navigate()
+    {
+        ColonistAI.ColonistAnimation("Walking", animator);
 
-    // TODO functions beneath this line subject to rework
+        if (ColonistAI.GoToDestination(navDestination, agent))
+        {
+            state = navNextState;
+        }
+    }
 
     void Rest()
     {
-        ColonistAnimation("Idling");
+        ColonistAI.ColonistAnimation("Idling", animator);
 
-        if (workStation != null)
+        if (workStation != null) // TODO more complex exit rest condition
         {
-            state = State.Work;
+            state = State.Navigate;
+            navNextState = State.Work;
         }
     }
-
-    /*
-     *  WORK FUNCTIONS
-     */
 
     void Work()
     {
-        // TODO check if assigned building is in Idle or Operating
-        
-        // TODO check which substate?
-        
-        switch (workState)
-        {
-            case WorkState.GoingToWork:
-                GoingToWork();
-                break;
+        // TODO check if assigned building is in Idle or Operating (done?)
 
-            case WorkState.AtWork:
-                AtWork();
-                break;
-        }
+        ColonistAI.ColonistAnimation("Working", animator);
 
-        UpdateWorkEfficiency();
-    }
-
-    void GoingToWork()
-    {
-        ColonistAnimation("Walking");
-        
-        agent.destination = workStation.transform.position;
-
-        // if at work station
-        if (!agent.pathPending & agent.remainingDistance < agent.stoppingDistance)
-        {
-            // face direction of work station
-            transform.forward = workStation.transform.forward;
-
-            workState = WorkState.AtWork;
-        }
-    }
-
-    void AtWork()
-    {
-        ColonistAnimation("Working");
-        
-        if (workStation == null)
+        if (workStation == null) // TODO go to recreation area or eat or sleep depending
             state = State.Rest;
+
+        ColonistAI.UpdateWorkEfficiency(this);
     }
 
-    void UpdateWorkEfficiency()
+    void Sleep()
     {
-        if (state == State.Work && workState == WorkState.AtWork)
-        {
-            workEfficiency = 1f;
-        }
-        else
-        {
-            workEfficiency = 0f;
-        }
+
     }
 
-
-    /*
-     * HELPER FUNCTIONS
-     */
-
-    void ColonistAnimation(string animationName)
+    void Eat()
     {
-        if (!animator.GetBool(animationName))
-        {
-            foreach (AnimatorControllerParameter parameter in animator.parameters)
-                animator.SetBool(parameter.name, false);
-            animator.SetBool(animationName, true);
-        }
-    }
 
-    
+    }
 }

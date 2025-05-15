@@ -1,10 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public static class ColonistAI
 {
     // TODO functions that handle low level AI behavior and colonist behavior in general
+
+    public static bool GoToDestination(Transform destination, NavMeshAgent agent) // true if at destination
+    {
+        if (agent.destination != destination.position)
+            agent.destination = destination.position;
+
+        // check if at destination
+        if (!agent.pathPending & agent.remainingDistance < agent.stoppingDistance)
+        {
+            agent.transform.forward = destination.forward; // face direction of destination object
+            return true;
+        }
+
+        return false;
+    }
     
     /*
      * WORKING
@@ -135,5 +151,32 @@ public static class ColonistAI
         }
         
         return null;
+    }
+
+    public static void UpdateWorkEfficiency(Colonist colonist)
+    {
+        // TODO change based on skills/proficiencies/status
+
+        if (colonist.state == Colonist.State.Work)// && colonist.workState == Colonist.WorkState.AtWork)
+        {
+            colonist.workEfficiency = 1f;
+        }
+        else
+        {
+            colonist.workEfficiency = 0f;
+        }
+    }
+
+    /*
+     * ANIMATIONS
+     */
+    public static void ColonistAnimation(string animationName, Animator animator)
+    {
+        if (!animator.GetBool(animationName))
+        {
+            foreach (AnimatorControllerParameter parameter in animator.parameters)
+                animator.SetBool(parameter.name, false);
+            animator.SetBool(animationName, true);
+        }
     }
 }
