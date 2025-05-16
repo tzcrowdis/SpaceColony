@@ -76,13 +76,13 @@ public class Colonist : MonoBehaviour
     // HEALTH/STATUS
 
     // TODO function that updates this
-    float health; // 0% dead / 100% healthy
+    public float health = 1f; // 0% dead / 100% healthy
 
     // TODO function that updates this
-    float sleep; // 0% needs to sleep / 100% well rested
+    public float sleep = 1f; // 0% needs to sleep / 100% well rested
 
     // TODO function that updates this
-    float hunger; // 0% needs to eat or lose health / 100% well fed
+    public float hunger = 1f; // 0% needs to eat or lose health / 100% well fed
 
     // TODO consider status effects like sick, injured, etc.
 
@@ -103,7 +103,8 @@ public class Colonist : MonoBehaviour
         Rest,
         Work,
         Sleep,
-        Eat
+        Eat,
+        Injured
         // Kill
         // Stalk
         // Sabotage
@@ -128,7 +129,6 @@ public class Colonist : MonoBehaviour
     void Start()
     {
         job = JobType.Unemployed; // TODO load from save file
-        
         if (job == JobType.Unemployed)
             ColonyResources.instance.unemployedColonists.Add(this);
 
@@ -164,6 +164,10 @@ public class Colonist : MonoBehaviour
             case State.Eat:
                 Eat();
                 break;
+
+            case State.Injured:
+                Injured();
+                break;
         }
     }
 
@@ -174,14 +178,21 @@ public class Colonist : MonoBehaviour
     {
         job = (JobType)value;
 
-        workplace = ColonistAI.FindNewWorkplace(job);
+        if (job == JobType.Unemployed)
+        {
+            workplace.RemoveColonistFromWorkplace(this);
+            workplace = null;
+        }
+        else
+        {
+            workplace = ColonistAI.FindNewWorkplace(job);
+            workStation = workplace.GetEmptyWorkStation();
+        }  
     }
 
     public void MakeSuggestion(Suggestion suggest)
     {
         suggestion = suggest;
-
-        // TODO react to suggestions
     }
 
     void LoadOrGenerateProficiencies()
@@ -210,9 +221,28 @@ public class Colonist : MonoBehaviour
 
     void Navigate()
     {
+        switch (navNextState)
+        {
+            case State.Rest:
+                // TODO find rest location
+                break;
+            case State.Work:
+                navDestination = workStation.transform;
+                break;
+            case State.Sleep:
+                // TODO find bed
+                break;
+            case State.Eat:
+                // TODO find cafeteria
+                break;
+            case State.Injured:
+                // TODO find hospital
+                break;
+        }
+        
         ColonistAI.ColonistAnimation("Walking", animator);
 
-        if (ColonistAI.GoToDestination(navDestination, agent))
+        if (ColonistAI.NavigateToDestination(navDestination, agent))
         {
             state = navNextState;
         }
@@ -220,34 +250,61 @@ public class Colonist : MonoBehaviour
 
     void Rest()
     {
+        // TODO go to recreation area then idle
+        
         ColonistAI.ColonistAnimation("Idling", animator);
 
-        if (workStation != null) // TODO more complex exit rest condition
-        {
-            state = State.Navigate;
-            navNextState = State.Work;
-        }
+        // TODO
+        // - sleep & _ health & - hunger
+
+        state = ColonistAI.ExitRestState(this);
     }
 
     void Work()
     {
-        // TODO check if assigned building is in Idle or Operating (done?)
+        if (!ColonistAI.AtDestination(workStation.transform, agent))
+        {
+            navNextState = State.Work;
+            state = State.Navigate;
+            return;
+        }
 
         ColonistAI.ColonistAnimation("Working", animator);
-
-        if (workStation == null) // TODO go to recreation area or eat or sleep depending
-            state = State.Rest;
-
         ColonistAI.UpdateWorkEfficiency(this);
+
+        // TODO
+        // -- sleep & _ health & -- hunger
+
+        state = ColonistAI.ExitWorkState(this);
     }
 
     void Sleep()
     {
+        // TODO
+        // go to bed
+        // play sleep animation
+        // + sleep & + health & - hunger
 
+        // TODO get sleep rate based on building
     }
 
     void Eat()
     {
+        // TODO
+        // go to cafeteria
+        // play eat animation
+        // - sleep & + health & + hunger
 
+        // TODO get hunger rate based on building
+    }
+
+    void Injured()
+    {
+        // TODO
+        // go to hospital
+        // play recovery animation
+        // _ sleep & + health & _ hunger
+
+        // TODO get healing rate based on building
     }
 }

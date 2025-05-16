@@ -5,9 +5,13 @@ using UnityEngine.AI;
 
 public static class ColonistAI
 {
-    // TODO functions that handle low level AI behavior and colonist behavior in general
+    // functions that handle low level AI behavior and colonist behavior in general
 
-    public static bool GoToDestination(Transform destination, NavMeshAgent agent) // true if at destination
+    /*
+     * STATES
+     */
+    // TODO integrate suggestions!!!
+    public static bool NavigateToDestination(Transform destination, NavMeshAgent agent) // true if at destination
     {
         if (agent.destination != destination.position)
             agent.destination = destination.position;
@@ -21,7 +25,91 @@ public static class ColonistAI
 
         return false;
     }
-    
+
+    public static bool AtDestination(Transform destination, NavMeshAgent agent)
+    {
+        return !agent.pathPending & Vector3.Distance(destination.position, agent.transform.position) < agent.stoppingDistance;
+    }
+
+    public static Colonist.State ExitStateBasicNeeds(Colonist colonist)
+    {
+        if (colonist.health < 0.1f)
+            return Colonist.State.Injured;
+
+        if (colonist.sleep < colonist.hunger && colonist.sleep < 0.1f)
+            return Colonist.State.Sleep;
+
+        if (colonist.hunger < colonist.sleep && colonist.hunger < 0.1f)
+            return Colonist.State.Eat;
+
+        return colonist.state;
+    }
+
+    public static Colonist.State ExitRestState(Colonist colonist)
+    {
+        Colonist.State state = ExitStateBasicNeeds(colonist);
+        if (state != colonist.state)
+            return state;
+
+        if (colonist.job != Colonist.JobType.Unemployed & colonist.workStation != null)
+            return Colonist.State.Work;
+
+        return colonist.state;
+    }
+
+    public static Colonist.State ExitWorkState(Colonist colonist)
+    {
+        Colonist.State state = ExitStateBasicNeeds(colonist);
+        if (state != colonist.state)
+            return state;
+
+        // TODO emotion exits
+
+        if (colonist.workplace.state == Building.State.Idle)
+            return Colonist.State.Rest;
+
+        return colonist.state;
+    }
+
+    public static Colonist.State ExitSleepState(Colonist colonist)
+    {
+        if (colonist.hunger < 0.1f && colonist.sleep > 0.5f)
+            return Colonist.State.Eat;
+
+        if (colonist.sleep >= 1f)
+        {
+            if (colonist.hunger < 0.5f)
+                return Colonist.State.Eat;
+
+            return Colonist.State.Work;
+        }
+
+        return colonist.state;
+    }
+
+    public static Colonist.State ExitEatState(Colonist colonist)
+    {
+        if (colonist.hunger >= 1f)
+        {
+            if (colonist.sleep < 0.1f)
+                return Colonist.State.Sleep;
+
+            if (colonist.job != Colonist.JobType.Unemployed & colonist.workStation != null)
+                return Colonist.State.Work;
+            else
+                return Colonist.State.Rest;
+        }
+
+        return colonist.state;
+    }
+
+    public static Colonist.State ExitInjuredState(Colonist colonist)
+    {
+        // TODO
+
+        return colonist.state;
+    }
+
     /*
      * WORKING
      */
@@ -157,7 +245,7 @@ public static class ColonistAI
     {
         // TODO change based on skills/proficiencies/status
 
-        if (colonist.state == Colonist.State.Work)// && colonist.workState == Colonist.WorkState.AtWork)
+        if (colonist.state == Colonist.State.Work)
         {
             colonist.workEfficiency = 1f;
         }

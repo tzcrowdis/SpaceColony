@@ -240,6 +240,19 @@ public class Building : MonoBehaviour
         return null;
     }
 
+    public void RemoveColonistFromWorkplace(Colonist colonist)
+    {
+        foreach (WorkStation station in workStations)
+        {
+            if (station.stationedColonist == colonist)
+            {
+                station.stationedColonist = null;
+                colonist.workStation = null;
+                return;
+            }
+        }
+    }
+
 
     /*
      * MISC FUNCTIONS
