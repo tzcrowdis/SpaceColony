@@ -39,6 +39,7 @@ public class Building : MonoBehaviour
         Extraction,
         Farm,
         Research,
+        Storage,
         Cafeteria,
         Medical,
         Recreation,
@@ -49,8 +50,6 @@ public class Building : MonoBehaviour
 
     [Header("Colonists")]
     public WorkStation[] workStations;
-    [HideInInspector]
-    //public List<Colonist> colonists; // NOTE: line up indexes with work station
 
     [Header("Building UI")]
     //TODO reworking...
@@ -129,6 +128,7 @@ public class Building : MonoBehaviour
 
         // add to building list
         buildingListItem = BuildingList.instance.AddBuildingToList(this);
+        ColonyResources.instance.AddBuildingToTypeList(this);
 
         state = State.Construction;
     }

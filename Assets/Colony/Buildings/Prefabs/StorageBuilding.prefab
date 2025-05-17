@@ -93,8 +93,8 @@ MonoBehaviour:
   productionQuantity: 0
   consumptionResource: 0
   consumptionQuantity: 0
+  buildingType: 5
   workStations: []
-  colonists: []
   buildingMenuPrefab: {fileID: 2104327364345012469, guid: de7f6f1504ef48245b39acd94630a078,
     type: 3}
   buildingListItem: {fileID: 0}

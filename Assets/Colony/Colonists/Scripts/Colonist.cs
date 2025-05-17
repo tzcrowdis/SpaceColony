@@ -238,14 +238,16 @@ public class Colonist : MonoBehaviour
             case State.Injured:
                 // TODO find hospital
                 break;
+
+            default:
+                navDestination = transform;
+                break;
         }
         
         ColonistAI.ColonistAnimation("Walking", animator);
 
         if (ColonistAI.NavigateToDestination(navDestination, agent))
-        {
             state = navNextState;
-        }
     }
 
     void Rest()

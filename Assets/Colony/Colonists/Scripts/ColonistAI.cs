@@ -128,6 +128,9 @@ public static class ColonistAI
                 if (farmList.Count == 0)
                     break;
 
+                foreach (Building building in farmList)
+                    Debug.Log(building.name);
+
                 foreach (Building bldg in farmList)
                     if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
                 break;
