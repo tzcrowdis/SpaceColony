@@ -19,10 +19,10 @@ public class BuildingInfoMenu : MonoBehaviour
     public TMP_Text generation;
     public TMP_Text consumption;
 
-    [Header("Work Stations")]
-    [Tooltip("order of dropdowns must be same as order of work stations in building hierarchy")]
-    public TMP_Dropdown[] workStationDropdowns;
-    int[] dropdownSelections;
+    //[Header("Work Stations")]
+    //[Tooltip("order of dropdowns must be same as order of work stations in building hierarchy")]
+    //public TMP_Dropdown[] workStationDropdowns;
+    //int[] dropdownSelections;
 
     [Header("Exit Button")]
     public Button exit;

@@ -117,7 +117,7 @@ public class Colonist : MonoBehaviour
 
     [Header("Occupation")]
     public Building workplace;
-    public WorkStation workStation;
+    public Station workStation;
     [HideInInspector]
     public float workEfficiency;
 
@@ -180,13 +180,15 @@ public class Colonist : MonoBehaviour
 
         if (job == JobType.Unemployed)
         {
-            workplace.RemoveColonistFromWorkplace(this);
+            if (workplace != null)
+                workplace.RemoveColonistFromWorkplace(this);
             workplace = null;
         }
         else
         {
             workplace = ColonistAI.FindNewWorkplace(job);
-            workStation = workplace.GetEmptyWorkStation();
+            if (workplace != null)
+                workStation = workplace.GetEmptyWorkStation();
         }  
     }
 

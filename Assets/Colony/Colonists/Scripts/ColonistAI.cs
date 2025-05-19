@@ -128,11 +128,8 @@ public static class ColonistAI
                 if (farmList.Count == 0)
                     break;
 
-                foreach (Building building in farmList)
-                    Debug.Log(building.name);
-
                 foreach (Building bldg in farmList)
-                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                 break;
 
             case Colonist.JobType.Engineer:
@@ -156,7 +153,7 @@ public static class ColonistAI
                 if (chosenList != null)
                 {
                     foreach (Building bldg in chosenList)
-                        if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                        if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                 }
 
                 // both sectors available -> go with sector with less workers unless full
@@ -174,17 +171,17 @@ public static class ColonistAI
                     // find total number of available stations
                     int extractionWorkerCapacity = 0;
                     foreach (Building bldg in extractionList)
-                        extractionWorkerCapacity += bldg.workStations.Length;
+                        extractionWorkerCapacity += bldg.workStations.Count;
 
                     if (extractionWorkerCount / extractionWorkerCapacity < 1f)
                     {
                         foreach (Building bldg in extractionList)
-                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                     }
                     else
                     {
                         foreach (Building bldg in energyList)
-                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                     }
                 }
                 
@@ -193,17 +190,17 @@ public static class ColonistAI
                 {
                     int energyWorkerCapacity = 0;
                     foreach (Building bldg in energyList)
-                        energyWorkerCapacity += bldg.workStations.Length;
+                        energyWorkerCapacity += bldg.workStations.Count;
 
                     if (energyWorkerCount / energyWorkerCapacity < 1f)
                     {
                         foreach (Building bldg in energyList)
-                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                     }
                     else
                     {
                         foreach (Building bldg in extractionList)
-                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                            if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                     }
                 }
                 break;
@@ -216,7 +213,7 @@ public static class ColonistAI
                     break;
 
                 foreach (Building bldg in medicalList)
-                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                 break;
 
             case Colonist.JobType.Scientist:
@@ -227,7 +224,7 @@ public static class ColonistAI
                     break;
 
                 foreach (Building bldg in researchList)
-                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                 break;
 
             case Colonist.JobType.Cook:
@@ -237,7 +234,7 @@ public static class ColonistAI
                 if (cafeList.Count == 0) break;
 
                 foreach (Building bldg in cafeList)
-                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Length) return bldg;
+                    if (bldg.OccupiedWorkStationCount() < bldg.workStations.Count) return bldg;
                 break;
         }
         

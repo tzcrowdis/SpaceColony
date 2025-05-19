@@ -59,7 +59,9 @@ public class ResourceExtractorBuildingMenu : BuildingInfoMenu
         // TODO test this, i think something will be funky with more than one planet resources 
         // might be true for colonists as well
         
-        reBuilding.ChangeSelectedResource(selectedResource); 
+        reBuilding.ChangeSelectedResource(selectedResource);
         //UpdateResourceTargetList(false);
+
+        resourceDropdown.Hide();
     }
 }

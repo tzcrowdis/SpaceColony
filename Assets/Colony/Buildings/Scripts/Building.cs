@@ -49,7 +49,9 @@ public class Building : MonoBehaviour
     public BuildingType buildingType;
 
     [Header("Colonists")]
-    public WorkStation[] workStations;
+    public Transform workStationsParent;
+    [HideInInspector]
+    public List<Station> workStations;
 
     [Header("Building UI")]
     //TODO reworking...
@@ -90,6 +92,10 @@ public class Building : MonoBehaviour
         {
             Debug.Log($"renderer not found on {gameObject.name}");
         }
+
+        // work stations
+        foreach (Transform child in workStationsParent)
+            workStations.Add(child.GetComponent<Station>());
 
         clickCollider = GetComponent<Collider>();
         if (state == State.Blueprint)
@@ -200,14 +206,14 @@ public class Building : MonoBehaviour
      */
     public virtual float BuildingEfficiency()
     {
-        if (workStations.Length > 0)
+        if (workStations.Count > 0)
         {
             float efficiency = 0;
-            foreach (WorkStation station in workStations)
+            foreach (Station station in workStations)
             {
                 efficiency += station.GetWorkStationEfiiciency();
             }
-            return efficiency / workStations.Length;
+            return efficiency / workStations.Count;
         }
         else
         {
@@ -218,7 +224,7 @@ public class Building : MonoBehaviour
     public int OccupiedWorkStationCount()
     {
         int count = 0;
-        foreach (WorkStation station in workStations)
+        foreach (Station station in workStations)
         {
             if (station.stationedColonist != null)
                 count++;
@@ -226,14 +232,14 @@ public class Building : MonoBehaviour
         return count;  
     }
 
-    public WorkStation GetEmptyWorkStation()
+    public Station GetEmptyWorkStation()
     {
-        if (OccupiedWorkStationCount() >= workStations.Length)
+        if (OccupiedWorkStationCount() >= workStations.Count)
             Debug.Log($"no empty work stations at {gameObject.name}"); 
 
-        foreach (WorkStation station in workStations)
+        foreach (Station station in workStations)
         {
-            if (station.stationedColonist == null)
+            if (station.stationedColonist == null && station.type == Station.StationType.Work)
                 return station;
         }
 
@@ -242,9 +248,9 @@ public class Building : MonoBehaviour
 
     public void RemoveColonistFromWorkplace(Colonist colonist)
     {
-        foreach (WorkStation station in workStations)
+        foreach (Station station in workStations)
         {
-            if (station.stationedColonist == colonist)
+            if (station.stationedColonist == colonist && station.type == Station.StationType.Work)
             {
                 station.stationedColonist = null;
                 colonist.workStation = null;

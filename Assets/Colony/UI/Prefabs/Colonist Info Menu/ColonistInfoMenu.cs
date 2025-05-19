@@ -44,7 +44,7 @@ public class ColonistInfoMenu : MonoBehaviour
         occupationDropdown.ClearOptions();
         foreach (var r in Enum.GetValues(typeof(Colonist.JobType)))
             occupationDropdown.options.Add(new TMP_Dropdown.OptionData() { text = r.ToString() });
-        occupationDropdown.onValueChanged.AddListener(colonist.ChangeColonistsJob);
+        occupationDropdown.onValueChanged.AddListener(SendChangeColonistJob);
         occupationDropdown.RefreshShownValue();
 
         // mental state
@@ -81,6 +81,15 @@ public class ColonistInfoMenu : MonoBehaviour
     void CloseColonistMenu()
     {
         Destroy(gameObject);
+    }
+
+    /*
+     * OCCUPATION MENU
+     */
+    void SendChangeColonistJob(int value)
+    {
+        colonist.ChangeColonistsJob(value);
+        occupationDropdown.Hide();
     }
 
     /*

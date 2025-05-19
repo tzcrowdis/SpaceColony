@@ -33,5 +33,7 @@ public class StorageBuildingMenu : BuildingInfoMenu
             building.buildingListItem.BuildingAlert();
         else
             building.buildingListItem.ClearBuildingAlert();
+
+        resourceDropdown.Hide();
     }
 }
