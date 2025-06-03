@@ -48,10 +48,10 @@ public class Building : MonoBehaviour
     [Header("Building Type")]
     public BuildingType buildingType;
 
-    [Header("Colonists")]
-    public Transform workStationsParent;
+    [Header("Colonists")] // TODO: generalize to station
+    public Transform stationsParent;
     [HideInInspector]
-    public List<Station> workStations;
+    public List<Station> stations;
 
     [Header("Building UI")]
     //TODO reworking...
@@ -64,7 +64,6 @@ public class Building : MonoBehaviour
     public bool requiresPlayerAttention;
     // drop vars when building clicking dropped
     public bool panelOpen = false;
-    public Collider clickCollider;
 
     public enum State
     {
@@ -94,12 +93,8 @@ public class Building : MonoBehaviour
         }
 
         // work stations
-        foreach (Transform child in workStationsParent)
-            workStations.Add(child.GetComponent<Station>());
-
-        clickCollider = GetComponent<Collider>();
-        if (state == State.Blueprint)
-            clickCollider.enabled = false;
+        foreach (Transform child in stationsParent)
+            stations.Add(child.GetComponent<Station>());
     }
 
     protected virtual void Update()
@@ -122,8 +117,6 @@ public class Building : MonoBehaviour
                 Idle();
                 break;
         }
-
-        BuildingClicked();
     }
 
     public void PlaceBuilding()
@@ -201,19 +194,20 @@ public class Building : MonoBehaviour
             state = State.Operating;
     }
 
+    // TODO: GENERALIZE WORK STATION FUNCTIONS TO STATION
     /*
-     * WORK FUNCTIONS
+     * STATION FUNCTIONS
      */
     public virtual float BuildingEfficiency()
     {
-        if (workStations.Count > 0)
+        if (stations.Count > 0)
         {
             float efficiency = 0;
-            foreach (Station station in workStations)
+            foreach (Station station in stations)
             {
                 efficiency += station.GetWorkStationEfiiciency();
             }
-            return efficiency / workStations.Count;
+            return efficiency / stations.Count;
         }
         else
         {
@@ -221,10 +215,10 @@ public class Building : MonoBehaviour
         }
     }
 
-    public int OccupiedWorkStationCount()
+    public int OccupiedStationCount()
     {
         int count = 0;
-        foreach (Station station in workStations)
+        foreach (Station station in stations)
         {
             if (station.stationedColonist != null)
                 count++;
@@ -232,14 +226,14 @@ public class Building : MonoBehaviour
         return count;  
     }
 
-    public Station GetEmptyWorkStation()
+    public Station GetEmptyStation(Station.StationType type)
     {
-        if (OccupiedWorkStationCount() >= workStations.Count)
-            Debug.Log($"no empty work stations at {gameObject.name}"); 
+        if (OccupiedStationCount() >= stations.Count)
+            Debug.Log($"no empty stations at {gameObject.name}"); 
 
-        foreach (Station station in workStations)
+        foreach (Station station in stations)
         {
-            if (station.stationedColonist == null && station.type == Station.StationType.Work)
+            if (station.stationedColonist == null && station.type == type)
                 return station;
         }
 
@@ -248,7 +242,7 @@ public class Building : MonoBehaviour
 
     public void RemoveColonistFromWorkplace(Colonist colonist)
     {
-        foreach (Station station in workStations)
+        foreach (Station station in stations)
         {
             if (station.stationedColonist == colonist && station.type == Station.StationType.Work)
             {
@@ -263,32 +257,6 @@ public class Building : MonoBehaviour
     /*
      * MISC FUNCTIONS
      */
-    protected void BuildingClicked() // NOTE requires collider
-    {
-        // TODO should this all just be in the OnMouseOver function?
-        
-        if (state == State.Operating & !panelOpen & !EventSystem.current.IsPointerOverGameObject())
-        {
-            Camera camera = Camera.main;
-            Mouse mouse = Mouse.current;
-            if (mouse.leftButton.wasPressedThisFrame)
-            {
-                Vector3 mousePosition = mouse.position.ReadValue();
-                Ray ray = camera.ScreenPointToRay(mousePosition);
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                {
-                    if (hit.collider.gameObject == gameObject)
-                    {
-                        bldgMenu.transform.position = mousePosition;
-                        bldgMenu.SetActive(true);
-
-                        panelOpen = true;
-                    }
-                }
-            }
-        }
-    }
-
     void OnDestroy()
     {
         // TODO handle colonists inside building or other edge cases

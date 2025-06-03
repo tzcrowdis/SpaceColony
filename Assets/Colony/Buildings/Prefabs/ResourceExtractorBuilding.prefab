@@ -42,7 +42,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9215448319421412872}
   - component: {fileID: 5943282946622346483}
-  - component: {fileID: 8918892182604545616}
   - component: {fileID: 5143837898394425224}
   - component: {fileID: 3601379028841776357}
   - component: {fileID: 5414381194610713209}
@@ -104,34 +103,12 @@ MonoBehaviour:
   title: Extractor
   requiresPlayerAttention: 1
   panelOpen: 0
-  clickCollider: {fileID: 8918892182604545616}
   state: 0
   laser: {fileID: 5143837898394425224}
   laserStart: {fileID: 8071623352477791956}
   laserDestination: {x: 0, y: 0, z: 0}
   laserSpeed: 100
   selectedResource: {fileID: 0}
---- !u!65 &8918892182604545616
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215909687505184283}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!120 &5143837898394425224
 LineRenderer:
   serializedVersion: 2

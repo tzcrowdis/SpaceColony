@@ -82,7 +82,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3004186883045529395}
   - component: {fileID: 853096904587910856}
-  - component: {fileID: 5026702420130959411}
   m_Layer: 0
   m_Name: HydroponicsBuilding
   m_TagString: Building
@@ -139,29 +138,7 @@ MonoBehaviour:
   title: Hydroponic Farm
   requiresPlayerAttention: 0
   panelOpen: 0
-  clickCollider: {fileID: 5026702420130959411}
   state: 0
---- !u!65 &5026702420130959411
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6863153877757639604}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &146025447169604397
 PrefabInstance:
   m_ObjectHideFlags: 0

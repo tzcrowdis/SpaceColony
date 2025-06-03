@@ -74,15 +74,19 @@ public class Colonist : MonoBehaviour
     };
 
     // HEALTH/STATUS
-
-    // TODO function that updates this
+    [Header("Status'")]
     public float health = 1f; // 0% dead / 100% healthy
+    public float healthDelta = 0.1f;
 
-    // TODO function that updates this
     public float sleep = 1f; // 0% needs to sleep / 100% well rested
+    public float sleepDelta = 0.01f;
 
-    // TODO function that updates this
     public float hunger = 1f; // 0% needs to eat or lose health / 100% well fed
+    public float hungerDelta = 0.02f;
+
+    [Header("Status Delta Modifiers")]
+    public float workDeltaModifier = 2f;
+    public float sleepDeltaModifier = 0.5f;
 
     // TODO consider status effects like sick, injured, etc.
 
@@ -115,11 +119,14 @@ public class Colonist : MonoBehaviour
     public Transform navDestination;
     public State navNextState;
 
-    [Header("Occupation")]
+    [Header("Work State")]
     public Building workplace;
     public Station workStation;
     [HideInInspector]
     public float workEfficiency;
+
+    [Header("Sleep State")]
+    public Station colonistsBed;
 
     // ADMINISTRATIVE
     [Header("Administrative")]
@@ -188,7 +195,7 @@ public class Colonist : MonoBehaviour
         {
             workplace = ColonistAI.FindNewWorkplace(job);
             if (workplace != null)
-                workStation = workplace.GetEmptyWorkStation();
+                workStation = workplace.GetEmptyStation(Station.StationType.Work);
         }  
     }
 
@@ -214,6 +221,28 @@ public class Colonist : MonoBehaviour
             else
                 proficiencies[key] = 0.25f;
         }
+    }
+
+
+    /*
+     * STATUS'
+     */
+    void UpdateHealth(float delta)
+    {
+        health += delta;
+        health = Mathf.Clamp(health, 0f, 1f);
+    }
+
+    void UpdateSleep(float delta)
+    {
+        sleep += delta;
+        sleep = Mathf.Clamp(sleep, 0f, 1f);
+    }
+
+    void UpdateHunger(float delta)
+    {
+        hunger += delta;
+        hunger = Mathf.Clamp(hunger, 0f, 1f);
     }
 
 
@@ -278,6 +307,9 @@ public class Colonist : MonoBehaviour
 
         // TODO
         // -- sleep & _ health & -- hunger
+        UpdateHealth(0 * workDeltaModifier);
+        UpdateSleep(-sleepDelta * workDeltaModifier);
+        UpdateHunger(-hungerDelta * workDeltaModifier);
 
         state = ColonistAI.ExitWorkState(this);
     }
@@ -289,7 +321,34 @@ public class Colonist : MonoBehaviour
         // play sleep animation
         // + sleep & + health & - hunger
 
+        if (colonistsBed == null)
+        {
+            colonistsBed = ColonistAI.FindBed(this);
+
+            if (colonistsBed == null)
+            {
+                Debug.Log("couldnt find bed for colonist");
+                // TODO player alerts
+
+                state = State.Rest;
+                return;
+            }
+        }
+
+        if (!ColonistAI.AtDestination(colonistsBed.transform, agent))
+        {
+            navNextState = State.Sleep;
+            state = State.Navigate;
+            return;
+        }
+
+        ColonistAI.ColonistAnimation("Idling", animator);
+
         // TODO get sleep rate based on building
+
+        UpdateHealth(healthDelta * sleepDeltaModifier);
+        UpdateSleep(sleepDelta * sleepDeltaModifier);
+        UpdateHunger(-hungerDelta * sleepDeltaModifier);
     }
 
     void Eat()

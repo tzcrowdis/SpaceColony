@@ -194,8 +194,6 @@ public class ColonyControls : MonoBehaviour
      */
     void BuildingControls()
     {
-        DisableBuildingInfoMenus();
-
         BuildingLocation();
         if (rotateBuilding.triggered) RotateBuilding();
         if (placeBuilding.triggered) PlaceBuilding();
@@ -256,8 +254,6 @@ public class ColonyControls : MonoBehaviour
             selectedBuilding.GetComponent<Building>().PlaceBuilding();
             selectedBuilding = null;
             state = State.Default;
-
-            EnableBuildingInfoMenus();
         }
     }
 
@@ -266,27 +262,6 @@ public class ColonyControls : MonoBehaviour
         // remove the building and return to default
         Destroy(selectedBuilding);
         state = State.Default;
-
-        EnableBuildingInfoMenus();
-    }
-
-    // TODO expand toggle info menus to colonists and other objects as well
-    void EnableBuildingInfoMenus()
-    {
-        GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
-        foreach (GameObject building in buildings)
-        {
-            building.GetComponent<Building>().clickCollider.enabled = true;
-        }
-    }
-
-    void DisableBuildingInfoMenus()
-    {
-        GameObject[] buildings = GameObject.FindGameObjectsWithTag("Building");
-        foreach (GameObject building in buildings)
-        {
-            building.GetComponent<Building>().clickCollider.enabled = false;
-        }
     }
 
     /*
