@@ -194,7 +194,6 @@ public class Building : MonoBehaviour
             state = State.Operating;
     }
 
-    // TODO: GENERALIZE WORK STATION FUNCTIONS TO STATION
     /*
      * STATION FUNCTIONS
      */
@@ -215,20 +214,20 @@ public class Building : MonoBehaviour
         }
     }
 
-    public int OccupiedStationCount()
+    public int OccupiedStationCount(Station.StationType type)
     {
         int count = 0;
         foreach (Station station in stations)
         {
-            if (station.stationedColonist != null)
+            if (station.stationedColonist != null && station.type == type)
                 count++;
         }
-        return count;  
+        return count;
     }
 
     public Station GetEmptyStation(Station.StationType type)
     {
-        if (OccupiedStationCount() >= stations.Count)
+        if (OccupiedStationCount(type) >= StationCount(type))
             Debug.Log($"no empty stations at {gameObject.name}"); 
 
         foreach (Station station in stations)
@@ -238,6 +237,17 @@ public class Building : MonoBehaviour
         }
 
         return null;
+    }
+
+    public int StationCount(Station.StationType type)
+    {
+        int count = 0;
+        foreach (Station station in stations)
+        {
+            if (station.type == type)
+                count++;
+        }
+        return count;
     }
 
     public void RemoveColonistFromWorkplace(Colonist colonist)

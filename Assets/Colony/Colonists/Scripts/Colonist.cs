@@ -87,6 +87,7 @@ public class Colonist : MonoBehaviour
     [Header("Status Delta Modifiers")]
     public float workDeltaModifier = 2f;
     public float sleepDeltaModifier = 0.5f;
+    public float eatDeltaModifier = 3f;
 
     // TODO consider status effects like sick, injured, etc.
 
@@ -127,6 +128,9 @@ public class Colonist : MonoBehaviour
 
     [Header("Sleep State")]
     public Station colonistsBed;
+
+    [Header("Eat State")]
+    public Station eatingStation;
 
     // ADMINISTRATIVE
     [Header("Administrative")]
@@ -316,7 +320,6 @@ public class Colonist : MonoBehaviour
 
     void Sleep()
     {
-        // TODO
         // go to bed
         // play sleep animation
         // + sleep & + health & - hunger
@@ -349,16 +352,50 @@ public class Colonist : MonoBehaviour
         UpdateHealth(healthDelta * sleepDeltaModifier);
         UpdateSleep(sleepDelta * sleepDeltaModifier);
         UpdateHunger(-hungerDelta * sleepDeltaModifier);
+
+        state = ColonistAI.ExitSleepState(this);
+        if (state != State.Sleep)
+            colonistsBed = null;
     }
 
     void Eat()
     {
-        // TODO
         // go to cafeteria
         // play eat animation
         // - sleep & + health & + hunger
 
+        if (eatingStation == null)
+        {
+            eatingStation = ColonistAI.FindEatingStation(this);
+
+            if (eatingStation == null)
+            {
+                Debug.Log("couldnt find eating spot for colonist");
+                // TODO player alerts
+
+                state = State.Rest;
+                return;
+            }
+        }
+
+        if (!ColonistAI.AtDestination(eatingStation.transform, agent))
+        {
+            navNextState = State.Eat;
+            state = State.Navigate;
+            return;
+        }
+
+        ColonistAI.ColonistAnimation("Idling", animator);
+
         // TODO get hunger rate based on building
+
+        UpdateHealth(healthDelta * eatDeltaModifier);
+        UpdateSleep(-sleepDelta * eatDeltaModifier);
+        UpdateHunger(hungerDelta * eatDeltaModifier);
+
+        state = ColonistAI.ExitEatState(this);
+        if (state != State.Eat)
+            eatingStation = null;
     }
 
     void Injured()

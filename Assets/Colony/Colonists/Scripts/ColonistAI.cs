@@ -129,7 +129,7 @@ public static class ColonistAI
                     break;
 
                 foreach (Building bldg in farmList)
-                    if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                    if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                 break;
 
             case Colonist.JobType.Engineer:
@@ -153,17 +153,17 @@ public static class ColonistAI
                 if (chosenList != null)
                 {
                     foreach (Building bldg in chosenList)
-                        if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                        if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                 }
 
                 // both sectors available -> go with sector with less workers unless full
                 int extractionWorkerCount = 0;
                 foreach (Building bldg in extractionList)
-                    extractionWorkerCount += bldg.OccupiedStationCount();
+                    extractionWorkerCount += bldg.OccupiedStationCount(Station.StationType.Work);
 
                 int energyWorkerCount = 0;
                 foreach (Building bldg in energyList)
-                    energyWorkerCount += bldg.OccupiedStationCount();
+                    energyWorkerCount += bldg.OccupiedStationCount(Station.StationType.Work);
 
                 // less extraction workers
                 if (extractionWorkerCount > 0 && extractionWorkerCount < energyWorkerCount)
@@ -171,17 +171,17 @@ public static class ColonistAI
                     // find total number of available stations
                     int extractionWorkerCapacity = 0;
                     foreach (Building bldg in extractionList)
-                        extractionWorkerCapacity += bldg.stations.Count;
+                        extractionWorkerCapacity += bldg.StationCount(Station.StationType.Work);
 
                     if (extractionWorkerCount / extractionWorkerCapacity < 1f)
                     {
                         foreach (Building bldg in extractionList)
-                            if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                            if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                     }
                     else
                     {
                         foreach (Building bldg in energyList)
-                            if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                            if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                     }
                 }
                 
@@ -190,17 +190,17 @@ public static class ColonistAI
                 {
                     int energyWorkerCapacity = 0;
                     foreach (Building bldg in energyList)
-                        energyWorkerCapacity += bldg.stations.Count;
+                        energyWorkerCapacity += bldg.StationCount(Station.StationType.Work);
 
                     if (energyWorkerCount / energyWorkerCapacity < 1f)
                     {
                         foreach (Building bldg in energyList)
-                            if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                            if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                     }
                     else
                     {
                         foreach (Building bldg in extractionList)
-                            if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                            if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                     }
                 }
                 break;
@@ -213,7 +213,7 @@ public static class ColonistAI
                     break;
 
                 foreach (Building bldg in medicalList)
-                    if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                    if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                 break;
 
             case Colonist.JobType.Scientist:
@@ -224,7 +224,7 @@ public static class ColonistAI
                     break;
 
                 foreach (Building bldg in researchList)
-                    if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                    if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                 break;
 
             case Colonist.JobType.Cook:
@@ -234,7 +234,7 @@ public static class ColonistAI
                 if (cafeList.Count == 0) break;
 
                 foreach (Building bldg in cafeList)
-                    if (bldg.OccupiedStationCount() < bldg.stations.Count) return bldg;
+                    if (bldg.OccupiedStationCount(Station.StationType.Work) < bldg.StationCount(Station.StationType.Work)) return bldg;
                 break;
         }
         
@@ -264,10 +264,26 @@ public static class ColonistAI
 
         foreach (Building bldg in sleepBuildings)
         {
-            if (bldg.OccupiedStationCount() < bldg.stations.Count)
+            if (bldg.OccupiedStationCount(Station.StationType.Sleep) < bldg.StationCount(Station.StationType.Sleep))
                 return bldg.GetEmptyStation(Station.StationType.Sleep);
         }
 
+        return null;
+    }
+
+    /*
+     * EATING
+     */
+    public static Station FindEatingStation(Colonist colonist)
+    {
+        List<Building> cafeBuildings = ColonyResources.instance.GetBuildingListByType(Building.BuildingType.Cafeteria);
+
+        foreach (Building bldg in cafeBuildings)
+        {
+            if (bldg.OccupiedStationCount(Station.StationType.Eat) < bldg.StationCount(Station.StationType.Eat))
+                return bldg.GetEmptyStation(Station.StationType.Eat);
+        }
+        
         return null;
     }
 
