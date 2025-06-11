@@ -93,8 +93,8 @@ MonoBehaviour:
   consumptionResource: 2
   consumptionQuantity: 5
   buildingType: 4
-  workStationsParent: {fileID: 7179618461664849554}
-  workStations: []
+  stationsParent: {fileID: 7179618461664849554}
+  stations: []
   buildingMenuPrefab: {fileID: 2104327364345012469, guid: 37021f99f290e7e4a9e84781f88b6d66,
     type: 3}
   buildingListItem: {fileID: 0}
@@ -5380,7 +5380,23 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0a80ebcb118a7146942b6bfe5133598,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5136370298870544582}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0a80ebcb118a7146942b6bfe5133598,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8688597500739704845}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0a80ebcb118a7146942b6bfe5133598,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5499152863118210961}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0a80ebcb118a7146942b6bfe5133598,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6507928177181584881}
   m_SourcePrefab: {fileID: 100100000, guid: b0a80ebcb118a7146942b6bfe5133598, type: 3}
 --- !u!1 &6210128851009083997 stripped
 GameObject:
@@ -5388,6 +5404,90 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6552639156386801420}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &5136370298870544582
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6210128851009083997}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 0.05376205, z: 1.9999996}
+  m_Center: {x: -0.6, y: -0.42688102, z: 0}
+--- !u!65 &8688597500739704845
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6210128851009083997}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 0.05376205, z: 1.9999996}
+  m_Center: {x: 0.6, y: -0.42688102, z: 0}
+--- !u!65 &5499152863118210961
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6210128851009083997}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.9999996, y: 0.05376205, z: 0.8}
+  m_Center: {x: 0, y: -0.42688102, z: -0.6}
+--- !u!65 &6507928177181584881
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6210128851009083997}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.9999996, y: 0.05376205, z: 0.8}
+  m_Center: {x: 0, y: -0.42688102, z: 0.6}
 --- !u!4 &6729820286977130727 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b0a80ebcb118a7146942b6bfe5133598,

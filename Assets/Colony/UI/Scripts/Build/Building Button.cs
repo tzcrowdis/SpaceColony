@@ -11,10 +11,14 @@ public class BuildingButton : MonoBehaviour
 
     Button button;
 
+    Transform buildingParent;
+
     void Start()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(SelectedBuilding);
+
+        buildingParent = GameObject.Find("BUILDING_MANAGER").transform;
     }
 
     void Update()
@@ -56,7 +60,7 @@ public class BuildingButton : MonoBehaviour
 
         // instantiate building in blueprint mode
         ColonyControls.instance.state = ColonyControls.State.BuildingSelected;
-        ColonyControls.instance.selectedBuilding = Instantiate(buildingPrefab);
+        ColonyControls.instance.selectedBuilding = Instantiate(buildingPrefab, buildingParent);
         ColonyControls.instance.selectedBuilding.GetComponent<Building>().state = Building.State.Blueprint;
 
         // disable building connections

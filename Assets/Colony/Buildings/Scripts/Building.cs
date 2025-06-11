@@ -129,6 +129,10 @@ public class Building : MonoBehaviour
         buildingListItem = BuildingList.instance.AddBuildingToList(this);
         ColonyResources.instance.AddBuildingToTypeList(this);
 
+        // disables on mouse events for building connections
+        int buildingConnectionLayer = 1 << LayerMask.NameToLayer("BuildingConnection");
+        ColonyControls.instance.GetComponent<Camera>().eventMask &= ~buildingConnectionLayer;
+
         state = State.Construction;
     }
 

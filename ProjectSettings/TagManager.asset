@@ -16,10 +16,10 @@ TagManager:
   - Water
   - UI
   - BuildingConnection
-  - BuildingMesh
-  - 
-  - 
-  - 
+  - BuildingNavigation
+  - Colonist
+  - Planet
+  - PlanetResource
   - 
   - 
   - 

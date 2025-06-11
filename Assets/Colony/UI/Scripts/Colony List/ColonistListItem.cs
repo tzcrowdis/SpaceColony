@@ -50,15 +50,13 @@ public class ColonistListItem : MonoBehaviour
     {
         engageFocus = true;
 
-        Transform parentCanvas = GameObject.Find("Colonist List Canvas").transform;
-
         // makes sure building menu isn't already open
-        ColonistInfoMenu[] menus = parentCanvas.GetComponentsInChildren<ColonistInfoMenu>();
+        ColonistInfoMenu[] menus = colonist.colonistMenuParent.GetComponentsInChildren<ColonistInfoMenu>();
         foreach (ColonistInfoMenu clnstMenu in menus)
             if (clnstMenu.colonist == colonist) return;
 
         // otherwise open menu
-        GameObject menu = Instantiate(colonist.colonistMenuPrefab, parentCanvas);
+        GameObject menu = Instantiate(colonist.colonistMenuPrefab, colonist.colonistMenuParent);
         menu.GetComponent<ColonistInfoMenu>().colonist = colonist;
         if (menus.Length > 0)
             menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);

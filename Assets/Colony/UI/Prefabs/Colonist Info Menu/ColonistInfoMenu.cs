@@ -15,12 +15,17 @@ public class ColonistInfoMenu : MonoBehaviour
     public TMP_Text colonistName;
     public Button exitButton;
     public TMP_Dropdown occupationDropdown;
-    public TMP_Text mentalState;
     public TMP_Text suggestLabel;
     public Toggle suggestToggle;
     public GameObject suggestMenu;
     public Toggle skillprofToggle;
     public GameObject skillprofMenu;
+
+    [Header("Status'")]
+    public TMP_Text mentalState;
+    public TMP_Text health;
+    public TMP_Text sleep;
+    public TMP_Text hunger;
 
     [Header("Suggestion Menu")]
     public Button workSuggestion;
@@ -76,6 +81,9 @@ public class ColonistInfoMenu : MonoBehaviour
     void Update()
     {
         mentalState.text = $"Mental State: {colonist.mentalState.ToString()}";
+        health.text = $"Health: {(int)(colonist.health * 100)}%";
+        sleep.text = $"Sleep: {(int)(colonist.sleep * 100)}%";
+        hunger.text = $"Hunger: {(int)(colonist.hunger * 100)}%";
     }
 
     void CloseColonistMenu()

@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 32288be25e4fde649aa8deb0b867b28d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.82
+      value: -1.941
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 32288be25e4fde649aa8deb0b867b28d,
         type: 3}
@@ -155,6 +155,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 32288be25e4fde649aa8deb0b867b28d,
         type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 32288be25e4fde649aa8deb0b867b28d,
+        type: 3}
       propertyPath: m_TagString
       value: Colonist
       objectReference: {fileID: 0}
@@ -174,6 +179,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2687290529320671200}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 32288be25e4fde649aa8deb0b867b28d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2278585422341580883}
   m_SourcePrefab: {fileID: 100100000, guid: 32288be25e4fde649aa8deb0b867b28d, type: 3}
 --- !u!1 &7938193848022533959 stripped
 GameObject:
@@ -236,22 +245,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84df509b2561bd14cba68f6f10acf1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
-  headshot: {fileID: 0}
-  colonistMenuPrefab: {fileID: 0}
-  requiresPlayerAttention: 0
-  colonistListItem: {fileID: 0}
   job: 0
   suggestion: 0
   mentalState: 0
   health: 1
+  healthDelta: 0.1
   sleep: 1
+  sleepDelta: 0.01
   hunger: 1
+  hungerDelta: 0.02
+  workDeltaModifier: 2
+  sleepDeltaModifier: 0.5
+  eatDeltaModifier: 3
   state: 0
   navDestination: {fileID: 0}
   navNextState: 0
   workplace: {fileID: 0}
   workStation: {fileID: 0}
   workEfficiency: 0
-  agent: {fileID: 0}
-  animator: {fileID: 0}
+  colonistsBed: {fileID: 0}
+  eatingStation: {fileID: 0}
+  characterName: Hubert
+  headshot: {fileID: 0}
+  colonistMenuPrefab: {fileID: 2412081414422400436, guid: 43acdb5a8aa17974abf988ba59d29128,
+    type: 3}
+  colonistMenuParent: {fileID: 0}
+  requiresPlayerAttention: 0
+  colonistListItem: {fileID: 0}
+  agent: {fileID: 3263212738485512859}
+  animator: {fileID: 533830180971642967}
+  clickCollider: {fileID: 2278585422341580883}
+--- !u!136 &2278585422341580883
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7938193848022533959}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.25, z: 0}

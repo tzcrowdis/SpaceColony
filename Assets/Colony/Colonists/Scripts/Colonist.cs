@@ -4,16 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
 public class Colonist : MonoBehaviour
 {
-    [Header("Colonist UI Elements")]
-    public string characterName; // becomes the object name on start
-    public Sprite headshot;
-    public GameObject colonistMenuPrefab;
-    public bool requiresPlayerAttention;
-    public ColonistListItem colonistListItem;
-
     public enum JobType
     {
         Unemployed,
@@ -88,6 +84,7 @@ public class Colonist : MonoBehaviour
     public float workDeltaModifier = 2f;
     public float sleepDeltaModifier = 0.5f;
     public float eatDeltaModifier = 3f;
+    public float idleDeltaModifier = 1f;
 
     // TODO consider status effects like sick, injured, etc.
 
@@ -132,10 +129,20 @@ public class Colonist : MonoBehaviour
     [Header("Eat State")]
     public Station eatingStation;
 
+    [Header("Colonist UI Elements")]
+    public string characterName; // becomes the object name on start
+    public Sprite headshot;
+    public GameObject colonistMenuPrefab;
+    public Transform colonistMenuParent;
+    public bool requiresPlayerAttention;
+    public ColonistListItem colonistListItem;
+
     // ADMINISTRATIVE
     [Header("Administrative")]
     public NavMeshAgent agent;
     public Animator animator;
+    public Collider clickCollider;
+
 
     void Start()
     {
@@ -150,6 +157,8 @@ public class Colonist : MonoBehaviour
         gameObject.name = characterName;
 
         LoadOrGenerateProficiencies(); // TODO logic to Load or Generate these (and all other colonist attributes)
+
+        colonistMenuParent = GameObject.Find("Colonist Info Menu Canvas").transform;
     }
 
     void Update()
@@ -233,19 +242,19 @@ public class Colonist : MonoBehaviour
      */
     void UpdateHealth(float delta)
     {
-        health += delta;
+        health += delta * Time.deltaTime;
         health = Mathf.Clamp(health, 0f, 1f);
     }
 
     void UpdateSleep(float delta)
     {
-        sleep += delta;
+        sleep += delta * Time.deltaTime;
         sleep = Mathf.Clamp(sleep, 0f, 1f);
     }
 
     void UpdateHunger(float delta)
     {
-        hunger += delta;
+        hunger += delta * Time.deltaTime;
         hunger = Mathf.Clamp(hunger, 0f, 1f);
     }
 
@@ -291,8 +300,10 @@ public class Colonist : MonoBehaviour
         
         ColonistAI.ColonistAnimation("Idling", animator);
 
-        // TODO
         // - sleep & _ health & - hunger
+        UpdateHealth(0 * idleDeltaModifier);
+        UpdateSleep(-sleepDelta * idleDeltaModifier);
+        UpdateHunger(-hungerDelta * idleDeltaModifier);
 
         state = ColonistAI.ExitRestState(this);
     }
@@ -406,5 +417,37 @@ public class Colonist : MonoBehaviour
         // _ sleep & + health & _ hunger
 
         // TODO get healing rate based on building
+    }
+
+    /*
+     * CLICK FOR INFO MENU
+     */
+    private void OnMouseOver()
+    {
+        Debug.Log("mouse over colonist");
+        
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            // track mouse
+            Mouse mouse = Mouse.current;
+            Vector3 mousePosition = mouse.position.ReadValue();
+
+            // display info menu on click
+            if (mouse.leftButton.wasPressedThisFrame)
+            {
+                Debug.Log("clicked");
+                
+                // makes sure building menu isn't already open
+                ColonistInfoMenu[] menus = colonistMenuParent.GetComponentsInChildren<ColonistInfoMenu>();
+                foreach (ColonistInfoMenu clnstMenu in menus)
+                    if (clnstMenu.colonist == this) return;
+
+                // otherwise open menu
+                GameObject menu = Instantiate(colonistMenuPrefab, colonistMenuParent);
+                menu.GetComponent<ColonistInfoMenu>().colonist = this;
+                if (menus.Length > 0)
+                    menu.transform.position = menus[menus.Length - 1].transform.position + new Vector3(25f, -25f, 0);
+            }
+        }
     }
 }

@@ -43,6 +43,10 @@ public class ColonyControls : MonoBehaviour
     public GameObject pauseMenu;
     InputAction escape;
 
+    [Header("Event Mask")]
+    [SerializeField]
+    LayerMask cameraEventMask;
+
     // states to track selections, menus, etc.
     public enum State
     {
@@ -61,6 +65,8 @@ public class ColonyControls : MonoBehaviour
             Destroy(instance.gameObject);
         else
             instance = this;
+
+        GetComponent<Camera>().eventMask = cameraEventMask;
     }
 
     void Start()
@@ -194,6 +200,10 @@ public class ColonyControls : MonoBehaviour
      */
     void BuildingControls()
     {
+        // enables on mouse events for building connections
+        int buildingConnectionLayer = 1 << LayerMask.NameToLayer("BuildingConnection");
+        GetComponent<Camera>().eventMask |= buildingConnectionLayer;
+
         BuildingLocation();
         if (rotateBuilding.triggered) RotateBuilding();
         if (placeBuilding.triggered) PlaceBuilding();
