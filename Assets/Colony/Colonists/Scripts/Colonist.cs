@@ -424,8 +424,6 @@ public class Colonist : MonoBehaviour
      */
     private void OnMouseOver()
     {
-        Debug.Log("mouse over colonist");
-        
         if (!EventSystem.current.IsPointerOverGameObject())
         {
             // track mouse
@@ -435,8 +433,6 @@ public class Colonist : MonoBehaviour
             // display info menu on click
             if (mouse.leftButton.wasPressedThisFrame)
             {
-                Debug.Log("clicked");
-                
                 // makes sure building menu isn't already open
                 ColonistInfoMenu[] menus = colonistMenuParent.GetComponentsInChildren<ColonistInfoMenu>();
                 foreach (ColonistInfoMenu clnstMenu in menus)

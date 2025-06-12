@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ConnectionPoint : MonoBehaviour
 {
+    public Building building;
+
     void OnMouseOver()
     {
         ColonyControls.instance.connectionLocation = transform;
     }
-
-    // TODO on click destroy connection point???
 
     void OnMouseExit()
     {

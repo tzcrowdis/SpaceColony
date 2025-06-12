@@ -95,6 +95,9 @@ public class Building : MonoBehaviour
         // work stations
         foreach (Transform child in stationsParent)
             stations.Add(child.GetComponent<Station>());
+
+        foreach (ConnectionPoint connection in connectionPoints.transform.GetComponentsInChildren<ConnectionPoint>())
+            connection.building = this;
     }
 
     protected virtual void Update()
@@ -133,6 +136,11 @@ public class Building : MonoBehaviour
         int buildingConnectionLayer = 1 << LayerMask.NameToLayer("BuildingConnection");
         ColonyControls.instance.GetComponent<Camera>().eventMask &= ~buildingConnectionLayer;
 
+        // activate all connection points
+        foreach (Transform connection in connectionPoints.transform)
+            connection.gameObject.SetActive(true);
+        BuildingManager.instance.UpdateActiveConnectionPoints();
+
         state = State.Construction;
     }
 
@@ -163,13 +171,6 @@ public class Building : MonoBehaviour
         if (constructionTime > totalConstructionTime)
         {
             r.material.SetColor("_BaseColor", ogColor);
-
-            // activate all connection points
-            foreach (Transform connection in connectionPoints.transform)
-            {
-                // TODO in the future consider only activating exterior connections
-                connection.gameObject.SetActive(true);
-            }
 
             // rebake nav mesh surface
             NavMeshSurface surface = GameObject.Find("Colony NavMesh Surface").GetComponent<NavMeshSurface>();
@@ -274,5 +275,7 @@ public class Building : MonoBehaviour
     void OnDestroy()
     {
         // TODO handle colonists inside building or other edge cases
+
+        BuildingManager.instance.UpdateActiveConnectionPoints(); // NOTE actually needs to be after destroy
     }
 }
