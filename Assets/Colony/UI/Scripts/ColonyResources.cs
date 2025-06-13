@@ -40,6 +40,7 @@ public class ColonyResources : MonoBehaviour
     public TMP_Text energyText;
     public TMP_Text mineralText;
     public TMP_Text researchText;
+    public int displayBuildingCost = 0;
 
     [Header("Unemployed Colonists")]
     public List<Colonist> unemployedColonists = new List<Colonist>();
@@ -92,14 +93,17 @@ public class ColonyResources : MonoBehaviour
 
     void Update()
     {
-        UpdateResourceFields();
+        UpdateResourceFields(displayBuildingCost);
     }
 
-    void UpdateResourceFields()
+    public void UpdateResourceFields(int cost) // NOTE cost is the cost of buildings that aren't built yet
     {
         if (genericText != null)
         {
-            genericText.text = $"Generic: {(int)colonyResources[ResourceTypes.Generic]} / {(int)colonyResourcesCaps[ResourceTypes.Generic]}";
+            genericText.text = $"Generic: {(int)colonyResources[ResourceTypes.Generic] - cost} / {(int)colonyResourcesCaps[ResourceTypes.Generic]}";
+            
+            if (cost != 0) genericText.color = Color.red;
+            else genericText.color = Color.white;
         }
 
         if (foodText != null)

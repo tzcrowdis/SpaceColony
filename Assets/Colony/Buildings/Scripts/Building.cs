@@ -16,7 +16,6 @@ public class Building : MonoBehaviour
     
     [Header("Building Construction Variables")]
     public int genericCost;
-    public int energyCost;
     // etc.
     [Tooltip("real time seconds")]
     public float totalConstructionTime;
@@ -125,8 +124,8 @@ public class Building : MonoBehaviour
     public void PlaceBuilding()
     {
         // enact cost of building
+        ColonyResources.instance.displayBuildingCost = 0;
         ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Generic] -= genericCost;
-        ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Energy] -= energyCost;
 
         // add to building list
         buildingListItem = BuildingList.instance.AddBuildingToList(this);

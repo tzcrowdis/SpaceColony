@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BuildingButton : MonoBehaviour
+public class BuildingButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject buildingPrefab;
 
@@ -13,12 +14,16 @@ public class BuildingButton : MonoBehaviour
 
     Transform buildingParent;
 
+    public TMPro.TMP_Text costText;
+
     void Start()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(SelectedBuilding);
 
         buildingParent = GameObject.Find("BUILDING_MANAGER").transform;
+
+        costText.text = $"-{buildingPrefab.GetComponent<Building>().genericCost} Generic";
     }
 
     void Update()
@@ -26,7 +31,7 @@ public class BuildingButton : MonoBehaviour
         CheckBuildingAffordable();
     }
 
-    // HACK gotta be a better way to perform these checks...
+    // TODO gotta be a better way to perform these checks...
     void CheckBuildingAffordable()
     {
         Building building = buildingPrefab.GetComponent<Building>();
@@ -36,14 +41,20 @@ public class BuildingButton : MonoBehaviour
             button.interactable = false;
             return;
         }
-        
-        if (building.energyCost > ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Energy])
-        {
-            button.interactable = false;
-            return;
-        }
+
+        // etc.
 
         button.interactable = true;
+    }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        ColonyResources.instance.displayBuildingCost = buildingPrefab.GetComponent<Building>().genericCost;
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        ColonyResources.instance.displayBuildingCost = 0;
     }
 
     void SelectedBuilding()
