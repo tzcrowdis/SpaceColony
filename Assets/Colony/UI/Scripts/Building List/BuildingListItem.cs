@@ -11,6 +11,7 @@ public class BuildingListItem : MonoBehaviour
     [Header("Buttons")]
     public Button buildingButton;
     public Button deleteButton;
+    public DeleteBuildingButton deleteButtonScript;
 
     [Header("Focus on Building")]
     public float focusStopDistance;
@@ -31,6 +32,7 @@ public class BuildingListItem : MonoBehaviour
     {
         buildingButton.onClick.AddListener(ListItemClicked);
         deleteButton.onClick.AddListener(DeconstructBuilding);
+        deleteButtonScript.building = building;
 
         cam = Camera.main;
 
@@ -117,9 +119,6 @@ public class BuildingListItem : MonoBehaviour
 
     public void DeconstructBuilding()
     {
-        // TODO make sure destroying this building isn't stranding others
-        // check via navmesh path calcs..?
-        
         Destroy(building.gameObject);
         Destroy(gameObject);
     }

@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.AI.Navigation;
 
 public class BuildingManager : MonoBehaviour
 {
+    [Header("NavMesh Surface")]
+    public NavMeshSurface navSurface;
+    
     public static BuildingManager instance { get; private set; }
     private void Awake()
     {

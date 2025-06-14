@@ -75,16 +75,16 @@ public class Building : MonoBehaviour
     public State state;
 
     // temp vars for construction
-    Color ogColor;
-    Renderer r;
+    public Color ogColor;
+    public Renderer render;
 
     protected virtual void Start()
     {
         //state = State.Blueprint;
         try
         {
-            r = building.GetComponent<Renderer>();
-            ogColor = r.material.color;
+            render = building.GetComponent<Renderer>();
+            ogColor = render.material.color;
         }
         catch
         {
@@ -146,9 +146,9 @@ public class Building : MonoBehaviour
     protected void Blueprint()
     {
         if (ColonyControls.instance.overValidConnectionPoint)
-            r.material.SetColor("_BaseColor", Color.green);
+            render.material.SetColor("_BaseColor", Color.green);
         else
-            r.material.SetColor("_BaseColor", Color.blue);
+            render.material.SetColor("_BaseColor", Color.blue);
 
         // exited by colony controls
     }
@@ -159,7 +159,7 @@ public class Building : MonoBehaviour
         if (Mathf.Approximately(constructionTime, 0f))
         {
             // TODO add (animations, effects, etc) for construction
-            r.material.SetColor("_BaseColor", Color.yellow);
+            render.material.SetColor("_BaseColor", Color.yellow);
         }
         
         // constructing
@@ -169,11 +169,10 @@ public class Building : MonoBehaviour
         // construction complete
         if (constructionTime > totalConstructionTime)
         {
-            r.material.SetColor("_BaseColor", ogColor);
+            render.material.SetColor("_BaseColor", ogColor);
 
             // rebake nav mesh surface
-            NavMeshSurface surface = GameObject.Find("Colony NavMesh Surface").GetComponent<NavMeshSurface>();
-            surface.BuildNavMesh();
+            BuildingManager.instance.navSurface.BuildNavMesh();
 
             state = State.Operating;
         }
@@ -274,7 +273,10 @@ public class Building : MonoBehaviour
     void OnDestroy()
     {
         // TODO handle colonists inside building or other edge cases
+        // TODO make sure destroying this building isn't stranding colonists
+        // check via navmesh path calcs..?
 
         BuildingManager.instance.UpdateActiveConnectionPoints(); // NOTE actually needs to be after destroy
+        BuildingManager.instance.navSurface.BuildNavMesh();
     }
 }

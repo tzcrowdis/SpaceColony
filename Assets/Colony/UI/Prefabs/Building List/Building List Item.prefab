@@ -273,6 +273,7 @@ MonoBehaviour:
   building: {fileID: 0}
   buildingButton: {fileID: 8496615063809141236}
   deleteButton: {fileID: 5437000432921806030}
+  deleteButtonScript: {fileID: 7341583690022523036}
   focusStopDistance: 20
   focusSpeed: 3
 --- !u!1 &5800406034397376590
@@ -496,8 +497,9 @@ GameObject:
   - component: {fileID: 3390156006929876395}
   - component: {fileID: 4796126480603162645}
   - component: {fileID: 5437000432921806030}
+  - component: {fileID: 7341583690022523036}
   m_Layer: 5
-  m_Name: Delete Button
+  m_Name: Delete Building Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -605,3 +607,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7341583690022523036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8348571466990082972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29c4867e91112fa4f8a1f468065f529d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  building: {fileID: 0}
