@@ -50,7 +50,6 @@ MonoBehaviour:
   building: {fileID: 7811099059524933565}
   connectionPoints: {fileID: 4871072172418920946}
   genericCost: 15
-  energyCost: 0
   totalConstructionTime: 7
   productionResource: 1
   productionQuantity: 3
@@ -67,6 +66,8 @@ MonoBehaviour:
   requiresPlayerAttention: 0
   panelOpen: 0
   state: 0
+  ogColor: {r: 0, g: 0, b: 0, a: 0}
+  render: {fileID: 0}
   meat: {fileID: 8139902142260547375}
   bigRange:
   - 5.8
@@ -262,7 +263,7 @@ PrefabInstance:
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.99
       objectReference: {fileID: 0}
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
@@ -598,7 +599,7 @@ PrefabInstance:
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.99
       objectReference: {fileID: 0}
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
@@ -672,7 +673,7 @@ PrefabInstance:
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.99
       objectReference: {fileID: 0}
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
@@ -1122,7 +1123,7 @@ PrefabInstance:
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.99
       objectReference: {fileID: 0}
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}

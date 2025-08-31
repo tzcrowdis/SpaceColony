@@ -1897,6 +1897,11 @@ PrefabInstance:
       objectReference: {fileID: 1346685742958466735}
     - target: {fileID: 2687290529320671200, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
         type: 3}
+      propertyPath: hungerDelta
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2687290529320671200, guid: a0a1edbaf878d1e4c88288e7cf68a4c7,
+        type: 3}
       propertyPath: characterName
       value: Hubert
       objectReference: {fileID: 0}

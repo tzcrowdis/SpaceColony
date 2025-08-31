@@ -208,7 +208,10 @@ public class Colonist : MonoBehaviour
         {
             workplace = ColonistAI.FindNewWorkplace(job);
             if (workplace != null)
+            {
                 workStation = workplace.GetEmptyStation(Station.StationType.Work);
+                workStation.stationedColonist = this;
+            }  
         }  
     }
 

@@ -353,7 +353,6 @@ MonoBehaviour:
   building: {fileID: 134613977910230851}
   connectionPoints: {fileID: 1618292849996430288}
   genericCost: 20
-  energyCost: 0
   totalConstructionTime: 10
   productionResource: 0
   productionQuantity: 0
@@ -370,6 +369,8 @@ MonoBehaviour:
   requiresPlayerAttention: 0
   panelOpen: 0
   state: 0
+  ogColor: {r: 0, g: 0, b: 0, a: 0}
+  render: {fileID: 0}
   healRate: 1
 --- !u!1 &6868168837150619574
 GameObject:
@@ -825,7 +826,7 @@ PrefabInstance:
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.394
       objectReference: {fileID: 0}
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
@@ -924,7 +925,7 @@ PrefabInstance:
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.39400002
       objectReference: {fileID: 0}
     - target: {fileID: 5009417363093723210, guid: 9685dbde3d21a844da025ee62c1e89e6,
         type: 3}

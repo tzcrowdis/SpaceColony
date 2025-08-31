@@ -11,13 +11,21 @@ public static class ColonistAI
      * STATES
      */
     // TODO integrate suggestions!!!
-    public static bool NavigateToDestination(Transform destination, NavMeshAgent agent) // true if at destination
+
+    /// <summary>
+    /// sets the destination,
+    /// orients agent to destination once reached
+    /// </summary>
+    /// <param name="destination"></param>
+    /// <param name="agent"></param>
+    /// <returns>true if at destination, false otherwise</returns>
+    public static bool NavigateToDestination(Transform destination, NavMeshAgent agent)
     {
         if (agent.destination != destination.position)
             agent.destination = destination.position;
 
         // check if at destination
-        if (!agent.pathPending & agent.remainingDistance < agent.stoppingDistance)
+        if (!agent.pathPending & agent.remainingDistance < agent.stoppingDistance & agent.velocity.magnitude < 0.01f)
         {
             agent.transform.forward = destination.forward; // face direction of destination object
             return true;

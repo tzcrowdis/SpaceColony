@@ -225,7 +225,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 2
+  m_StoppingDistance: 0.25
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -257,6 +257,7 @@ MonoBehaviour:
   workDeltaModifier: 2
   sleepDeltaModifier: 0.5
   eatDeltaModifier: 3
+  idleDeltaModifier: 1
   state: 0
   navDestination: {fileID: 0}
   navNextState: 0
