@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 public class ColonyControls : MonoBehaviour
 {
     [Header("Camera Motion Variables")]
+    public Transform cameraPivot;
     public float rotateSpeed;
     public float translateSpeed;
     public float altitudeSpeed;
@@ -138,22 +139,23 @@ public class ColonyControls : MonoBehaviour
     {
         // translate forward/backward left/right
         Vector2 translation = translateCameraAction.ReadValue<Vector2>() * translateSpeed / 120f;
-        transform.Translate(translation.x, 0, translation.y);
+        cameraPivot.Translate(translation.x, 0, translation.y);
     }
 
     void RotateCamera()
     {
         // rotate camera left/right
         float rotation = rotateCameraAction.ReadValue<float>() * rotateSpeed;
-        transform.RotateAround(transform.forward * 0.1f, Vector3.up, rotation);
+        cameraPivot.Rotate(new Vector3(0, rotation, 0));
+        //transform.RotateAround(transform.forward * 0.1f, Vector3.up, rotation);
     }
 
     void AltitudeCamera()
     {
         // move camera up/down
-        float y = transform.position.y;
+        float y = cameraPivot.position.y;
         y += altitudeCameraAction.ReadValue<float>() / 120f * altitudeSpeed;
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(y, -10f, 10f), transform.position.z); // clamp altitude
+        cameraPivot.position = new Vector3(cameraPivot.position.x, Mathf.Clamp(y, -10f, 10f), cameraPivot.position.z); // clamp altitude
     }
 
     /*
