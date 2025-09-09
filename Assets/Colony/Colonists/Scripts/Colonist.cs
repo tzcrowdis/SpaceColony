@@ -259,6 +259,9 @@ public class Colonist : MonoBehaviour
     {
         hunger += delta * Time.deltaTime;
         hunger = Mathf.Clamp(hunger, 0f, 1f);
+
+        if (delta > 0f & hunger != 1f)
+            ColonyResources.instance.ConsumeResource(ColonyResources.ResourceTypes.Food, delta * Time.deltaTime);
     }
 
 
@@ -277,10 +280,10 @@ public class Colonist : MonoBehaviour
                 navDestination = workStation.transform;
                 break;
             case State.Sleep:
-                // TODO find bed
+                navDestination = colonistsBed.transform;
                 break;
             case State.Eat:
-                // TODO find cafeteria
+                navDestination = eatingStation.transform;
                 break;
             case State.Injured:
                 // TODO find hospital

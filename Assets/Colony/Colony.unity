@@ -1534,6 +1534,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0.00012207031
       objectReference: {fileID: 0}
+    - target: {fileID: 7911738315827139429, guid: bdb248c298cb5254093a51610a6701f4,
+        type: 3}
+      propertyPath: food
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8099431293149523247, guid: bdb248c298cb5254093a51610a6701f4,
         type: 3}
       propertyPath: costText
