@@ -15,7 +15,7 @@ public class Building : MonoBehaviour
     public GameObject connectionPoints;
     
     [Header("Building Construction Variables")]
-    public int genericCost;
+    public int metalsCost;
     // etc.
     [Tooltip("real time seconds")]
     public float totalConstructionTime;
@@ -125,7 +125,7 @@ public class Building : MonoBehaviour
     {
         // enact cost of building
         ColonyResources.instance.displayBuildingCost = 0;
-        ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Generic] -= genericCost;
+        ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Metals] -= metalsCost;
 
         // add to building list
         buildingListItem = BuildingList.instance.AddBuildingToList(this);

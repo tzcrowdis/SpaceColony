@@ -17,14 +17,14 @@ public class StorageBuilding : Building
     {
         // reset caps of other resources
         // TODO take into account other resource buildings in place
-        if (ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Generic] > 1000)
-            ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Generic] -= storageAdder;
+        if (ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Metals] > 1000)
+            ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Metals] -= storageAdder;
         else if (ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Food] > 1000)
             ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Food] -= storageAdder;
-        else if (ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Energy] > 1000)
-            ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Energy] -= storageAdder;
-        else if (ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Mineral] > 1000)
-            ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Mineral] -= storageAdder;
+        else if (ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Electricity] > 1000)
+            ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Electricity] -= storageAdder;
+        else if (ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Organics] > 1000)
+            ColonyResources.instance.colonyResourcesCaps[ColonyResources.ResourceTypes.Organics] -= storageAdder;
         else
             Debug.Log("no resource greater than starting value");
 

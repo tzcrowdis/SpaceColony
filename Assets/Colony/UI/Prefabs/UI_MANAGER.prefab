@@ -3657,9 +3657,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452664220947621319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 78, y: -90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &230562811679125003
@@ -8171,7 +8171,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8536074572538047614
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12066,6 +12066,8 @@ GameObject:
   - component: {fileID: 3910563147635010628}
   - component: {fileID: 7299225949301911712}
   - component: {fileID: 7911738315827139429}
+  - component: {fileID: 2690005553204093397}
+  - component: {fileID: 1395467452512424651}
   m_Layer: 5
   m_Name: ResourcePanel
   m_TagString: Untagged
@@ -12085,11 +12087,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2686782153124942741}
   - {fileID: 2846731661994623665}
+  - {fileID: 2686782153124942741}
   - {fileID: 6668685067062178828}
-  - {fileID: 6782394287802937932}
   - {fileID: 2107616349176228536}
+  - {fileID: 6782394287802937932}
   m_Father: {fileID: 8359308942371972474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
@@ -12147,23 +12149,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a061985978bfdc44b2a0a9e8b7ec440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generic: 1000
-  food: 0
-  energy: 0
-  mineral: 0
+  metals: 500
+  organics: 0
+  electricity: 0
   research: 0
-  genericMax: 1000
-  foodMax: 1000
-  energyMax: 1000
-  mineralMax: 50
+  food: 0
+  metalsMax: 1000
+  organicsMax: 1000
+  electricityMax: 1000
   researchMax: Infinity
-  genericText: {fileID: 3607658176674666387}
-  foodText: {fileID: 8705457972282183969}
-  energyText: {fileID: 2911292752232803649}
-  mineralText: {fileID: 9189531146437937448}
+  foodMax: 1000
+  metalsText: {fileID: 9189531146437937448}
+  organicsText: {fileID: 3607658176674666387}
+  electricityText: {fileID: 2911292752232803649}
   researchText: {fileID: 4278274530867867773}
+  foodText: {fileID: 8705457972282183969}
   displayBuildingCost: 0
   unemployedColonists: []
+--- !u!114 &2690005553204093397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7041548485932982029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 5
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
+--- !u!114 &1395467452512424651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7041548485932982029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 0
 --- !u!1 &7074348012995804230
 GameObject:
   m_ObjectHideFlags: 0
@@ -13767,9 +13809,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452664220947621319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 78, y: -70}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8742815144113629643
@@ -13976,7 +14018,7 @@ GameObject:
   - component: {fileID: 2499998653679338388}
   - component: {fileID: 2911292752232803649}
   m_Layer: 5
-  m_Name: EnergyResource
+  m_Name: ElectricityResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13996,9 +14038,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452664220947621319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 78, y: -50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2499998653679338388
@@ -14029,7 +14071,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Energy: '
+  m_text: 'Electricity:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14110,7 +14152,7 @@ GameObject:
   - component: {fileID: 2047738166451356483}
   - component: {fileID: 9189531146437937448}
   m_Layer: 5
-  m_Name: MineralResource
+  m_Name: MetalsResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14130,9 +14172,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452664220947621319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 78, y: -30}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2047738166451356483
@@ -14163,7 +14205,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Minerals: '
+  m_text: 'Metals: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14365,7 +14407,7 @@ GameObject:
   - component: {fileID: 4436676294637716539}
   - component: {fileID: 3607658176674666387}
   m_Layer: 5
-  m_Name: GenericResource
+  m_Name: OrganicsResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14385,9 +14427,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1452664220947621319}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 78, y: -10}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4436676294637716539
@@ -14418,7 +14460,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Generic:'
+  m_text: 'Organics: '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15097,7 +15139,7 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
@@ -15107,12 +15149,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 620
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
@@ -15157,12 +15199,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 310
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 37eb922c0edece340ad917c74203a6cd,
         type: 3}
@@ -15355,7 +15397,7 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
@@ -15365,12 +15407,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 395
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
@@ -15415,12 +15457,12 @@ PrefabInstance:
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 197.5
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 4282568841846325065, guid: 73e8e0061d38f1b4e87710facbab89e2,
         type: 3}

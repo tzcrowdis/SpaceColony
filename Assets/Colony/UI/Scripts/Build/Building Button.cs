@@ -23,7 +23,7 @@ public class BuildingButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
         buildingParent = GameObject.Find("BUILDING_MANAGER").transform;
 
-        costText.text = $"-{buildingPrefab.GetComponent<Building>().genericCost} Generic";
+        costText.text = $"-{buildingPrefab.GetComponent<Building>().metalsCost} Metals";
     }
 
     void Update()
@@ -36,7 +36,7 @@ public class BuildingButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         Building building = buildingPrefab.GetComponent<Building>();
         
-        if (building.genericCost > ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Generic])
+        if (building.metalsCost > ColonyResources.instance.colonyResources[ColonyResources.ResourceTypes.Metals])
         {
             button.interactable = false;
             return;
@@ -49,7 +49,7 @@ public class BuildingButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        ColonyResources.instance.displayBuildingCost = buildingPrefab.GetComponent<Building>().genericCost;
+        ColonyResources.instance.displayBuildingCost = buildingPrefab.GetComponent<Building>().metalsCost;
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)

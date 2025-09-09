@@ -147,7 +147,6 @@ public class ColonyControls : MonoBehaviour
         // rotate camera left/right
         float rotation = rotateCameraAction.ReadValue<float>() * rotateSpeed;
         cameraPivot.Rotate(new Vector3(0, rotation, 0));
-        //transform.RotateAround(transform.forward * 0.1f, Vector3.up, rotation);
     }
 
     void AltitudeCamera()

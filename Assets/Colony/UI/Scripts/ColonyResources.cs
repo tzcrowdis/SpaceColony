@@ -9,37 +9,37 @@ public class ColonyResources : MonoBehaviour
 {
     public enum ResourceTypes
     {
-        Generic,
-        Food,
-        Energy,
-        Mineral,
+        Metals,
+        Organics,
+        Electricity,
         Research,
+        Food,
         None // NOTE will probably break a lot of things but is here for resource extraction
     }
 
     public Dictionary<ResourceTypes, float> colonyResources;
     [Header("Resources")]
-    public float generic;
-    public float food;
-    public float energy;
-    public float mineral;
+    public float metals;
+    public float organics;
+    public float electricity;
     public float research;
+    public float food;
     // etc.
 
     public Dictionary<ResourceTypes, float> colonyResourcesCaps;
     [Header("Resource Caps")]
-    public float genericMax;
-    public float foodMax;
-    public float energyMax;
-    public float mineralMax;
+    public float metalsMax;
+    public float organicsMax;
+    public float electricityMax;
     public float researchMax;
+    public float foodMax;
 
     [Header("Text where Resource is Displayed")]
-    public TMP_Text genericText;
-    public TMP_Text foodText;
-    public TMP_Text energyText;
-    public TMP_Text mineralText;
+    public TMP_Text metalsText;
+    public TMP_Text organicsText;
+    public TMP_Text electricityText;
     public TMP_Text researchText;
+    public TMP_Text foodText;
     public int displayBuildingCost = 0;
 
     [Header("Unemployed Colonists")]
@@ -70,20 +70,20 @@ public class ColonyResources : MonoBehaviour
     {
         colonyResources = new Dictionary<ResourceTypes, float>
         {
-            { ResourceTypes.Generic, generic },
-            { ResourceTypes.Food, food },
-            { ResourceTypes.Energy, energy },
-            { ResourceTypes.Mineral, mineral },
-            { ResourceTypes.Research, research }
+            { ResourceTypes.Metals, metals },
+            { ResourceTypes.Organics, organics },
+            { ResourceTypes.Electricity, electricity },
+            { ResourceTypes.Research, research },
+            { ResourceTypes.Food, food }
         };
 
         colonyResourcesCaps = new Dictionary<ResourceTypes, float>
         {
-            { ResourceTypes.Generic, genericMax },
-            { ResourceTypes.Food, foodMax },
-            { ResourceTypes.Energy, energyMax },
-            { ResourceTypes.Mineral, mineralMax },
-            { ResourceTypes.Research, researchMax }
+            { ResourceTypes.Metals, metalsMax },
+            { ResourceTypes.Organics, organicsMax },
+            { ResourceTypes.Electricity, electricityMax },
+            { ResourceTypes.Research, researchMax },
+            { ResourceTypes.Food, foodMax }
         };
 
         Building[] allBuildings = FindObjectsOfType<Building>();
@@ -98,32 +98,34 @@ public class ColonyResources : MonoBehaviour
 
     public void UpdateResourceFields(int cost) // NOTE cost is the cost of buildings that aren't built yet
     {
-        if (genericText != null)
+        // TODO allow for multiple cost types other than just metals
+
+        if (metalsText != null)
         {
-            genericText.text = $"Generic: {(int)colonyResources[ResourceTypes.Generic] - cost} / {(int)colonyResourcesCaps[ResourceTypes.Generic]}";
-            
-            if (cost != 0) genericText.color = Color.red;
-            else genericText.color = Color.white;
+            metalsText.text = $"Metals: {(int)colonyResources[ResourceTypes.Metals] - cost} / {(int)colonyResourcesCaps[ResourceTypes.Metals]}";
+
+            if (cost != 0) metalsText.color = Color.red;
+            else metalsText.color = Color.white;
         }
 
-        if (foodText != null)
+        if (organicsText != null)
         {
-            foodText.text = $"Food: {(int)colonyResources[ResourceTypes.Food]} / {(int)colonyResourcesCaps[ResourceTypes.Food]}";
+            organicsText.text = $"Organics: {(int)colonyResources[ResourceTypes.Organics]} / {(int)colonyResourcesCaps[ResourceTypes.Organics]}";
         }
 
-        if (energyText != null)
+        if (electricityText != null)
         {
-            energyText.text = $"Energy: {(int)colonyResources[ResourceTypes.Energy]} / {(int)colonyResourcesCaps[ResourceTypes.Energy]}";
-        }
-
-        if (mineralText != null)
-        {
-            mineralText.text = $"Minerals: {(int)colonyResources[ResourceTypes.Mineral]} / {(int)colonyResourcesCaps[ResourceTypes.Mineral]}";
+            electricityText.text = $"Electricity: {(int)colonyResources[ResourceTypes.Electricity]} / {(int)colonyResourcesCaps[ResourceTypes.Electricity]}";
         }
 
         if (researchText != null)
         {
             researchText.text = $"Research: {(int)colonyResources[ResourceTypes.Research]} / Inf";
+        }
+
+        if (foodText != null)
+        {
+            foodText.text = $"Food: {(int)colonyResources[ResourceTypes.Food]} / {(int)colonyResourcesCaps[ResourceTypes.Food]}";
         }
     }
 

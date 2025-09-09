@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb2ff9f26ccabf4697caf282f2d7337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  building: {fileID: 0}
 --- !u!1 &302024025109400823
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,8 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 6325177089150314987}
   connectionPoints: {fileID: 4864529127840024217}
-  genericCost: 10
-  energyCost: 0
+  metalsCost: 15
   totalConstructionTime: 2
   productionResource: 0
   productionQuantity: 0
@@ -133,6 +133,8 @@ MonoBehaviour:
   requiresPlayerAttention: 0
   panelOpen: 0
   state: 0
+  ogColor: {r: 0, g: 0, b: 0, a: 0}
+  render: {fileID: 0}
   sleepRateModifier: 1
 --- !u!1 &1772457478563254603
 GameObject:
@@ -200,6 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb2ff9f26ccabf4697caf282f2d7337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  building: {fileID: 0}
 --- !u!1 &4588949487112791708
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb2ff9f26ccabf4697caf282f2d7337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  building: {fileID: 0}
 --- !u!1 &4864529127840024217
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,6 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb2ff9f26ccabf4697caf282f2d7337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  building: {fileID: 0}
 --- !u!1 &7399017872786971131
 GameObject:
   m_ObjectHideFlags: 0

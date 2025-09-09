@@ -84,7 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 5628995529849658790}
   connectionPoints: {fileID: 4838328880192277193}
-  genericCost: 10
+  metalsCost: 10
   totalConstructionTime: 2
   productionResource: 0
   productionQuantity: 0

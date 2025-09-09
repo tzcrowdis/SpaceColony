@@ -132,8 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 1336562143511277283}
   connectionPoints: {fileID: 5667596422386770158}
-  genericCost: 100
-  energyCost: 0
+  metalsCost: 100
   totalConstructionTime: 10
   productionResource: 2
   productionQuantity: 20
@@ -150,6 +149,8 @@ MonoBehaviour:
   requiresPlayerAttention: 0
   panelOpen: 0
   state: 0
+  ogColor: {r: 0, g: 0, b: 0, a: 0}
+  render: {fileID: 0}
   loop: {fileID: 5771481947147331581}
   loopRotationSpeed: 500
 --- !u!1 &1336562143511277283
