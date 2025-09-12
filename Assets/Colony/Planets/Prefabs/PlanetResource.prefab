@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2413370673413961536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3525787091011152416}
+  - component: {fileID: 1752296494334597405}
+  m_Layer: 10
+  m_Name: PlanetResource
+  m_TagString: Planet Resource
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3525787091011152416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2413370673413961536}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1752296494334597405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2413370673413961536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba9993a89c5c424a9e662dcc3528023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: 0
+  resourceQuantity: 0
+  metalsModel: {fileID: 4237406104865496339, guid: 39c48b34731210749a4c6a15f3db04da,
+    type: 3}
+  organicsModel: {fileID: 4237406104865496339, guid: 8a8ab2cf006952e4b93c34cc2b0f7400,
+    type: 3}
+  electricityModel: {fileID: 4237406104865496339, guid: 83b7e25f33998b3469290ed28aa83ee2,
+    type: 3}
+  researchModel: {fileID: 4237406104865496339, guid: 9871da068fc87634ba9c9a298b4950af,
+    type: 3}
+  foodModel: {fileID: 4237406104865496339, guid: f226c94f8a4b8f541836721a20e3aa14,
+    type: 3}
+  colonistModel: {fileID: 0}
+  metalsQuantityRange: {x: 500, y: 1000}
+  organicsQuantityRange: {x: 500, y: 1000}
+  electricityQuantityRange: {x: 1000, y: 2000}
+  researchQuantityRange: {x: 50, y: 100}
+  foodQuantityRange: {x: 100, y: 200}
+  extractionLocation: {fileID: 0}
+  laserLocation: {fileID: 0}
+  depositInfoPanel: {fileID: 0}

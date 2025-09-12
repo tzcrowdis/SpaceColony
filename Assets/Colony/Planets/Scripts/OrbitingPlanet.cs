@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -18,18 +19,19 @@ public class OrbitingPlanet : MonoBehaviour
     Vector3 rotationEuler;
 
     [Header("Resources")]
-    [HideInInspector]
-    public List<PlanetResource> planetResources;
+    public int planetResourceCount;
+    public GameObject planetResourcePrefab;
+    public GameObject resourceInfoPanel;
+    [HideInInspector] public List<PlanetResource> planetResources;
+
+    float planetRadius;
 
     void Start()
     {        
         rotationEuler = new Vector3(0, rotationSpeed, 0);
 
-        foreach (Transform child in transform)
-        {
-            if (child.CompareTag("Planet Resource"))
-                planetResources.Add(child.gameObject.GetComponent<PlanetResource>());
-        }
+        planetRadius = transform.localScale.x / 2;
+        GenerateRandomPlanetResources();
     }
 
     void FixedUpdate()
@@ -40,6 +42,54 @@ public class OrbitingPlanet : MonoBehaviour
     void PlanetRotation()
     {
         transform.Rotate(rotationEuler * Time.fixedDeltaTime);
+    }
+
+    void GenerateRandomPlanetResources()
+    {
+        for (int i = 0; i < planetResourceCount; i++)
+        {
+            // setup the resource
+            GameObject resource = Instantiate(planetResourcePrefab, transform);
+            PlanetResource resourceComp = resource.GetComponent<PlanetResource>();
+            if (resourceComp)
+            {
+                resourceComp.depositInfoPanel = resourceInfoPanel;
+                resourceComp.RandomizeResource();
+                planetResources.Add(resourceComp);
+            }
+
+            // find the resource position
+            for (int iter = 0; iter < 100; iter++) // give up after 100 attempts
+            {
+                Vector2 longLat = new Vector2(Random.Range(0, 2 * Mathf.PI), Random.Range(0f, Mathf.PI));
+                Vector3 position = planetRadius * 
+                    new Vector3(
+                        Mathf.Cos(longLat[0]) * Mathf.Sin(longLat[1]),
+                        Mathf.Sin(longLat[0]) * Mathf.Sin(longLat[1]),
+                        Mathf.Cos(longLat[1])
+                    );
+
+                bool validPos = true;
+                foreach (PlanetResource rsrc in planetResources)
+                {
+                    if (Vector3.Distance(rsrc.transform.position, position) < 100f)
+                    {
+                        validPos = false; 
+                        break;
+                    }
+                }
+
+                if (validPos)
+                {
+                    resource.transform.position = position + transform.position;
+                    break;
+                }
+            }
+            
+            // orient resource out from center
+            Vector3 outwardVector = (resource.transform.position - transform.position).normalized;
+            resource.transform.up = outwardVector;
+        }
     }
 
     /*

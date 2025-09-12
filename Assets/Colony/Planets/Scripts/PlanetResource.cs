@@ -6,21 +6,75 @@ using UnityEngine.InputSystem;
 
 public class PlanetResource : MonoBehaviour
 {
+    [Header("Resource")]
     public ColonyResources.ResourceTypes resource;
     public float resourceQuantity;
-    //bool extracting = false;
+    
+    [Header("Resource Visualization")]
+    public GameObject metalsModel;
+    public GameObject organicsModel;
+    public GameObject electricityModel;
+    public GameObject researchModel;
+    public GameObject foodModel;
+    public GameObject colonistModel;
+    GameObject model;
 
+    [Header("Resource Quantity Ranges")]
+    public Vector2 metalsQuantityRange;
+    public Vector2 organicsQuantityRange;
+    public Vector2 electricityQuantityRange;
+    public Vector2 researchQuantityRange;
+    public Vector2 foodQuantityRange;
+
+    [Header("Extraction")]
     public Transform extractionLocation;
     public Transform laserLocation; // set by extractor building
+    //bool extracting = false;
 
-    [Header("Deposit Info Panel")]
+    [Header("Info Panel")]
     public GameObject depositInfoPanel;
 
-    private void Start()
+    /*
+     * INSTANTIATION
+     */
+    public void RandomizeResource()
     {
-        //depositInfoPanel = GameObject.Find("DepositInfoPanel");
+        int rand = Random.Range(0, System.Enum.GetNames(typeof(ColonyResources.ResourceTypes)).Length - 1);
+        resource = (ColonyResources.ResourceTypes)rand;
+
+        switch (resource)
+        {
+            case ColonyResources.ResourceTypes.Metals:
+                model = Instantiate(metalsModel, transform);
+                resourceQuantity = Random.Range(metalsQuantityRange[0], metalsQuantityRange[1]);
+                break;
+            case ColonyResources.ResourceTypes.Organics:
+                model = Instantiate(organicsModel, transform);
+                resourceQuantity = Random.Range(organicsQuantityRange[0], organicsQuantityRange[1]);
+                break;
+            case ColonyResources.ResourceTypes.Electricity:
+                model = Instantiate(electricityModel, transform);
+                resourceQuantity = Random.Range(electricityQuantityRange[0], electricityQuantityRange[1]);
+                break;
+            case ColonyResources.ResourceTypes.Research:
+                model = Instantiate(researchModel, transform);
+                resourceQuantity = Random.Range(researchQuantityRange[0], researchQuantityRange[1]);
+                break;
+            case ColonyResources.ResourceTypes.Food:
+                model = Instantiate(foodModel, transform);
+                resourceQuantity = Random.Range(foodQuantityRange[0], foodQuantityRange[1]);
+                break;
+        }
+
+        model.transform.localScale = Vector3.one * 0.15f;
+
+        PlanetResourceInfoPanel infoPanel = gameObject.GetComponentInChildren<PlanetResourceInfoPanel>();
+        infoPanel.SetVariables(this, depositInfoPanel);
     }
 
+    /*
+     * EXTRACTION
+     */
     private void Update()
     {
         /*if (extracting)
@@ -40,7 +94,9 @@ public class PlanetResource : MonoBehaviour
     public void ExtractResource(float extractionRate)
     {
         resourceQuantity -= extractionRate;
-        /*extracting = true;
+
+        /*
+        extracting = true;
 
         if (!resourceParticles.isPlaying)
         {
@@ -54,7 +110,8 @@ public class PlanetResource : MonoBehaviour
             particleShape.scale = new Vector3(1f, 1f, particleLifetimeAndScale);
 
             resourceParticles.Play();
-        }*/
+        }
+        */
     }
 
     public void StopExtractingResource()
@@ -66,41 +123,5 @@ public class PlanetResource : MonoBehaviour
     public void Depleted()
     {
         Destroy(gameObject);
-    }
-
-    /*
-     *  UI FUNCTIONS
-     */
-    private void OnMouseEnter()
-    {
-        DepositInfoPanel dip = depositInfoPanel.GetComponent<DepositInfoPanel>();
-        dip.depositType.text = resource.ToString();
-        dip.depositQuantity.text = resourceQuantity.ToString();
-
-        depositInfoPanel.SetActive(true);
-    }
-
-    private void OnMouseOver()
-    {
-        if (!EventSystem.current.IsPointerOverGameObject())
-        {
-            depositInfoPanel.SetActive(true);
-            
-            // track mouse
-            Mouse mouse = Mouse.current;
-            Vector3 mousePosition = mouse.position.ReadValue();
-            mousePosition += depositInfoPanel.GetComponent<DepositInfoPanel>().infoPanelOffset;
-            depositInfoPanel.transform.position = mousePosition;
-            depositInfoPanel.GetComponent<DepositInfoPanel>().depositQuantity.text = resourceQuantity.ToString("F0");
-        }
-        else
-        {
-            depositInfoPanel.SetActive(false);
-        }
-    }
-
-    private void OnMouseExit()
-    {
-        depositInfoPanel.SetActive(false);
     }
 }
